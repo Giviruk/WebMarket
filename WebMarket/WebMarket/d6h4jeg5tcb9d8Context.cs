@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace WebMarket
 {
-    public partial class postgresContext : DbContext
+    public partial class d6h4jeg5tcb9d8Context : DbContext
     {
-        public postgresContext()
+        public d6h4jeg5tcb9d8Context()
         {
         }
 
-        public postgresContext(DbContextOptions<postgresContext> options)
+        public d6h4jeg5tcb9d8Context(DbContextOptions<d6h4jeg5tcb9d8Context> options)
             : base(options)
         {
         }
@@ -31,19 +31,21 @@ namespace WebMarket
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=postgres;Username=postgres;Password=root");
+                optionsBuilder.UseNpgsql("Host=ec2-54-75-224-168.eu-west-1.compute.amazonaws.com;Port=5432;Database=d6h4jeg5tcb9d8;Username= wkbpbpaxngudla;Password=59246a01b58aadced8f913a1350af1ca65465b378b26b9f6ed388845695b3bdf;sslmode=Require;Trust Server Certificate=true");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasPostgresExtension("adminpack");
-
             modelBuilder.Entity<Categories>(entity =>
             {
                 entity.ToTable("categories");
 
                 entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Characteristics)
+                    .HasColumnName("characteristics")
+                    .HasMaxLength(1000);
 
                 entity.Property(e => e.Name)
                     .HasColumnName("name")
@@ -134,9 +136,9 @@ namespace WebMarket
 
             modelBuilder.Entity<Ordersofusers>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("ordersofusers");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Orderid).HasColumnName("orderid");
 
@@ -194,9 +196,9 @@ namespace WebMarket
 
             modelBuilder.Entity<Productimages>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("productimages");
+
+                entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Imageid).HasColumnName("imageid");
 
