@@ -30,7 +30,6 @@ namespace WebMarket
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseNpgsql("Host=ec2-54-75-224-168.eu-west-1.compute.amazonaws.com;Port=5432;Database=d6h4jeg5tcb9d8;Username= wkbpbpaxngudla;Password=59246a01b58aadced8f913a1350af1ca65465b378b26b9f6ed388845695b3bdf;sslmode=Require;Trust Server Certificate=true");
             }
         }
