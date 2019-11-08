@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebMarket;
+using Newtonsoft.Json;
 
 namespace WebMarket.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Categories")]
     [ApiController]
     public class CategoriesController : ControllerBase
     {
@@ -22,9 +20,11 @@ namespace WebMarket.Controllers
 
         // GET: api/Categories
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Categories>>> GetCategories()
+        public async Task<ActionResult<string>> GetCategories()
         {
-            return await _context.Categories.ToListAsync();
+            var selectedData =  await _context.Categories.ToListAsync();
+
+            return JsonConvert.SerializeObject(selectedData);
         }
 
         // GET: api/Categories/5

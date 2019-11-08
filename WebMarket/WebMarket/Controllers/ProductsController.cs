@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebMarket;
+using Newtonsoft.Json;
 
 namespace WebMarket.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Products")]
     [ApiController]
     public class ProductsController : ControllerBase
     {
@@ -21,24 +19,27 @@ namespace WebMarket.Controllers
         }
 
         // GET: api/Products
-        [HttpGet]
+        [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<Product>>> GetProduct()
         {
             return await _context.Product.ToListAsync();
         }
 
-        // GET: api/Products/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProduct(int id)
+        [HttpGet("product")]
+        public async Task<string> GetCurrentProduct(int productId)
         {
-            var product = await _context.Product.FindAsync(id);
+            var product =  _context.Product.Where(p => p.Id == productId);
+            return "Hello";
+        }
 
-            if (product == null)
-            {
-                return NotFound();
-            }
 
-            return product;
+        // GET: api/Products/5
+        [HttpGet("category/{id}")]
+        public async Task<string> GetProductsFromCategory(int category_id)
+        {
+            var selectedProducts = await _context.Product.Where(p => p.Category == category_id).ToListAsync();
+
+            return JsonConvert.SerializeObject(selectedProducts);
         }
 
         // PUT: api/Products/5
