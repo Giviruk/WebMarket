@@ -18,18 +18,18 @@ namespace WebMarket.Controllers
             _context = context;
         }
 
-        // GET: api/Products
+        // GET: api/Products/all
         [HttpGet("all")]
         public async Task<ActionResult<IEnumerable<Product>>> GetProduct()
         {
             return await _context.Product.ToListAsync();
         }
 
-        [HttpGet("product")]
+        [HttpGet("product/{id}")]
         public async Task<string> GetCurrentProduct(int productId)
         {
             var product =  _context.Product.Where(p => p.Id == productId);
-            return "Hello";
+            return JsonConvert.SerializeObject(product);
         }
 
 

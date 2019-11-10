@@ -18,8 +18,8 @@ namespace WebMarket.Controllers
             _context = context;
         }
 
-        // GET: api/Categories
-        [HttpGet]
+        // GET: api/Categories/all
+        [HttpGet("all")]
         public async Task<ActionResult<string>> GetCategories()
         {
             var selectedData =  await _context.Categories.ToListAsync();
