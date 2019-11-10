@@ -12,6 +12,7 @@ namespace WebMarket
 
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Characteristics { get; set; }
 
         public virtual ICollection<Product> Product { get; set; }
     }

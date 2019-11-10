@@ -5,6 +5,7 @@ namespace WebMarket
 {
     public partial class Ordersofusers
     {
+        public int Id { get; set; }
         public int? Userid { get; set; }
         public int? Orderid { get; set; }
 
