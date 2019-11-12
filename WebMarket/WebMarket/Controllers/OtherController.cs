@@ -51,7 +51,7 @@ namespace WebMarket.Controllers
                 .ToList();
             
 
-            for(int i = 0; i<2;i++)
+            for(int i = 0; i<3;i++)
             {
                 var val = random.Next();
                 int index = idList[val % (idList.Count)];
@@ -69,6 +69,7 @@ namespace WebMarket.Controllers
             var result = _context.Product
                 .Where(p => p.Producer == "Apple")
                 .ToList();
+            result.Add(_context.Product.FirstOrDefault(p => p.Producer != "Apple"));
 
             return JsonConvert.SerializeObject(result);
         }
