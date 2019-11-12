@@ -28,7 +28,7 @@ namespace WebMarket.Controllers
             return await _context.Productimages.ToListAsync();
         }
 
-        // GET: api/Productimages/5
+        // GET: api/Productimages/GetProductimages?productId=значение
         [HttpGet("{id}")]
         public async Task<ActionResult<string>> GetProductimages(int productId)
         {
