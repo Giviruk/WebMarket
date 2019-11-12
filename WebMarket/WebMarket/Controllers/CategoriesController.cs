@@ -18,8 +18,8 @@ namespace WebMarket.Controllers
             _context = context;
         }
 
-        // GET: api/Categories
-        [HttpGet]
+        // GET: api/Categories/all
+        [HttpGet("all")]
         public async Task<ActionResult<string>> GetCategories()
         {
             var selectedData =  await _context.Categories.ToListAsync();
@@ -27,9 +27,9 @@ namespace WebMarket.Controllers
             return JsonConvert.SerializeObject(selectedData);
         }
 
-        // GET: api/Categories/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Categories>> GetCategories(int id)
+        // GET: api/Categories/id/5
+        [HttpGet("id/{id}")]
+        public async Task<ActionResult<string>> GetCategories(int id)
         {
             var categories = await _context.Categories.FindAsync(id);
 
@@ -38,7 +38,7 @@ namespace WebMarket.Controllers
                 return NotFound();
             }
 
-            return categories;
+            return JsonConvert.SerializeObject(categories);
         }
 
         // PUT: api/Categories/5
