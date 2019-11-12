@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace WebMarket
@@ -20,6 +20,7 @@ namespace WebMarket
         public int? Mainpictureurl { get; set; }
         public string Characteristics { get; set; }
 
+        [JsonIgnore]
         public virtual Categories CategoryNavigation { get; set; }
         public virtual Images MainpictureurlNavigation { get; set; }
         public virtual ICollection<Orders> Orders { get; set; }
