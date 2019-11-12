@@ -27,11 +27,11 @@ namespace WebMarket.Controllers
             return JsonConvert.SerializeObject(selectedData);
         }
 
-        // GET: api/Categories/id/5
-        [HttpGet("id/{id}")]
-        public async Task<ActionResult<string>> GetCategories(int id)
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<string>> GetCategory(int categoryId)
         {
-            var categories = await _context.Categories.FindAsync(id);
+            var categories = await _context.Categories.FindAsync(categoryId);
 
             if (categories == null)
             {
