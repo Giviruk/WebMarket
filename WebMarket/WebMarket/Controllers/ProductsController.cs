@@ -20,22 +20,23 @@ namespace WebMarket.Controllers
 
         // GET: api/Products/all
         [HttpGet("all")]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProduct()
+        public async Task<ActionResult<string>> GetProduct()
         {
-            return await _context.Product.ToListAsync();
+            var productsList = await _context.Product.ToListAsync();
+            return JsonConvert.SerializeObject(productsList);
         }
 
         [HttpGet("product/{id}")]
-        public async Task<string> GetCurrentProduct(int productId)
+        public async Task<ActionResult<string>> GetCurrentProduct(int productId)
         {
-            var product =  _context.Product.Where(p => p.Id == productId);
+            var product =  await _context.Product.Where(p => p.Id == productId).ToListAsync();
             return JsonConvert.SerializeObject(product);
         }
 
 
         // GET: api/Products/5
         [HttpGet("category/{id}")]
-        public async Task<string> GetProductsFromCategory(int category_id)
+        public async Task<ActionResult<string>> GetProductsFromCategory(int category_id)
         {
             var selectedProducts = await _context.Product.Where(p => p.Category == category_id).ToListAsync();
 
