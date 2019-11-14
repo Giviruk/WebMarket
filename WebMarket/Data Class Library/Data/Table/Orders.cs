@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WebMarket
+namespace DataClassLibrary
 {
     public partial class Orders
     {
