@@ -5,6 +5,8 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using DataClassLibrary;
+using FunctionLibraryFS;
 
 namespace WebMarket.Controllers
 {
@@ -22,7 +24,7 @@ namespace WebMarket.Controllers
         // GET: api/Products1
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProduct()
-        {
+        {   
             return await _context.Product.ToListAsync();
         }
 

@@ -1,6 +1,6 @@
 using System;
 
-namespace WebMarket
+namespace DataClassLibrary
 {
     public class WeatherForecast
     {

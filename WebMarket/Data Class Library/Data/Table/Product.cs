@@ -1,8 +1,7 @@
 ﻿using Newtonsoft.Json;
-
 using System.Collections.Generic;
 
-namespace WebMarket
+namespace DataClassLibrary
 {
     public partial class Product
     {
