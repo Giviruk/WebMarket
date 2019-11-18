@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace WebMarket.Controllers
 {
     [ApiController]
     [Route("/api")]
-    public class WeatherForecastController : ControllerBase
+    public class AllAPIController : ControllerBase
     {
         [HttpGet]
         public string Get()
