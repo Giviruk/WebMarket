@@ -8,23 +8,22 @@ namespace WebMarket.Controllers
     public class WeatherForecastController : ControllerBase
     {
         [HttpGet]
-        public IEnumerable<string> Get()
+        public string Get()
         {
-            var controllers = new List<string>();
-            controllers.Add("https://webmarket911.herokuapp.com/api/categories/all");
-            controllers.Add("https://webmarket911.herokuapp.com/api/categories/{id}");
-            controllers.Add("https://webmarket911.herokuapp.com/api/Others");
-            controllers.Add("https://webmarket911.herokuapp.com/api/others/{id}");
-            controllers.Add("https://webmarket911.herokuapp.com/api/others/novelties");
-            controllers.Add("https://webmarket911.herokuapp.com/api/others/Bestsellers");
-            controllers.Add("https://webmarket911.herokuapp.com/api/productimages");
-            controllers.Add("https://webmarket911.herokuapp.com/api/productimages/{id}");
-            controllers.Add("https://webmarket911.herokuapp.com/api/products/all");
-            controllers.Add("https://webmarket911.herokuapp.com/api/products/product/{id}");
-            controllers.Add("https://webmarket911.herokuapp.com/api/products/category/{id}");
-            controllers.Add("https://webmarket911.herokuapp.com/api/profile");
-            controllers.Add("https://webmarket911.herokuapp.com/api/profile/{id}");
-            controllers.Add("https://webmarket911.herokuapp.com/api/profile/auth - post for auth");
+            var controllers = "https://webmarket911.herokuapp.com/api/categories/all \n" +
+                "https://webmarket911.herokuapp.com/api/categories/{id} \n" +
+                "https://webmarket911.herokuapp.com/api/Others \n" +
+                "https://webmarket911.herokuapp.com/api/others/{id} \n" +
+                "https://webmarket911.herokuapp.com/api/others/novelties \n" +
+                "https://webmarket911.herokuapp.com/api/others/Bestsellers \n" +
+                "https://webmarket911.herokuapp.com/api/productimages \n" +
+                "https://webmarket911.herokuapp.com/api/productimages/{id} \n" +
+                "https://webmarket911.herokuapp.com/api/products/all \n" +
+                "https://webmarket911.herokuapp.com/api/products/product/{id} \n" +
+                "https://webmarket911.herokuapp.com/api/products/category/{id} \n" +
+                "https://webmarket911.herokuapp.com/api/profile \n" +
+                "https://webmarket911.herokuapp.com/api/profile/{id} \n" +
+                "https://webmarket911.herokuapp.com/api/profile/auth - post for auth \n";
 
             return controllers;
         }
