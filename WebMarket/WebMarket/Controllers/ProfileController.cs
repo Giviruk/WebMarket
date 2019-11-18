@@ -56,26 +56,29 @@ namespace WebMarket.Controllers
             _context.SaveChanges();
         }
 
+
+        [HttpPost]
+        public bool Post([FromBody]List<string> value)
+        {
+            var user = _context.Users.Select(x => x).Where(x => x.Login == value[0]).FirstOrDefault();
+            return user != null && user.Pass == value[1];
+        }
+
         // PUT api/values
         [HttpPut]
         public void Put([FromBody]string[] value)
         {
             var user = new Users();
 
-            //user.Login = value[0];
-            //user.Pass = value[1];
-            //user.City = int.Parse(value[2]);
-            //user.Firstname = value[3];
-            //user.Middlename = value[4];
-            //user.Lastname = value[5];//may be null
-            //user.Addres = value[6];
+            user.Login = value[0];
+            user.Pass = value[1];
+            user.City = int.Parse(value[2]);
+            user.Firstname = value[3];
+            user.Middlename = value[4];
+            user.Lastname = value[5];//may be null
+            user.Addres = value[6];
 
-            //user.CityNavigation = _context.Cities.Find(user.City);
-            user.Login = "sd";
-            user.Pass = "111";
-            user.Firstname = "E";
-            user.Middlename = "M";
-
+            user.CityNavigation = _context.Cities.Find(user.City);
 
             _context.Users.Add(user);
             _context.SaveChanges();
