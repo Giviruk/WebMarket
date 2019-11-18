@@ -1,40 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using DataClassLibrary;
 
 namespace WebMarket.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("/api")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
-        {
-            _logger = logger;
-        }
-
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public IEnumerable<string> Get()
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
+            var controllers = new List<string>();
+            controllers.Add("https://webmarket911.herokuapp.com/api/categories/all");
+            controllers.Add("https://webmarket911.herokuapp.com/api/categories/{id}");
+            controllers.Add("https://webmarket911.herokuapp.com/api/Others");
+            controllers.Add("https://webmarket911.herokuapp.com/api/others/{id}");
+            controllers.Add("https://webmarket911.herokuapp.com/api/others/novelties");
+            controllers.Add("https://webmarket911.herokuapp.com/api/others/Bestsellers");
+            controllers.Add("https://webmarket911.herokuapp.com/api/productimages");
+            controllers.Add("https://webmarket911.herokuapp.com/api/productimages/{id}");
+            controllers.Add("https://webmarket911.herokuapp.com/api/products/all");
+            controllers.Add("https://webmarket911.herokuapp.com/api/products/product/{id}");
+            controllers.Add("https://webmarket911.herokuapp.com/api/products/category/{id}");
+            controllers.Add("https://webmarket911.herokuapp.com/api/profile");
+            controllers.Add("https://webmarket911.herokuapp.com/api/profile/{id}");
+            controllers.Add("https://webmarket911.herokuapp.com/api/profile/auth - post for auth");
+
+            return controllers;
         }
     }
 }
