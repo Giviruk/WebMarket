@@ -13,6 +13,7 @@ namespace WebMarket.Controllers
     [ApiController]
     public class ProfileController : Controller
     {
+        public string url = "api/profile";
         private readonly d6h4jeg5tcb9d8Context _context;
 
         public ProfileController(d6h4jeg5tcb9d8Context context)
@@ -57,7 +58,7 @@ namespace WebMarket.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("auth")]
         public bool Post([FromBody]List<string> value)
         {
             var user = _context.Users.Select(x => x).Where(x => x.Login == value[0]).FirstOrDefault();
