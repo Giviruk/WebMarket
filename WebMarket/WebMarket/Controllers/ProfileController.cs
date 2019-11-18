@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 using DataClassLibrary;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -23,29 +26,31 @@ namespace WebMarket.Controllers
 
         // GET: api/values
         [HttpGet]
-        public IEnumerable<Users> Get()
+        public async Task<ActionResult<string>> Get()
         {
-            var users = _context.Users.ToList();
-            return users;
+            var users = await _context.Users.ToListAsync();
+            return JsonConvert.SerializeObject(users);
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<string>> Get(int id)
         {
-            var user = _context.Users.Find(id);
+            var user = await _context.Users.FindAsync(id);
             return JsonConvert.SerializeObject(user);
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string[] value)
+        public async Task<ActionResult<HttpStatusCode>> Post([FromBody]string[] value)
         {
-            var user = _context.Users.Find(int.Parse(value[0]));
-
+            var user = await _context.Users.FindAsync(int.Parse(value[0]));
+            var city = await _context.Cities.Select(x => x).Where(x => x.Name == value[3]).FirstOrDefaultAsync();
+            if (city == null)
+                return HttpStatusCode.BadRequest;
             user.Login = value[1];
             user.Pass = value[2];
-            user.City = int.Parse(value[3]);
+            user.City = city.Id;
             user.Firstname = value[4];
             user.Middlename = value[5];
             user.Lastname = value[6];//may be null
@@ -55,6 +60,7 @@ namespace WebMarket.Controllers
 
             _context.Users.Add(user);
             _context.SaveChanges();
+            return HttpStatusCode.OK;
         }
 
 
