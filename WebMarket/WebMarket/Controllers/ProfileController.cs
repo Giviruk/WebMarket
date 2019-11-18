@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -28,73 +29,129 @@ namespace WebMarket.Controllers
         [HttpGet]
         public async Task<ActionResult<string>> Get()
         {
-            var users = await _context.Users.ToListAsync();
-            return JsonConvert.SerializeObject(users);
+            try
+            {
+                var users = await _context.Users.ToListAsync();
+            
+                return Ok(JsonConvert.SerializeObject(users));
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
         public async Task<ActionResult<string>> Get(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            return JsonConvert.SerializeObject(user);
+            try
+            {
+                var user = await _context.Users.FindAsync(id);
+                if(user == null)
+                {
+                    return NotFound();
+                }
+                return Ok(JsonConvert.SerializeObject(user));
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         // POST api/values
         [HttpPost]
-        public async Task<ActionResult<HttpStatusCode>> Post([FromBody]string[] value)
+        public async Task<IActionResult> Post([FromBody]string[] value)
         {
-            var user = await _context.Users.FindAsync(int.Parse(value[0]));
-            var city = await _context.Cities.Select(x => x).Where(x => x.Name == value[3]).FirstOrDefaultAsync();
-            if (city == null)
-                return HttpStatusCode.BadRequest;
-            user.Login = value[1];
-            user.Pass = value[2];
-            user.City = city.Id;
-            user.Firstname = value[4];
-            user.Middlename = value[5];
-            user.Lastname = value[6];//may be null
-            user.Addres = value[7];
+            try
+            {
+                var user = await _context.Users.FindAsync(int.Parse(value[0]));
+                var city = await _context.Cities.Select(x => x).Where(x => x.Name == value[3]).FirstOrDefaultAsync();
 
-            user.CityNavigation = _context.Cities.Find(user.City);
+                if (city == null)
+                    return BadRequest("City not found");
 
-            _context.Users.Add(user);
-            _context.SaveChanges();
-            return HttpStatusCode.OK;
+                user.Login = value[1];
+                user.Pass = value[2];
+                user.City = city.Id;
+                user.Firstname = value[4];
+                user.Middlename = value[5];
+                user.Lastname = value[6];//may be null
+                user.Addres = value[7];
+
+                user.CityNavigation = _context.Cities.Find(user.City);
+
+                _context.Users.Add(user);
+                _context.SaveChanges();
+                if(user == null)
+                {
+                    return BadRequest(HttpStatusCode.BadRequest);
+                }
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
 
         [HttpPost("auth")]
-        public bool Post([FromBody]List<string> value)
+        public async Task<IActionResult> Post([FromBody]List<string> value)
         {
-            var user = _context.Users.Select(x => x).Where(x => x.Login == value[0]).FirstOrDefault();
-            return user != null && user.Pass == value[1];
+            try
+            {
+                var user = await _context.Users.Select(x => x).Where(x => x.Login == value[0]).FirstOrDefaultAsync();
+                return Ok(user);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         // PUT api/values
         [HttpPut]
-        public void Put([FromBody]string[] value)
+        public IActionResult Put([FromBody]string[] value)
         {
-            var user = new Users();
+            try
+            {
+                var user = new Users();
 
-            user.Login = value[0];
-            user.Pass = value[1];
-            user.City = int.Parse(value[2]);
-            user.Firstname = value[3];
-            user.Middlename = value[4];
-            user.Lastname = value[5];//may be null
-            user.Addres = value[6];
+                user.Login = value[0];
+                user.Pass = value[1];
+                user.City = int.Parse(value[2]);
+                user.Firstname = value[3];
+                user.Middlename = value[4];
+                user.Lastname = value[5];//may be null
+                user.Addres = value[6];
 
-            user.CityNavigation = _context.Cities.Find(user.City);
+                user.CityNavigation = _context.Cities.Find(user.City);
 
-            _context.Users.Add(user);
-            _context.SaveChanges();
+                _context.Users.Add(user);
+                _context.SaveChanges();
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            try
+            {
+                _context.Users.Remove(_context.Users.Find(id));
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
     }
 }
