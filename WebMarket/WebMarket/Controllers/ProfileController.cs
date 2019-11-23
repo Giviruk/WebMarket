@@ -113,15 +113,19 @@ namespace WebMarket.Controllers
 
         // PUT api/values
         [HttpPut]
-        public IActionResult Put([FromBody]string[] value)
+        public async Task<IActionResult> PutAsync([FromBody]string[] value)
         {
             try
             {
                 var user = new Users();
+                var city = await _context.Cities.Select(x => x).Where(x => x.Name == value[3]).FirstOrDefaultAsync();
+
+                if (city == null)
+                    return BadRequest("City not found");
 
                 user.Login = value[0];
                 user.Pass = value[1];
-                user.City = int.Parse(value[2]);
+                user.City = city.Id;
                 user.Firstname = value[3];
                 user.Middlename = value[4];
                 user.Lastname = value[5];//may be null
