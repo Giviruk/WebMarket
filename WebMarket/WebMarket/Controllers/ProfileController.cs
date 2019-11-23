@@ -82,7 +82,7 @@ namespace WebMarket.Controllers
 
                 user.CityNavigation = _context.Cities.Find(user.City);
 
-                _context.Users.Add(user);
+                _context.Users.Update(user);
                 _context.SaveChanges();
                 if(user == null)
                 {

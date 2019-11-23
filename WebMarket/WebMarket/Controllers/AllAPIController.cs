@@ -38,7 +38,8 @@ namespace WebMarket.Controllers
                 "https://webmarket911.herokuapp.com/api/products/category/{id} - не знаю что здесь\n" +
                 "https://webmarket911.herokuapp.com/api/profile  - put создание профиля/get все профили\n" +
                 "https://webmarket911.herokuapp.com/api/profile/{id} - конкретный профиль\n" +
-                "https://webmarket911.herokuapp.com/api/profile/auth - post возвращает true/false проверка логина и пароля при авторизации\n";
+                "https://webmarket911.herokuapp.com/api/profile/auth - post возвращает true/false проверка логина и пароля при авторизации\n" +
+                "https://webmarket911.herokuapp.com/api/city - работа с городами, get - все, post - обновление, put - создание \n";
 
             return controllers;
             //return _td.GetString() + " \t" + _sd.ToString() + " \t" + _scd.GetString();
