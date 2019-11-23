@@ -20,9 +20,9 @@ namespace WebMarket
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<d6h4jeg5tcb9d8Context>(); //new
-            services.AddTransient<ITransientDependency,TransientDependency>();
-            services.AddSingleton<ISingletonDependency,SingletonDependency>();
-            services.AddScoped<IScopedDependency,ScopedDependency>();
+            //services.AddTransient<ITransientDependency,TransientDependency>();
+            //services.AddSingleton<ISingletonDependency,SingletonDependency>();
+            //services.AddScoped<IScopedDependency,ScopedDependency>();
             services.AddControllers();
         }
 

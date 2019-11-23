@@ -62,23 +62,23 @@ namespace WebMarket.Controllers
 
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]string[] value)
+        public async Task<IActionResult> Post([FromBody]Users value)
         {
             try
             {
-                var user = await _context.Users.FindAsync(int.Parse(value[0]));
-                var city = await _context.Cities.Select(x => x).Where(x => x.Name == value[3]).FirstOrDefaultAsync();
+                var user = await _context.Users.FindAsync(value.Id);
+                //var city = await _context.Cities.Select(x => x).Where(x => x.Name == value[3]).FirstOrDefaultAsync();
 
-                if (city == null)
-                    return BadRequest("City not found");
+                //if (city == null)
+                //    return BadRequest("City not found");
 
-                user.Login = value[1];
-                user.Pass = value[2];
-                user.City = city.Id;
-                user.Firstname = value[4];
-                user.Middlename = value[5];
-                user.Lastname = value[6];//may be null
-                user.Addres = value[7];
+                user.Login = value.Login;
+                user.Pass = value.Pass;
+                user.City = value.Id;
+                user.Firstname = value.Firstname;
+                user.Middlename = value.Middlename;
+                user.Lastname = value.Lastname;//may be null
+                user.Addres = value.Addres;
 
                 user.CityNavigation = _context.Cities.Find(user.City);
 
@@ -113,23 +113,23 @@ namespace WebMarket.Controllers
 
         // PUT api/values
         [HttpPut]
-        public async Task<IActionResult> PutAsync([FromBody]string[] value)
+        public async Task<IActionResult> PutAsync([FromBody]Users value)
         {
             try
             {
                 var user = new Users();
-                var city = await _context.Cities.Select(x => x).Where(x => x.Name == value[3]).FirstOrDefaultAsync();
+                //var city = await _context.Cities.Select(x => x).Where(x => x.Name == value[3]).FirstOrDefaultAsync();
 
-                if (city == null)
-                    return BadRequest("City not found");
+                //if (city == null)
+                //    return BadRequest("City not found");
 
-                user.Login = value[0];
-                user.Pass = value[1];
-                user.City = city.Id;
-                user.Firstname = value[3];
-                user.Middlename = value[4];
-                user.Lastname = value[5];//may be null
-                user.Addres = value[6];
+                user.Login = value.Login;
+                user.Pass = value.Pass;
+                user.City = value.Id;
+                user.Firstname = value.Firstname;
+                user.Middlename = value.Middlename;
+                user.Lastname = value.Lastname;//may be null
+                user.Addres = value.Addres;
 
                 user.CityNavigation = _context.Cities.Find(user.City);
 
