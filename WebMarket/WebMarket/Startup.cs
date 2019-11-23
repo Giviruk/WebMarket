@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebMarket.Controllers;
 
 namespace WebMarket
 {
@@ -19,6 +20,9 @@ namespace WebMarket
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<d6h4jeg5tcb9d8Context>(); //new
+            services.AddTransient<ITransientDependency,TransientDependency>();
+            services.AddSingleton<ISingletonDependency,SingletonDependency>();
+            services.AddScoped<IScopedDependency,ScopedDependency>();
             services.AddControllers();
         }
 
