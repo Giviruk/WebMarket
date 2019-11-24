@@ -236,6 +236,18 @@ namespace WebMarket
                     .HasColumnName("firstname")
                     .HasMaxLength(255);
 
+                entity.Property(e => e.Login)
+                    .HasColumnName("Login")
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.Pass)
+                    .HasColumnName("Pass")
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.Addres)
+                    .HasColumnName("Address")
+                    .HasMaxLength(400);
+
                 entity.Property(e => e.Lastname)
                     .HasColumnName("lastname")
                     .HasMaxLength(255);
