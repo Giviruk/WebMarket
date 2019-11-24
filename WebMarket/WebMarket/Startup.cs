@@ -20,7 +20,7 @@ namespace WebMarket
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<d6h4jeg5tcb9d8Context>(); //new
-<<<<<<< HEAD
+//<<<<<<< HEAD
             //services.AddControllers();
 
 
@@ -29,11 +29,11 @@ namespace WebMarket
             services.AddScoped<IScoped,ScopedDependency>();
 
 
-=======
+//=======
             //services.AddTransient<ITransientDependency,TransientDependency>();
             //services.AddSingleton<ISingletonDependency,SingletonDependency>();
             //services.AddScoped<IScopedDependency,ScopedDependency>();
->>>>>>> e5edf6bda4bd152bb873c328058491237197d3d6
+//>>>>>>> e5edf6bda4bd152bb873c328058491237197d3d6
             services.AddControllers();
         }
 
