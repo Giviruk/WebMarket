@@ -67,13 +67,10 @@ namespace WebMarket.Controllers
 
         // PUT api/city
         [HttpPut]
-        public IActionResult Put(/*string id,*/[FromBody]Cities city)
+        public IActionResult Put([FromBody]Cities city)
         {
             try
             {
-                //if (id != city.Id.ToString())
-                //    throw new Exception();
-
                 _context.Cities.Add(city);
                 _context.SaveChanges();
                 return Ok();
