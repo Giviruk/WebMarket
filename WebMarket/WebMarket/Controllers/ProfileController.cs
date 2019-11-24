@@ -125,7 +125,7 @@ namespace WebMarket.Controllers
 
                 user.Login = value.Login;
                 user.Pass = value.Pass;
-                user.City = value.Id;
+                user.City = value.City;
                 user.Firstname = value.Firstname;
                 user.Middlename = value.Middlename;
                 user.Lastname = value.Lastname;//may be null
