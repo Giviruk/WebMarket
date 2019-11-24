@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace DataClassLibrary
 {
@@ -16,7 +16,12 @@ namespace DataClassLibrary
         public string Middlename { get; set; }
         public string Lastname { get; set; }
         public int? City { get; set; }
+        public string Login { get; set; }
+        [JsonIgnore]
+        public string Pass { get; set; }
+        public string Addres { get; set; }
 
+        
         public virtual Cities CityNavigation { get; set; }
         public virtual ICollection<Orders> Orders { get; set; }
         public virtual ICollection<Ordersofusers> Ordersofusers { get; set; }
