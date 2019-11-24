@@ -65,14 +65,17 @@ namespace WebMarket.Controllers
             }
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]Cities value)
+        // PUT api/city
+        [HttpPut]
+        public IActionResult Put(/*string id,*/[FromBody]Cities city)
         {
             try
             {
-                var city = new Cities();
-                city.Name = city.Name;
+                //if (id != city.Id.ToString())
+                //    throw new Exception();
+
+                _context.Cities.Add(city);
+                _context.SaveChanges();
                 return Ok();
             }
             catch(Exception ex)
