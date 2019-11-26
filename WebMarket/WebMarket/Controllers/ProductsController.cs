@@ -43,7 +43,7 @@ namespace WebMarket.Controllers
                 .Where(p => p.Category == categoryId)
                 .ToListAsync();
 
-            //var result = Say.GetProductsFromCategoryFS(_context.Product,categoryId);
+            var result = Say.GetProductsFromCategoryFS(_context.Product, categoryId);
 
             return JsonConvert.SerializeObject(selectedProducts);
         }
