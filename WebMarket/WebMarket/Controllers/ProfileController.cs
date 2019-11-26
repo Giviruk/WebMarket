@@ -96,11 +96,11 @@ namespace WebMarket.Controllers
 
 
         [HttpPost("auth")]
-        public async Task<IActionResult> Post([FromBody]List<string> value)
+        public async Task<IActionResult> Post([FromBody]string value)
         {
             try
             {
-                var user = await _context.Users.Select(x => x).Where(x => x.Login == value[0]).FirstOrDefaultAsync();
+                var user = await _context.Users.Select(x => x).Where(x => x.Login == value).FirstOrDefaultAsync();
                 return Ok(user);
             }
             catch(Exception ex)
