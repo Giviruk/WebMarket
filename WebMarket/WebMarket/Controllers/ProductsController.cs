@@ -4,6 +4,7 @@ using DataClassLibrary;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using FunctionLibraryFS;
 
 namespace WebMarket.Controllers
 {
@@ -41,6 +42,8 @@ namespace WebMarket.Controllers
             var selectedProducts = await _context.Product
                 .Where(p => p.Category == categoryId)
                 .ToListAsync();
+
+            var result = Say.GetProductsFromCategoryFS(_context.Product, categoryId);
 
             return JsonConvert.SerializeObject(selectedProducts);
         }

@@ -7,6 +7,7 @@ using DataClassLibrary;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using WebMarket.Logic.Hashing;
 
 namespace WebMarket.Controllers
 {
@@ -128,6 +129,7 @@ namespace WebMarket.Controllers
                 user.Middlename = value.Middlename;
                 user.Lastname = value.Lastname;//may be null
                 user.Addres = value.Addres;
+                user.Token = Hash.MakeHash(value.Login);
 
                 user.CityNavigation = _context.Cities.Find(user.City);
 

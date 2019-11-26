@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -19,21 +20,13 @@ namespace WebMarket
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<d6h4jeg5tcb9d8Context>(); //new
-//<<<<<<< HEAD
-            //services.AddControllers();
+            services.AddDbContext<DbContext,d6h4jeg5tcb9d8Context>();
 
 
             services.AddSingleton<ISingleton, SingletonDependency>();
             services.AddTransient<ITransient,TransientDependensy>();
             services.AddScoped<IScoped,ScopedDependency>();
 
-
-//=======
-            //services.AddTransient<ITransientDependency,TransientDependency>();
-            //services.AddSingleton<ISingletonDependency,SingletonDependency>();
-            //services.AddScoped<IScopedDependency,ScopedDependency>();
-//>>>>>>> e5edf6bda4bd152bb873c328058491237197d3d6
             services.AddControllers();
         }
 
