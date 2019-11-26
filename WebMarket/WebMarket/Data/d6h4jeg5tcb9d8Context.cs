@@ -233,15 +233,9 @@ namespace WebMarket
                 
                 entity.Property(e => e.City).HasColumnName("city");
 
-<<<<<<< HEAD
                 entity.Property(e => e.Token).HasColumnName("Token")
-                    .HasMaxLength(255);
+                .HasMaxLength((255));
 
-||||||| merged common ancestors
-=======
-                entity.Property(e => e.Token).HasColumnName("Token").HasMaxLength((255));
-
->>>>>>> abc2bd293c2a6da639fa121dfe38f57e964a17ae
                 entity.Property(e => e.Firstname)
                     .HasColumnName("firstname")
                     .HasMaxLength(255);

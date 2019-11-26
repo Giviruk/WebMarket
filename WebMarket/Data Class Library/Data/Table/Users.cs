@@ -17,12 +17,6 @@ namespace DataClassLibrary
         public string Lastname { get; set; }
         public int? City { get; set; }
         public string Login { get; set; }
-<<<<<<< HEAD
-||||||| merged common ancestors
-        [JsonIgnore]
-=======
-        public string Token { get; set; }
->>>>>>> abc2bd293c2a6da639fa121dfe38f57e964a17ae
         public string Pass { get; set; }
         public string Addres { get; set; }
 
