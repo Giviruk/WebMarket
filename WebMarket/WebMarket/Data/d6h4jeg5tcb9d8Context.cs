@@ -231,8 +231,10 @@ namespace WebMarket
                 entity.ToTable("users");
 
                 entity.Property(e => e.Id).HasColumnName("id");
-
+                
                 entity.Property(e => e.City).HasColumnName("city");
+
+                entity.Property(e => e.Token).HasColumnName("Token").HasMaxLength((255));
 
                 entity.Property(e => e.Firstname)
                     .HasColumnName("firstname")
