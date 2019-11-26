@@ -17,9 +17,10 @@ namespace DataClassLibrary
         public string Lastname { get; set; }
         public int? City { get; set; }
         public string Login { get; set; }
-        [JsonIgnore]
         public string Pass { get; set; }
         public string Addres { get; set; }
+
+        public string Token { get; set; }
 
         
         public virtual Cities CityNavigation { get; set; }

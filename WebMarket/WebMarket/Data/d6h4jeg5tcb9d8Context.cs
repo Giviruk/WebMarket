@@ -3,6 +3,7 @@ using DataClassLibrary;
 
 namespace WebMarket
 {
+
     public partial class d6h4jeg5tcb9d8Context : DbContext
     {
         public d6h4jeg5tcb9d8Context()
@@ -231,6 +232,9 @@ namespace WebMarket
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.City).HasColumnName("city");
+
+                entity.Property(e => e.Token).HasColumnName("Token")
+                    .HasMaxLength(255);
 
                 entity.Property(e => e.Firstname)
                     .HasColumnName("firstname")
