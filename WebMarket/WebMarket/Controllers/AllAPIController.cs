@@ -27,7 +27,7 @@ namespace WebMarket.Controllers
             var controllers =
                 "https://webmarket911.herokuapp.com/api/categories/all  - все категории\n" +
                 "https://webmarket911.herokuapp.com/api/categories/{id} - товары в категории\n" +
-                "https://webmarket911.herokuapp.com/api/Others - не знаю что, надеюсь Артур пояснит\n" +
+                "https://webmarket911.herokuapp.com/api/Others - не знаю что, надеюсь Артур пояснит(Артур пояснил)\n" +
                 "https://webmarket911.herokuapp.com/api/others/{id} - не знаю что, надеюсь Артур пояснит\n" +
                 "https://webmarket911.herokuapp.com/api/others/novelties - новинки\n" +
                 "https://webmarket911.herokuapp.com/api/others/Bestsellers - бестселлеры\n" +
@@ -39,7 +39,8 @@ namespace WebMarket.Controllers
                 "https://webmarket911.herokuapp.com/api/profile  - put создание профиля/get все профили\n" +
                 "https://webmarket911.herokuapp.com/api/profile/{id} - конкретный профиль\n" +
                 "https://webmarket911.herokuapp.com/api/profile/auth - post возвращает true/false проверка логина и пароля при авторизации\n" +
-                "https://webmarket911.herokuapp.com/api/city - работа с городами, get - все, post - обновление, put - создание \n";
+                "https://webmarket911.herokuapp.com/api/city - работа с городами, get - все, post - обновление, put - создание \n" +
+                "https://webmarket911.herokuapp.com/api/Others \n";
 
             return controllers;
             //return _td.GetString() + " \t" + _sd.ToString() + " \t" + _scd.GetString();
