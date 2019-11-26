@@ -75,5 +75,14 @@ namespace WebMarket.Controllers
 
             return JsonConvert.SerializeObject(result);
         }
+
+
+        [HttpPost("GetUserFromToken")]
+        public string GetUser([FromBody]string token)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Token == token);
+
+            return JsonConvert.SerializeObject(user);
+        }
     }
 }
