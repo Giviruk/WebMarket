@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using DataClassLibrary;
-using FunctionLibraryFS;
 
 namespace WebMarket.Controllers
 {
