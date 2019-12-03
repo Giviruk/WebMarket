@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Net;
 using AngleSharp.Html.Parser;
 using Newtonsoft.Json;
+using WebMarket.Logic.AbstractContext;
 
 namespace WebMarket.Controllers
 {
@@ -14,9 +15,9 @@ namespace WebMarket.Controllers
     [ApiController]
     public class SearchController : ControllerBase
     {
-        private readonly d6h4jeg5tcb9d8Context _context;
+        private readonly AbstractDbContext _context;
 
-        public SearchController(d6h4jeg5tcb9d8Context context)
+        public SearchController(AbstractDbContext context)
         {
             _context = context;
         }
@@ -27,7 +28,7 @@ namespace WebMarket.Controllers
         {
             var toSearch = await NormilizeRequest(request);
             var toSearchArr = toSearch.Split(' ');
-            var allProducts = _context.Product.ToList();
+            var allProducts = _context.Products.ToList();
             var dict = new Dictionary<int, int>();
             foreach(var product in allProducts)
             {

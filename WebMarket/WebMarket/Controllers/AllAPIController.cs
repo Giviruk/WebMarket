@@ -6,20 +6,6 @@ namespace WebMarket.Controllers
     [Route("/api")]
     public class AllAPIController : ControllerBase
     {
-        //private TransientDependency _td;
-        //private SingletonDependency _sd;
-        //private ScopedDependency _scd;
-        //public AllAPIController
-        //    (
-        //        TransientDependency td, 
-        //        SingletonDependency sd,
-        //        ScopedDependency scd
-        //    )
-        //{
-        //    _td = td;
-        //    _sd = sd;
-        //    _scd = scd;
-        //}
         [HttpGet]
         public string Get()
         {
@@ -40,81 +26,13 @@ namespace WebMarket.Controllers
                 "https://webmarket911.herokuapp.com/api/profile/{id} - конкретный профиль\n" +
                 "https://webmarket911.herokuapp.com/api/profile/auth - post возвращает true/false проверка логина и пароля при авторизации\n" +
                 "https://webmarket911.herokuapp.com/api/city - работа с городами, get - все, post - обновление, put - создание \n" +
+                "https://webmarket911.herokuapp.com/api/Others/GetUserFromToken - post запрос,который принимает токен\n" +
+                "https://webmarket911.herokuapp.com/api/reviews/{productId} - get метод принимает id продутка,возращает список отзывов \n" +
+                "https://webmarket911.herokuapp.com/api/reviews - post метод принимает на вход объект типа review и добавляет его в бд \n" +
                 "https://webmarket911.herokuapp.com/api/Others \n" +
                 "https://webmarket911.herokuapp.com/api/search \n";
 
             return controllers;
-            //return _td.GetString() + " \t" + _sd.ToString() + " \t" + _scd.GetString();
         }
-    }
-
-    public interface ITransientDependency
-    {
-        string GetString();
-        string ToString();
-    }
-
-    public class TransientDependency : ITransientDependency
-    {
-        private SingletonDependency singleton;
-        
-        public TransientDependency(SingletonDependency sd)
-        {
-            singleton = sd;
-        }
-
-        public string GetString()
-        {
-            return singleton.ToString() + " " + this.ToString();
-        }
-
-        public override string ToString()
-        {
-            return "Transient";
-        }
-    }
-
-    public interface ISingletonDependency
-    {
-        string ToString();
-    }
-
-    public class SingletonDependency : ISingletonDependency
-    {
-        public SingletonDependency()
-        {
-            
-        }
-
-        public override string ToString()
-        {
-            return "Singleton";
-        }
-    }
-
-    public interface IScopedDependency
-    {
-        string GetString();
-        string ToString();
-    }
-
-    public class ScopedDependency : IScopedDependency
-    {
-        private SingletonDependency singleton;
-
-        public ScopedDependency(SingletonDependency sd)
-        {
-            singleton = sd;
-        }
-
-        public string GetString()
-        {
-            return singleton.ToString() + " " + this.ToString();
-        }
-        public override string ToString()
-        {
-            return "Scoped";
-        }
-    }
-    
+    }    
 }

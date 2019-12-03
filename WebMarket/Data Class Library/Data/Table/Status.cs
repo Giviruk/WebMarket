@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace DataClassLibrary
 {
-    public partial class Cities
+    public partial class Status
     {
-        public Cities()
+        public Status()
         {
-            Users = new HashSet<Users>();
+            Orders = new HashSet<Order>();
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public virtual ICollection<Users> Users { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

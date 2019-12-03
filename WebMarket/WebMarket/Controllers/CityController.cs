@@ -1,6 +1,7 @@
 ﻿using System;
 using DataClassLibrary;
 using Microsoft.AspNetCore.Mvc;
+using WebMarket.Logic.AbstractContext;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -9,9 +10,9 @@ namespace WebMarket.Controllers
     [Route("api/city")]
     public class CityController : Controller
     {
-        private readonly d6h4jeg5tcb9d8Context _context;
+        private readonly AbstractDbContext _context;
 
-        public CityController(d6h4jeg5tcb9d8Context context)
+        public CityController(AbstractDbContext context)
         {
             _context = context;
         }
@@ -45,7 +46,7 @@ namespace WebMarket.Controllers
 
         // POST api/values
         [HttpPost]
-        public IActionResult Post([FromBody]Cities value)
+        public IActionResult Post([FromBody]City value)
         {
             try
             {
@@ -64,7 +65,7 @@ namespace WebMarket.Controllers
 
         // PUT api/city
         [HttpPut]
-        public IActionResult Put([FromBody]Cities city)
+        public IActionResult Put([FromBody]City city)
         {
             try
             {

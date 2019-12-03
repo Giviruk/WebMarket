@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using WebMarket.Logic.Hashing;
+using WebMarket.Logic.AbstractContext;
 
 namespace WebMarket.Controllers
 {
@@ -16,9 +17,9 @@ namespace WebMarket.Controllers
     public class ProfileController : Controller
     {
         public string url = "api/profile";
-        private readonly d6h4jeg5tcb9d8Context _context;
+        private readonly AbstractDbContext _context;
 
-        public ProfileController(d6h4jeg5tcb9d8Context context)
+        public ProfileController(AbstractDbContext context)
         {
             _context = context;
         }
@@ -60,7 +61,7 @@ namespace WebMarket.Controllers
 
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]Users value)
+        public async Task<IActionResult> Post([FromBody]User value)
         {
             try
             {
@@ -76,7 +77,7 @@ namespace WebMarket.Controllers
                 user.Firstname = value.Firstname;
                 user.Middlename = value.Middlename;
                 user.Lastname = value.Lastname;//may be null
-                user.Addres = value.Addres;
+                user.Address = value.Address;
 
                 user.CityNavigation = _context.Cities.Find(user.City);
 
@@ -111,11 +112,11 @@ namespace WebMarket.Controllers
 
         // PUT api/values
         [HttpPut]
-        public async Task<IActionResult> PutAsync([FromBody]Users value)
+        public  IActionResult PutAsync([FromBody]User value)
         {
             try
             {
-                var user = new Users();
+                var user = new User();
                 //var city = await _context.Cities.Select(x => x).Where(x => x.Name == value[3]).FirstOrDefaultAsync();
 
                 //if (city == null)
@@ -127,7 +128,7 @@ namespace WebMarket.Controllers
                 user.Firstname = value.Firstname;
                 user.Middlename = value.Middlename;
                 user.Lastname = value.Lastname;//may be null
-                user.Addres = value.Addres;
+                user.Address = value.Address;
                 user.Token = Hash.MakeHash(value.Login);
 
                 user.CityNavigation = _context.Cities.Find(user.City);

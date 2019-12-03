@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace DataClassLibrary
 {
-    public partial class Images
+    public partial class Image
     {
-        public Images()
+        public Image()
         {
             Product = new HashSet<Product>();
-            Productimages = new HashSet<Productimages>();
+            Productimages = new HashSet<ProductImage>();
         }
 
         public int Id { get; set; }
@@ -16,6 +16,6 @@ namespace DataClassLibrary
         public string Imagename { get; set; }
 
         public virtual ICollection<Product> Product { get; set; }
-        public virtual ICollection<Productimages> Productimages { get; set; }
+        public virtual ICollection<ProductImage> Productimages { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using DataClassLibrary;
+using WebMarket.Logic.AbstractContext;
 
 namespace WebMarket.Controllers
 {
@@ -11,9 +12,9 @@ namespace WebMarket.Controllers
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly d6h4jeg5tcb9d8Context _context;
+        private readonly AbstractDbContext _context;
 
-        public CategoriesController(d6h4jeg5tcb9d8Context context)
+        public CategoriesController(AbstractDbContext context)
         {
             _context = context;
         }
@@ -45,7 +46,7 @@ namespace WebMarket.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCategories(int id, Categories categories)
+        public async Task<IActionResult> PutCategories(int id, Category categories)
         {
             if (id != categories.Id)
             {
@@ -77,7 +78,7 @@ namespace WebMarket.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Categories>> PostCategories(Categories categories)
+        public async Task<ActionResult<Category>> PostCategories(Category categories)
         {
             _context.Categories.Add(categories);
             await _context.SaveChangesAsync();
@@ -87,7 +88,7 @@ namespace WebMarket.Controllers
 
         // DELETE: api/Categories/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Categories>> DeleteCategories(int id)
+        public async Task<ActionResult<Category>> DeleteCategories(int id)
         {
             var categories = await _context.Categories.FindAsync(id);
             if (categories == null)
