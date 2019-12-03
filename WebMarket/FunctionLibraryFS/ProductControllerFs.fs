@@ -1,7 +1,6 @@
 ﻿namespace FunctionLibraryFS
 
 open DataClassLibrary
-open System.Collections
 open System.Linq
 open Microsoft.EntityFrameworkCore
 

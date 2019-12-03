@@ -7,17 +7,17 @@ namespace WebMarket
 {
     public interface ISingleton
     {
-        public string GetString();
+        string GetString();
     }
 
     public interface ITransient
     {
-        public string GetString();
+        string GetString();
     }
 
     public interface IScoped
     {
-        public string GetString();
+        string GetString();
     }
 
     public class TransientDependensy : ITransient
