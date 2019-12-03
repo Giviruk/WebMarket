@@ -26,8 +26,7 @@ namespace WebMarket.Controllers
             try
             {
                 var orders = _context.Orders.ToList();
-                if (orders == null)
-                    return NotFound();
+                var order = new Order{ Id =1,Datecreated = 10202010,Delivery = 1};
                 return Ok(orders);
             }
             catch(Exception ex)
@@ -73,7 +72,7 @@ namespace WebMarket.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public IActionResult Put([FromBody]Order value)
         {
             try
