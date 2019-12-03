@@ -40,7 +40,7 @@ namespace WebMarket.Controllers
                 }
                 dict.Add(product.Id, count);
             }
-            var keys = dict.Where(pair => pair.Value > 1).OrderBy(pair => pair.Value).ToDictionary(pair=>pair.Key).Keys.ToList();
+            var keys = dict.OrderBy(pair => pair.Value).ToDictionary(pair=>pair.Key).Keys.ToList();
             var result = new List<Product>();
             foreach (var product in allProducts)
             {
