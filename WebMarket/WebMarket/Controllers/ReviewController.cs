@@ -31,13 +31,13 @@ namespace WebMarket.Controllers
         public async Task<IActionResult> Post([FromBody]Review review)
         {
             try
-            {
-                await _context.Reviews.AddAsync(review);
-                await _context.SaveChangesAsync();
+            {       
+               await  _context.Reviews.AddAsync(review);
+               await  _context.SaveChangesAsync();
 
                 return Ok();
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 return BadRequest(exception);
             }
