@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace DataClassLibrary
 {
-    public partial class Categories
+    public partial class Category
     {
-        public Categories()
+        public Category()
         {
             Product = new HashSet<Product>();
         }

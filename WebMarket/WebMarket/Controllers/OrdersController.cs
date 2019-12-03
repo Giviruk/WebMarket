@@ -2,6 +2,7 @@
 using System.Linq;
 using DataClassLibrary;
 using Microsoft.AspNetCore.Mvc;
+using WebMarket.Logic.AbstractContext;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,16 +12,16 @@ namespace WebMarket.Controllers
     public class OrdersController : Controller
     {
 
-        private readonly d6h4jeg5tcb9d8Context _context;
+        private readonly AbstractDbContext _context;
 
-        public OrdersController(d6h4jeg5tcb9d8Context context)
+        public OrdersController(AbstractDbContext context)
         {
             _context = context;
         }
 
         // GET: api/values
         [HttpGet]
-        public ActionResult<Orders> Get()
+        public ActionResult<Order> Get()
         {
             try
             {
@@ -37,7 +38,7 @@ namespace WebMarket.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<Orders> Get(int id)
+        public ActionResult<Order> Get(int id)
         {
             try
             {
@@ -56,7 +57,7 @@ namespace WebMarket.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]Orders value)
+        public void Post([FromBody]Order value)
         {
         }
 

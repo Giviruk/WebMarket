@@ -1,30 +1,30 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
 using DataClassLibrary;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using WebMarket.Logic.AbstractContext;
 
 namespace WebMarket
 {
-
-    public partial class d6h4jeg5tcb9d8Context : DbContext
+    public partial class d6h4jeg5tcb9d8Context : AbstractDbContext
     {
-        public d6h4jeg5tcb9d8Context()
-        {
-        }
 
         public d6h4jeg5tcb9d8Context(DbContextOptions<d6h4jeg5tcb9d8Context> options)
             : base(options)
         {
         }
 
-        public virtual DbSet<Categories> Categories { get; set; }
-        public virtual DbSet<Cities> Cities { get; set; }
-        public virtual DbSet<Deliveries> Deliveries { get; set; }
-        public virtual DbSet<Images> Images { get; set; }
-        public virtual DbSet<Orders> Orders { get; set; }
-        public virtual DbSet<Ordersofusers> Ordersofusers { get; set; }
-        public virtual DbSet<Product> Product { get; set; }
-        public virtual DbSet<Productimages> Productimages { get; set; }
-        public virtual DbSet<Statuses> Statuses { get; set; }
-        public virtual DbSet<Users> Users { get; set; }
+        public override DbSet<Category> Categories { get; set; }
+        public override DbSet<City> Cities { get; set; }
+        public override DbSet<Delivery> Deliveries { get; set; }
+        public override DbSet<Image> Images { get; set; }
+        public override DbSet<Order> Orders { get; set; }
+        public override DbSet<UserOrder> Ordersofusers { get; set; }
+        public override DbSet<Product> Products { get; set; }
+        public override DbSet<ProductImage> ProductImages { get; set; }
+        public override DbSet<Review> Reviews { get; set; }
+        public override DbSet<Status> Statuses { get; set; }
+        public override DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -36,7 +36,7 @@ namespace WebMarket
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Categories>(entity =>
+            modelBuilder.Entity<Category>(entity =>
             {
                 entity.ToTable("categories");
 
@@ -51,9 +51,13 @@ namespace WebMarket
                     .HasMaxLength(255);
             });
 
-            modelBuilder.Entity<Cities>(entity =>
+            modelBuilder.Entity<City>(entity =>
             {
                 entity.ToTable("cities");
+
+                entity.HasIndex(e => e.Name)
+                    .HasName("unique_city")
+                    .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -62,7 +66,7 @@ namespace WebMarket
                     .HasMaxLength(255);
             });
 
-            modelBuilder.Entity<Deliveries>(entity =>
+            modelBuilder.Entity<Delivery>(entity =>
             {
                 entity.ToTable("deliveries");
 
@@ -81,7 +85,7 @@ namespace WebMarket
                     .HasMaxLength(255);
             });
 
-            modelBuilder.Entity<Images>(entity =>
+            modelBuilder.Entity<Image>(entity =>
             {
                 entity.ToTable("images");
 
@@ -96,7 +100,7 @@ namespace WebMarket
                     .HasMaxLength(255);
             });
 
-            modelBuilder.Entity<Orders>(entity =>
+            modelBuilder.Entity<Order>(entity =>
             {
                 entity.ToTable("orders");
 
@@ -107,8 +111,6 @@ namespace WebMarket
                 entity.Property(e => e.Delivery).HasColumnName("delivery");
 
                 entity.Property(e => e.Owner).HasColumnName("owner");
-
-                entity.Property(e => e.Product).HasColumnName("product");
 
                 entity.Property(e => e.Status).HasColumnName("status");
 
@@ -122,18 +124,13 @@ namespace WebMarket
                     .HasForeignKey(d => d.Owner)
                     .HasConstraintName("orders_owner_fkey");
 
-                entity.HasOne(d => d.ProductNavigation)
-                    .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.Product)
-                    .HasConstraintName("orders_product_fkey");
-
                 entity.HasOne(d => d.StatusNavigation)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.Status)
                     .HasConstraintName("orders_status_fkey");
             });
 
-            modelBuilder.Entity<Ordersofusers>(entity =>
+            modelBuilder.Entity<UserOrder>(entity =>
             {
                 entity.ToTable("ordersofusers");
 
@@ -170,6 +167,9 @@ namespace WebMarket
                     .HasColumnName("description")
                     .HasMaxLength(1000);
 
+                entity.Property(e => e.ProductRating)
+                    .HasColumnName("product_rating");
+
                 entity.Property(e => e.Mainpictureurl).HasColumnName("mainpictureurl");
 
                 entity.Property(e => e.Name)
@@ -193,7 +193,7 @@ namespace WebMarket
                     .HasConstraintName("product_mainpictureurl_fkey");
             });
 
-            modelBuilder.Entity<Productimages>(entity =>
+            modelBuilder.Entity<ProductImage>(entity =>
             {
                 entity.ToTable("productimages");
 
@@ -209,12 +209,41 @@ namespace WebMarket
                     .HasConstraintName("productimages_imageid_fkey");
 
                 entity.HasOne(d => d.Product)
-                    .WithMany(p => p.Productimages)
+                    .WithMany(p => p.ProductImages)
                     .HasForeignKey(d => d.Productid)
                     .HasConstraintName("productimages_productid_fkey");
             });
 
-            modelBuilder.Entity<Statuses>(entity =>
+            modelBuilder.Entity<Review>(entity =>
+            {
+                entity.ToTable("review");
+
+                entity.Property(e => e.ReviewId).HasColumnName("review_id");
+
+                entity.Property(e => e.AuthorId)
+                    .HasColumnName("author_id")
+                    .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.ProductAdvantages).HasColumnName("product_advantages");
+
+                entity.Property(e => e.ProductDisadvantages).HasColumnName("product_disadvantages");
+
+                entity.Property(e => e.ProductId)
+                    .HasColumnName("product_id")
+                    .ValueGeneratedOnAdd();
+
+                entity.Property(e => e.ProductRating).HasColumnName("product_rating");
+
+                entity.Property(e => e.ReviewComment).HasColumnName("review_comment");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.Review)
+                    .HasForeignKey(d => d.ProductId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("product_id_fk");
+            });
+
+            modelBuilder.Entity<Status>(entity =>
             {
                 entity.ToTable("statuses");
 
@@ -225,40 +254,37 @@ namespace WebMarket
                     .HasMaxLength(255);
             });
 
-            modelBuilder.Entity<Users>(entity =>
+            modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("users");
 
-                entity.Property(e => e.Id).HasColumnName("id");
-                
-                entity.Property(e => e.City).HasColumnName("city");
+                entity.HasIndex(e => e.Login)
+                    .HasName("unique_login")
+                    .IsUnique();
 
-                entity.Property(e => e.Token).HasColumnName("Token")
-                .HasMaxLength((255));
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Address).HasMaxLength(400);
+
+                entity.Property(e => e.City).HasColumnName("city");
 
                 entity.Property(e => e.Firstname)
                     .HasColumnName("firstname")
                     .HasMaxLength(255);
 
-                entity.Property(e => e.Login)
-                    .HasColumnName("Login")
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.Pass)
-                    .HasColumnName("Pass")
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.Addres)
-                    .HasColumnName("Address")
-                    .HasMaxLength(400);
-
                 entity.Property(e => e.Lastname)
                     .HasColumnName("lastname")
                     .HasMaxLength(255);
 
+                entity.Property(e => e.Login).HasMaxLength(255);
+
                 entity.Property(e => e.Middlename)
                     .HasColumnName("middlename")
                     .HasMaxLength(255);
+
+                entity.Property(e => e.Pass).HasMaxLength(255);
+
+                entity.Property(e => e.Token).HasMaxLength(255);
 
                 entity.HasOne(d => d.CityNavigation)
                     .WithMany(p => p.Users)

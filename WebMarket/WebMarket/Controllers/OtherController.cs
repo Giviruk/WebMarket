@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using DataClassLibrary;
 using FunctionLibraryFS;
+using WebMarket.Logic.AbstractContext;
 
 namespace WebMarket.Controllers
 {
@@ -14,9 +15,9 @@ namespace WebMarket.Controllers
     [ApiController]
     public class OtherController : ControllerBase
     {
-        private readonly d6h4jeg5tcb9d8Context _context;
+        private readonly AbstractDbContext _context;
 
-        public OtherController(d6h4jeg5tcb9d8Context context)
+        public OtherController(AbstractDbContext context)
         {
             _context = context;
         }
@@ -25,14 +26,14 @@ namespace WebMarket.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProduct()
         {   
-            return await _context.Product.ToListAsync();
+            return await _context.Products.ToListAsync();
         }
 
         // GET: api/Products1/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-            var product = await _context.Product.FindAsync(id);
+            var product = await _context.Products.FindAsync(id);
 
             if (product == null)
             {
@@ -48,7 +49,7 @@ namespace WebMarket.Controllers
             var random = new Random();
             var selectedProductsList = new List<Product>();
 
-            var idList = _context.Product
+            var idList = _context.Products
                 .Select(p => p.Id)
                 .ToList();
             
@@ -58,7 +59,7 @@ namespace WebMarket.Controllers
                 var val = random.Next();
                 int index = idList[val % (idList.Count)];
                 idList.Remove(index);
-                selectedProductsList.Add(_context.Product.FirstOrDefault(p => p.Id == index));
+                selectedProductsList.Add(_context.Products.FirstOrDefault(p => p.Id == index));
             }
 
             return JsonConvert.SerializeObject(selectedProductsList);
@@ -68,10 +69,10 @@ namespace WebMarket.Controllers
         [HttpGet("Bestsellers")]
         public string GetBestsellers()
         {
-            var result = _context.Product
+            var result = _context.Products
                 .Where(p => p.Producer == "Apple")
                 .ToList();
-            result.Add(_context.Product.FirstOrDefault(p => p.Producer != "Apple"));
+            result.Add(_context.Products.FirstOrDefault(p => p.Producer != "Apple"));
 
             return JsonConvert.SerializeObject(result);
         }

@@ -40,7 +40,9 @@ namespace WebMarket.Controllers
                 "https://webmarket911.herokuapp.com/api/profile/{id} - конкретный профиль\n" +
                 "https://webmarket911.herokuapp.com/api/profile/auth - post возвращает true/false проверка логина и пароля при авторизации\n" +
                 "https://webmarket911.herokuapp.com/api/city - работа с городами, get - все, post - обновление, put - создание \n" +
-                "https://webmarket911.herokuapp.com/api/Others \n";
+                "https://webmarket911.herokuapp.com/api/Others/GetUserFromToken - post запрос,который принимает токен\n" +
+                "https://webmarket911.herokuapp.com/api/reviews/{productId} - get метод принимает id продутка,возращает список отзывов \n" +
+                "https://webmarket911.herokuapp.com/api/reviews - post метод принимает на вход объект типа review и добавляет его в бд \n";
 
             return controllers;
             //return _td.GetString() + " \t" + _sd.ToString() + " \t" + _scd.GetString();

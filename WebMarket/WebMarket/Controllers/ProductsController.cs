@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using FunctionLibraryFS;
+using WebMarket.Logic.AbstractContext;
 
 namespace WebMarket.Controllers
 {
@@ -12,9 +13,9 @@ namespace WebMarket.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly d6h4jeg5tcb9d8Context _context;
+        private readonly AbstractDbContext _context;
 
-        public ProductsController(d6h4jeg5tcb9d8Context context)
+        public ProductsController(AbstractDbContext context)
         {
             _context = context;
         }
@@ -23,14 +24,14 @@ namespace WebMarket.Controllers
         [HttpGet("all")]
         public async Task<ActionResult<string>> GetProduct()
         {
-            var productsList = await _context.Product.ToListAsync();
+            var productsList = await _context.Products.ToListAsync();
             return JsonConvert.SerializeObject(productsList);
         }
 
         [HttpGet("product/{id}")]
         public async Task<ActionResult<string>> GetProduct(int productId)
         {
-            var product = await _context.Product.FirstOrDefaultAsync(p => p.Id == productId);
+            var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == productId);
             return JsonConvert.SerializeObject(product);
         }
 
@@ -39,11 +40,11 @@ namespace WebMarket.Controllers
         [HttpGet("category/{id}")]
         public async Task<ActionResult<string>> GetProductsFromCategory(int categoryId)
         {
-            var selectedProducts = await _context.Product
+            var selectedProducts = await _context.Products
                 .Where(p => p.Category == categoryId)
                 .ToListAsync();
 
-            var result = Say.GetProductsFromCategoryFS(_context.Product, categoryId);
+            var result = ProductControllerFs.GetProductsFromCategoryFS(_context.Products, categoryId);
 
             return JsonConvert.SerializeObject(selectedProducts);
         }
@@ -86,7 +87,7 @@ namespace WebMarket.Controllers
         [HttpPost]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
-            _context.Product.Add(product);
+            _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetProduct", new { id = product.Id }, product);
@@ -96,13 +97,13 @@ namespace WebMarket.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Product>> DeleteProduct(int id)
         {
-            var product = await _context.Product.FindAsync(id);
+            var product = await _context.Products.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
             }
 
-            _context.Product.Remove(product);
+            _context.Products.Remove(product);
             await _context.SaveChangesAsync();
 
             return product;
@@ -110,7 +111,7 @@ namespace WebMarket.Controllers
 
         private bool ProductExists(int id)
         {
-            return _context.Product.Any(e => e.Id == id);
+            return _context.Products.Any(e => e.Id == id);
         }
     }
 }

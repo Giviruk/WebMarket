@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace DataClassLibrary
 {
-    public partial class Deliveries
+    public partial class Delivery
     {
-        public Deliveries()
+        public Delivery()
         {
-            Orders = new HashSet<Orders>();
+            Orders = new HashSet<Order>();
         }
 
         public int Id { get; set; }
@@ -15,6 +15,6 @@ namespace DataClassLibrary
         public string Pointofissue { get; set; }
         public string Addressdelivery { get; set; }
 
-        public virtual ICollection<Orders> Orders { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

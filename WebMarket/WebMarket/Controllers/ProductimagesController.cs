@@ -6,6 +6,7 @@ using DataClassLibrary;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using WebMarket.Logic.AbstractContext;
 
 namespace WebMarket.Controllers
 {
@@ -13,25 +14,25 @@ namespace WebMarket.Controllers
     [ApiController]
     public class ProductimagesController : ControllerBase
     {
-        private readonly d6h4jeg5tcb9d8Context _context;
+        private readonly AbstractDbContext _context;
 
-        public ProductimagesController(d6h4jeg5tcb9d8Context context)
+        public ProductimagesController(AbstractDbContext context)
         {
             _context = context;
         }
 
         // GET: api/Productimages
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Productimages>>> GetProductimages()
+        public async Task<ActionResult<IEnumerable<ProductImage>>> GetProductimages()
         {
-            return await _context.Productimages.ToListAsync();
+            return await _context.ProductImages.ToListAsync();
         }
 
         // GET: api/Productimages/GetProductimages?productId=значение
         [HttpGet("{id}")]
         public async Task<ActionResult<string>> GetProductimages(int productId)
         {
-            var productImages = _context.Productimages
+            var productImages = _context.ProductImages
                 .Where(pI => pI.Productid == productId)
                 .Select(pI => pI.Imageid);
 
@@ -47,7 +48,7 @@ namespace WebMarket.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProductimages(int id, Productimages productimages)
+        public async Task<IActionResult> PutProductimages(int id, ProductImage productimages)
         {
             if (id != productimages.Id)
             {
@@ -79,9 +80,9 @@ namespace WebMarket.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Productimages>> PostProductimages(Productimages productimages)
+        public async Task<ActionResult<ProductImage>> PostProductimages(ProductImage productimages)
         {
-            _context.Productimages.Add(productimages);
+            _context.ProductImages.Add(productimages);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetProductimages", new { id = productimages.Id }, productimages);
@@ -89,15 +90,15 @@ namespace WebMarket.Controllers
 
         // DELETE: api/Productimages/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Productimages>> DeleteProductimages(int id)
+        public async Task<ActionResult<ProductImage>> DeleteProductimages(int id)
         {
-            var productimages = await _context.Productimages.FindAsync(id);
+            var productimages = await _context.ProductImages.FindAsync(id);
             if (productimages == null)
             {
                 return NotFound();
             }
 
-            _context.Productimages.Remove(productimages);
+            _context.ProductImages.Remove(productimages);
             await _context.SaveChangesAsync();
 
             return productimages;
@@ -105,7 +106,7 @@ namespace WebMarket.Controllers
 
         private bool ProductimagesExists(int id)
         {
-            return _context.Productimages.Any(e => e.Id == id);
+            return _context.ProductImages.Any(e => e.Id == id);
         }
     }
 }
