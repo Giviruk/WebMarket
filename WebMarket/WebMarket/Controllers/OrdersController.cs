@@ -8,7 +8,7 @@ using WebMarket.Logic.AbstractContext;
 
 namespace WebMarket.Controllers
 {
-    [Route("api/order")]
+    [Route("api/orders")]
     public class OrdersController : Controller
     {
 
@@ -57,20 +57,51 @@ namespace WebMarket.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]Order value)
+        public IActionResult Post([FromBody]Order value)
         {
+            try
+            {
+                var order = _context.Orders.Find(value.Id);
+                order.Delivery = value.Delivery;
+                order.Status = value.Status;
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Put([FromBody]Order value)
         {
+            try
+            {
+                _context.Orders.Add(value);
+                _context.SaveChanges();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            try
+            {
+                var order = _context.Orders.Find((id));
+                _context.Orders.Remove(order);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
         }
     }
 }

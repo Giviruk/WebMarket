@@ -30,7 +30,8 @@ namespace WebMarket.Controllers
                 "https://webmarket911.herokuapp.com/api/reviews/{productId} - get метод принимает id продутка,возращает список отзывов \n" +
                 "https://webmarket911.herokuapp.com/api/reviews - post метод принимает на вход объект типа review и добавляет его в бд \n" +
                 "https://webmarket911.herokuapp.com/api/Others \n" +
-                "https://webmarket911.herokuapp.com/api/search \n";
+                "https://webmarket911.herokuapp.com/api/search \n" +
+                "https://webmarket911.herokuapp.com/api/orders - get(все ордеры),post - обновление, put - создание\n";
 
             return controllers;
         }
