@@ -22,4 +22,8 @@
     <ProjectReference Include="..\FunctionLibraryFS\FunctionLibraryFS.fsproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DBMigration\" />
+  </ItemGroup>
+
 </Project>

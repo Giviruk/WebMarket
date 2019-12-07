@@ -18,13 +18,20 @@ namespace WebMarket
         public override DbSet<City> Cities { get; set; }
         public override DbSet<Delivery> Deliveries { get; set; }
         public override DbSet<Image> Images { get; set; }
-        public override DbSet<Order> Orders { get; set; }
-        public override DbSet<UserOrder> Ordersofusers { get; set; }
+        //public override DbSet<Order> Orders { get; set; }
+        //public override DbSet<UserOrder> Ordersofusers { get; set; }
         public override DbSet<Product> Products { get; set; }
         public override DbSet<ProductImage> ProductImages { get; set; }
         public override DbSet<Review> Reviews { get; set; }
         public override DbSet<Status> Statuses { get; set; }
         public override DbSet<User> Users { get; set; }
+
+
+
+        public override DbSet<UserOrder> UserOrders { get; set; }
+        public override DbSet<Order> Orders { get; set; }
+        public override DbSet<OrderProduct> OrderProducts { get; set; }
+ 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -106,11 +113,29 @@ namespace WebMarket
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Datecreated).HasColumnName("datecreated");
+                entity.Property(e => e.Address)
+                    .HasColumnName("address")
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.Datecreated)
+                    .HasColumnName("datecreated")
+                    .HasColumnType("timestamp with time zone");
 
                 entity.Property(e => e.Delivery).HasColumnName("delivery");
 
+                entity.Property(e => e.Email)
+                    .HasColumnName("email")
+                    .HasMaxLength(255);
+
                 entity.Property(e => e.Owner).HasColumnName("owner");
+
+                entity.Property(e => e.PayType)
+                    .HasColumnName("payType")
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.PhoneNumber)
+                    .HasColumnName("phoneNumber")
+                    .HasMaxLength(255);
 
                 entity.Property(e => e.Status).HasColumnName("status");
 
@@ -167,9 +192,6 @@ namespace WebMarket
                     .HasColumnName("description")
                     .HasMaxLength(1000);
 
-                entity.Property(e => e.ProductRating)
-                    .HasColumnName("product_rating");
-
                 entity.Property(e => e.Mainpictureurl).HasColumnName("mainpictureurl");
 
                 entity.Property(e => e.Name)
@@ -181,6 +203,8 @@ namespace WebMarket
                 entity.Property(e => e.Producer)
                     .HasColumnName("producer")
                     .HasMaxLength(255);
+
+                entity.Property(e => e.ProductRating).HasColumnName("product_rating");
 
                 entity.HasOne(d => d.CategoryNavigation)
                     .WithMany(p => p.Product)
@@ -212,6 +236,27 @@ namespace WebMarket
                     .WithMany(p => p.ProductImages)
                     .HasForeignKey(d => d.Productid)
                     .HasConstraintName("productimages_productid_fkey");
+            });
+
+            modelBuilder.Entity<OrderProduct>(entity =>
+            {
+                entity.ToTable("productinorder");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Orderid).HasColumnName("orderid");
+
+                entity.Property(e => e.Productid).HasColumnName("productid");
+
+                entity.HasOne(d => d.Order)
+                    .WithMany(p => p.Productinorder)
+                    .HasForeignKey(d => d.Orderid)
+                    .HasConstraintName("productinorder_orderid_fkey");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.OrderProducts)
+                    .HasForeignKey(d => d.Productid)
+                    .HasConstraintName("productinorder_productid_fkey");
             });
 
             modelBuilder.Entity<Review>(entity =>
