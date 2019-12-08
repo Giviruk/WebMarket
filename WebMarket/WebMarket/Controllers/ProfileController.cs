@@ -48,6 +48,7 @@ namespace WebMarket.Controllers
             {
                 var user = await _context.Users.FindAsync(id);
                 var userCity = _context.Cities.Where(c => c.Id == user.City).FirstOrDefault();
+                user.CityNavigation = userCity;
                 if(user == null)
                 {
                     return NotFound();
