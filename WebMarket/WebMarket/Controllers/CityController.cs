@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using DataClassLibrary;
 using Microsoft.AspNetCore.Mvc;
 using WebMarket.Logic.AbstractContext;
@@ -36,7 +37,11 @@ namespace WebMarket.Controllers
         {
             try
             {
-                return Ok(_context.Cities.Find(id));
+                var result = _context.Cities
+                    .Where(c => c.Id == id)
+                    .FirstOrDefault();
+
+                return Ok(result);
             }
             catch (Exception ex)
             {

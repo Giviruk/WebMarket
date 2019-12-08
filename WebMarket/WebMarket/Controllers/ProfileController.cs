@@ -32,7 +32,7 @@ namespace WebMarket.Controllers
             {
                 var users = await _context.Users.ToListAsync();
             
-                return Ok(JsonConvert.SerializeObject(users));
+                return Ok(users);
             }
             catch(Exception ex)
             {
@@ -47,11 +47,12 @@ namespace WebMarket.Controllers
             try
             {
                 var user = await _context.Users.FindAsync(id);
+                var userCity = _context.Cities.Where(c => c.Id == user.City).FirstOrDefault();
                 if(user == null)
                 {
                     return NotFound();
                 }
-                return Ok(JsonConvert.SerializeObject(user));
+                return Ok(user);
             }
             catch(Exception ex)
             {
