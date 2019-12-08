@@ -130,7 +130,7 @@ namespace WebMarket.Controllers
                     _context.Categories.Add(newCategory);
                     _context.SaveChanges();
 
-                    var newCategoryId = _context.Categories.LastOrDefault();
+                    var newCategoryId = _context.Categories.ToList().LastOrDefault().Id;
 
                     transaction.Commit();
                     return Ok(newCategoryId);

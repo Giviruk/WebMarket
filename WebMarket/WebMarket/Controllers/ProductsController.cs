@@ -91,7 +91,7 @@ namespace WebMarket.Controllers
                     _context.Products.Add(newProduct);
                     _context.SaveChanges();
 
-                    var newProductId = _context.Products.LastOrDefault();
+                    var newProductId = _context.Products.ToList().LastOrDefault();
 
                     transaction.Commit();
                     return Ok(newProductId);
