@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using DataClassLibrary;
 using WebMarket.Logic.AbstractContext;
+using System;
 
 namespace WebMarket.Controllers
 {
@@ -105,6 +106,21 @@ namespace WebMarket.Controllers
         private bool CategoriesExists(int id)
         {
             return _context.Categories.Any(e => e.Id == id);
+        }
+
+        [HttpPost]
+        public IActionResult CreateCategory([FromBody]Category newCategory)
+        {
+            try
+            {
+                //if(_context)
+
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
     }
 }
