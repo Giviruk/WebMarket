@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebMarket.Logic.AbstractContext;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 
 namespace WebMarket
 {
@@ -26,7 +27,9 @@ namespace WebMarket
             services.AddTransient<ITransient,TransientDependensy>();
             services.AddScoped<IScoped,ScopedDependency>();
 
-            services.AddControllers();
+            services.AddControllers(option => option.EnableEndpointRouting = false)
+                .SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_3_0)
+                .AddNewtonsoftJson(opt => opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
