@@ -5,6 +5,7 @@ using DataClassLibrary;
 using Microsoft.AspNetCore.Mvc;
 using WebMarket.Logic.AbstractContext;
 using Newtonsoft.Json;
+using Data_Class_Library;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -66,38 +67,13 @@ namespace WebMarket.Controllers
             }
         }
 
-        [HttpPost("send2")]
-        public void MyPost()
-        {
-            var myOrder = new Order()
-            {
-                Owner = null,
-                Status = 1,
-                Datecreated = DateTime.Now,
-                Delivery = null,
-                Address = "Chistai",
-                PayType = "Besplatno",
-                PhoneNumber = "88005553535",
-                Email = "artur@gmail.com",
-            };
-
-            var myProducts = new List<int>()
-                        {
-                            4,
-                            3,
-                            7
-                        };
-
-            var jsonOrder = JsonConvert.SerializeObject(myOrder);
-            var jsonProducts = JsonConvert.SerializeObject(myProducts);
-
-            Post(myOrder, myProducts);
-        }
-
         // POST api/values
         [HttpPost("send")]
-        public IActionResult Post([FromBody]Order order, [FromBody]List<int> products)
+        public IActionResult Post([FromBody]OrderWithProductList orderWithProductList)
         {
+            var order = orderWithProductList.Order;
+            var products = orderWithProductList.ProductIdList;
+
             using (var transaction = _context.Database.BeginTransaction())
             {
                 try
