@@ -9,6 +9,7 @@ namespace DataClassLibrary
         {
             ProductImages = new HashSet<ProductImage>();
             Review = new HashSet<Review>();
+            OrderProducts = new HashSet<OrderProduct>();
         }
 
         public int Id { get; set; }
@@ -25,6 +26,7 @@ namespace DataClassLibrary
         public virtual Category CategoryNavigation { get; set; }
         public virtual Image MainpictureurlNavigation { get; set; }
         public virtual ICollection<ProductImage> ProductImages { get; set; }
+        public virtual ICollection<OrderProduct> OrderProducts { get; set; }
         public virtual ICollection<Review> Review { get; set; }
     }
 }
