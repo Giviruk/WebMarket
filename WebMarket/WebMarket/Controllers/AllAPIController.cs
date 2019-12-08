@@ -33,7 +33,13 @@ namespace WebMarket.Controllers
                 "https://webmarket911.herokuapp.com/api/search \n" +
                 "https://webmarket911.herokuapp.com/api/orders - get(все ордеры),post - обновление, put - создание\n" +
                 "https://webmarket911.herokuapp.com/api/orders/send - post метод,который принимает на вход объект типа OrderWithProductList \n" +
-                "https://webmarket911.herokuapp.com/api/orders/get/{userId} -get метод,который принимает на вход id пользователя и возвращает список его заказов \n";
+                "https://webmarket911.herokuapp.com/api/orders/get/{userId} -get метод,который принимает на вход id пользователя и возвращает список его заказов \n" +
+                "https://webmarket911.herokuapp.com/api/Categories/addCategory - post метод,который принимает на вход категорию,возвращает id новой категории.Если такое имя категории уже есть в бд, выкидывает ошибку. \n" +
+                "https://webmarket911.herokuapp.com/api/Categories/delete/{id} - delete метод,принимает на вход id категории \n" +
+                "https://webmarket911.herokuapp.com/api/Categories/update/{id} - put метод, принимает id категории и [FromBody]Category саму категорию \n" +
+                "https://webmarket911.herokuapp.com/api/Products/update/{id} -put метод,принимает id категори и [FromBody]Product сам продукт \n" +
+                "https://webmarket911.herokuapp.com/api/Products/delete/{id} -delete метод,который принимает на вход id товара и удаляет из бд \n" +
+                "https://webmarket911.herokuapp.com/api/Products/addProduct -post метод,который добавляет новый продукт в бд и возвращает его id \n";
 
             return controllers;
         }

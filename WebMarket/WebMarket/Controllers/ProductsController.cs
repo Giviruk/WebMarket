@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using FunctionLibraryFS;
 using WebMarket.Logic.AbstractContext;
+using System;
 
 namespace WebMarket.Controllers
 {
@@ -52,49 +53,59 @@ namespace WebMarket.Controllers
         // PUT: api/Products/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(int id, Product product)
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> UpdateProduct(int id,[FromBody]Product modifiedProduct)
         {
-            if (id != product.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(product).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+                if (modifiedProduct.Id != id || modifiedProduct.Category == null)
+                    throw new ArgumentException();
 
-            return NoContent();
+                _context.Entry(modifiedProduct).State = EntityState.Modified;
+
+                _context.Products.Update(modifiedProduct);
+                await _context.SaveChangesAsync();
+
+                return Ok(modifiedProduct.Id);
+
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         // POST: api/Products
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        [HttpPost("addProduct")]
+        public  ActionResult<string> AddProduct([FromBody]Product newProduct)
         {
-            _context.Products.Add(product);
-            await _context.SaveChangesAsync();
+            using (var transaction = _context.Database.BeginTransaction())
+            {
+                try
+                {
+                    if (newProduct.Category == null)
+                        throw new ArgumentException();
 
-            return CreatedAtAction("GetProduct", new { id = product.Id }, product);
+                    _context.Products.Add(newProduct);
+                    _context.SaveChanges();
+
+                    var newProductId = _context.Products.LastOrDefault();
+
+                    transaction.Commit();
+                    return Ok(newProductId);
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return BadRequest(ex);
+                }
+            }
         }
 
         // DELETE: api/Products/5
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
         public async Task<ActionResult<Product>> DeleteProduct(int id)
         {
             var product = await _context.Products.FindAsync(id);
