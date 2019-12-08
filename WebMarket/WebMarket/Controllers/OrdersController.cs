@@ -4,8 +4,8 @@ using System.Linq;
 using DataClassLibrary;
 using Microsoft.AspNetCore.Mvc;
 using WebMarket.Logic.AbstractContext;
-using Newtonsoft.Json;
 using Data_Class_Library;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -69,8 +69,10 @@ namespace WebMarket.Controllers
 
         // POST api/values
         [HttpPost("send")]
-        public IActionResult Post([FromBody]OrderWithProductList orderWithProductList)
+        public IActionResult Post([FromBody]string orderWithProductListSerealized)
         {
+            OrderWithProductList orderWithProductList = Newtonsoft.Json.JsonConvert.DeserializeObject<OrderWithProductList>(orderWithProductListSerealized);
+
             var order = orderWithProductList.Order;
             var products = orderWithProductList.ProductIdList;
 
