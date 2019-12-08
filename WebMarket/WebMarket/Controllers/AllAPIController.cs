@@ -33,7 +33,8 @@ namespace WebMarket.Controllers
                 "https://webmarket911.herokuapp.com/api/search \n" +
                 "https://webmarket911.herokuapp.com/api/orders - get(все ордеры),post - обновление, put - создание\n" +
                 "https://webmarket911.herokuapp.com/api/orders/send - post метод,который принимает на вход объект типа OrderWithProductList \n" +
-                "https://webmarket911.herokuapp.com/api/orders/get/{userId} -get метод,который принимает на вход id пользователя и возвращает список его заказов \n" +
+                "https://webmarket911.herokuapp.com/api/orders/getFromId/{userId} -get метод,который принимает на вход id пользователя и возвращает список его заказов \n" +
+                "https://webmarket911.herokuapp.com/api/orders/getFromEmail/{userEmail} -get метод,который принимает на вход email пользователя и возвращает список его заказов,если пользователь зареган,кидает null \n" +
                 "https://webmarket911.herokuapp.com/api/Categories/addCategory - post метод,который принимает на вход категорию,возвращает id новой категории.Если такое имя категории уже есть в бд, выкидывает ошибку. \n" +
                 "https://webmarket911.herokuapp.com/api/Categories/delete/{id} - delete метод,принимает на вход id категории \n" +
                 "https://webmarket911.herokuapp.com/api/Categories/update/{id} - put метод, принимает id категории и [FromBody]Category саму категорию \n" +
