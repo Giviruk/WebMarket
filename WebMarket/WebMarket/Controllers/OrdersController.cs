@@ -69,7 +69,7 @@ namespace WebMarket.Controllers
 
         // POST api/values
         [HttpPost("send")]
-        public IActionResult Post([FromBody]string orderWithProductListSerealized)
+        public ActionResult<string> Post([FromBody]string orderWithProductListSerealized)
         {
             OrderWithProductList orderWithProductList = Newtonsoft.Json.JsonConvert.DeserializeObject<OrderWithProductList>(orderWithProductListSerealized);
 
@@ -103,7 +103,7 @@ namespace WebMarket.Controllers
                     }
 
                     transaction.Commit();
-                    return Ok();
+                    return Ok(orderId);
                 }
                 catch (Exception ex)
                 {
