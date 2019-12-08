@@ -24,7 +24,7 @@ namespace WebMarket.Controllers
         [HttpGet("all")]
         public async Task<ActionResult<string>> GetCategories()
         {
-            var selectedData =  await _context.Categories.ToListAsync();
+            var selectedData = await _context.Categories.ToListAsync();
 
             return JsonConvert.SerializeObject(selectedData);
         }
@@ -46,21 +46,23 @@ namespace WebMarket.Controllers
         // PUT: api/Categories/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCategories(int id, Category categories)
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> UpdateCategory(int id, [FromBody]Category modifyedCategory)
         {
-            if (id != categories.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(categories).State = EntityState.Modified;
-
             try
             {
+                if (id != modifyedCategory.Id)
+                    return BadRequest();
+
+
+                _context.Entry(modifyedCategory).State = EntityState.Modified;
+
+                _context.Categories.Update(modifyedCategory);
                 await _context.SaveChangesAsync();
+
+                return Ok(modifyedCategory.Id);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
                 if (!CategoriesExists(id))
                 {
@@ -68,11 +70,9 @@ namespace WebMarket.Controllers
                 }
                 else
                 {
-                    throw;
+                    return BadRequest();
                 }
             }
-
-            return NoContent();
         }
 
         // POST: api/Categories
@@ -88,19 +88,28 @@ namespace WebMarket.Controllers
         }
 
         // DELETE: api/Categories/5
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
         public async Task<ActionResult<Category>> DeleteCategories(int id)
         {
-            var categories = await _context.Categories.FindAsync(id);
-            if (categories == null)
+            try
             {
-                return NotFound();
+                var categories = await _context.Categories.FindAsync(id);
+                if (categories == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Categories.Remove(categories);
+                await _context.SaveChangesAsync();
+
+                return Ok(id);
             }
+            catch(Exception ex)
+            {
+                return BadRequest(ex);
+            }
+            
 
-            _context.Categories.Remove(categories);
-            await _context.SaveChangesAsync();
-
-            return categories;
         }
 
         private bool CategoriesExists(int id)
@@ -108,18 +117,29 @@ namespace WebMarket.Controllers
             return _context.Categories.Any(e => e.Id == id);
         }
 
-        [HttpPost]
-        public IActionResult CreateCategory([FromBody]Category newCategory)
+        [HttpPost("addCategory")]
+        public IActionResult AddCategory([FromBody]Category newCategory)
         {
-            try
+            using (var transaction = _context.Database.BeginTransaction())
             {
-                //if(_context)
+                try
+                {
+                    if (_context.Categories.Select(c => c.Name).Contains(newCategory.Name))
+                        throw new Exception();
 
-                return Ok();
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex);
+                    _context.Categories.Add(newCategory);
+                    _context.SaveChanges();
+
+                    var newCategoryId = _context.Categories.LastOrDefault();
+
+                    transaction.Commit();
+                    return Ok(newCategoryId);
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return BadRequest(ex);
+                }
             }
         }
     }

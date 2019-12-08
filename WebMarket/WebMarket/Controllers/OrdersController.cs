@@ -37,8 +37,8 @@ namespace WebMarket.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("get/{userId}")]
-        public ActionResult<string> GetUserOrders(int userId)
+        [HttpGet("getFromId/{userId}")]
+        public ActionResult<string> GetUserOrdersFromUserId(int userId)
         {
             try
             {
@@ -60,6 +60,41 @@ namespace WebMarket.Controllers
                     .ToList();
 
                 return Ok(userOrders);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
+        [HttpGet("getFromEmail/{userEmail}")]
+        public ActionResult<string> GetUserOrderFromEmail(string userEmail)
+        {
+            try
+            {
+                if (_context.Users.Where(u => u.Login == userEmail).Count() != 0)
+                    return BadRequest(null);
+
+                var ordersList = _context.Orders.Where(o => o.Email == userEmail).ToList();
+
+                var orderId = ordersList.FirstOrDefault().Id;
+
+                var orderProducts = _context.OrderProducts
+                    .Where(op => op.Orderid == orderId)
+                    .ToList();
+
+                var statusCodes = _context.Statuses.ToList();
+                var productIds = new List<int?>();
+
+                foreach (var orderProduct in orderProducts)
+                    if (!productIds.Contains(orderProduct.Productid))
+                        productIds.Add(orderProduct.Id);
+
+                var proudcts = _context.Products
+                    .Where(p => orderProducts.Select(op => op.Productid).Contains(p.Id))
+                    .ToList();
+
+                return Ok(ordersList);
             }
             catch (Exception ex)
             {
