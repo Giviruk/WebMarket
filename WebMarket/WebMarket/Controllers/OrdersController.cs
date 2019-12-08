@@ -66,33 +66,33 @@ namespace WebMarket.Controllers
             }
         }
 
-        //[HttpPost("send2")]
-        //public void MyPost()
-        //{
-        //    var myOrder = new Order()
-        //    {
-        //        Owner = 41,
-        //        Status = 1,
-        //        Datecreated = DateTime.Now,
-        //        Delivery = null,
-        //        Address = "Chistai",
-        //        PayType = "Besplatno",
-        //        PhoneNumber = "88005553535",
-        //        Email = "artur@gmail.com",
-        //    };
+        [HttpPost("send2")]
+        public void MyPost()
+        {
+            var myOrder = new Order()
+            {
+                Owner = null,
+                Status = 1,
+                Datecreated = DateTime.Now,
+                Delivery = null,
+                Address = "Chistai",
+                PayType = "Besplatno",
+                PhoneNumber = "88005553535",
+                Email = "artur@gmail.com",
+            };
 
-        //    var myProducts = new List<int>()
-        //                {
-        //                    4,
-        //                    3,
-        //                    7
-        //                };
+            var myProducts = new List<int>()
+                        {
+                            4,
+                            3,
+                            7
+                        };
 
-        //    var jsonOrder = JsonConvert.SerializeObject(myOrder);
-        //    var jsonProducts = JsonConvert.SerializeObject(myProducts);
+            var jsonOrder = JsonConvert.SerializeObject(myOrder);
+            var jsonProducts = JsonConvert.SerializeObject(myProducts);
 
-        //    Post(myOrder, myProducts);
-        //}
+            Post(myOrder, myProducts);
+        }
 
         // POST api/values
         [HttpPost("send")]
@@ -104,22 +104,25 @@ namespace WebMarket.Controllers
                 {
                     _context.Orders.Add(order);
                     _context.SaveChanges();
-                    int userId = (int)order.Owner;
+                    int? userId =  order.Owner;
                     int orderId = _context.Orders.ToList().LastOrDefault().Id;
 
-                    var userOdrderList = new List<UserOrder>();
-                    var orderProductsList = new List<OrderProduct>();
-
-                    foreach (var p in products)
+                    if (userId != null)
                     {
-                        orderProductsList.Add(new OrderProduct() { Orderid = orderId, Productid = p });
+                        var userOdrderList = new List<UserOrder>();
+                        var orderProductsList = new List<OrderProduct>();
+
+                        foreach (var p in products)
+                        {
+                            orderProductsList.Add(new OrderProduct() { Orderid = orderId, Productid = p });
+                        }
+
+                        _context.OrderProducts.AddRange(orderProductsList);
+                        _context.SaveChanges();
+
+                        _context.UserOrders.Add(new UserOrder() { Userid = userId, Orderid = orderId });
+                        _context.SaveChanges();
                     }
-
-                    _context.OrderProducts.AddRange(orderProductsList);
-                    _context.SaveChanges();
-
-                    _context.UserOrders.Add(new UserOrder() { Userid = userId, Orderid = orderId });
-                    _context.SaveChanges();
 
                     transaction.Commit();
                     return Ok();
