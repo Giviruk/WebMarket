@@ -9,17 +9,17 @@ namespace WebMarket.Logic.Email
 {
     public static class EmailSender
     {
-        public static void SendEmail(string toAddress,string UserName)
+        public static void SendEmail(string toAddress,string UserName,string message)
         { 
             MailAddress _fromMailAddress = new MailAddress("web.market.api.project@gmail.com");
-            string password = "Спрашивайте у Артура";
+            string password = "59246a01b58aadced8f913a1350af1ca65465b378b26b9f6ed388845695b3bdf";
             MailAddress _toAddress = new MailAddress(toAddress, UserName);
 
             using(MailMessage mailMessage = new MailMessage(_fromMailAddress, _toAddress))
             using(SmtpClient smtpClient = new SmtpClient())
             {
-                mailMessage.Subject = "Курсач";
-                mailMessage.Body = "Слыш работать";
+                mailMessage.Subject = "Заказ из интернет магазина";
+                mailMessage.Body = message;
 
                 smtpClient.Host = "smtp.gmail.com";
                 smtpClient.Port = 587;

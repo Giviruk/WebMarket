@@ -53,40 +53,30 @@ namespace WebMarket.Controllers
         }
 
         [HttpGet("product/{id}/products")]
-        public  ActionResult<string> GetPoductsWith(int id)
+        public ActionResult<string> GetPoductsWith(int id)
         {
-            try
+            var allProductOrders = _context.OrderProducts.ToList();
+            var productInOrder = _context.OrderProducts.Where(op => op.Productid == 7).ToList();
+            var ordersWithRequestedProduct = _context.Orders.Where(order => productInOrder.Select(op => op.Orderid).Contains(order.Id)).ToList();
+            var orderProductsWhichBoughtWithRequest = ordersWithRequestedProduct.Select(x => x.Productinorder).SelectMany(x => x).Where(x => x.Productid != id).ToList();
+            var productIds = orderProductsWhichBoughtWithRequest.Select(op => op.Productid).ToList();
+            var dict = new Dictionary<int, int>();
+            foreach (int productId in productIds)
             {
-                var allProductOrders = _context.OrderProducts.ToList();
-                var productInOrder = _context.OrderProducts.Where(op => op.Productid == id).ToList();
-                var ordersWithRequestedProduct = _context.Orders.Where(order => productInOrder.Select(op => op.Orderid).Contains(order.Id)).ToList();
-                var orderProductsWhichBoughtWithRequest = ordersWithRequestedProduct.Select(x => x.Productinorder).SelectMany(x => x).Where(x=>x.Productid!=id).ToList();
-                var productIds = orderProductsWhichBoughtWithRequest.Select(op => op.Productid).ToList();
-                var dict = new Dictionary<int, int>();
-                foreach(int productId in productIds)
-
-                {
-                    if (!dict.ContainsKey((int)productId))
-                        dict.Add(productId, 1);
-                    else
-                        dict[productId]++;
-                }
-                var requestedIds = dict.OrderByDescending(pair => pair.Value).Select(pair=>pair.Key).Take(3).ToList();
-                var result = new List<Product>();
-                foreach(var reqId in requestedIds)
-                    result.Add(_context.Products.Find(reqId));
-                var images = _context.Images.ToList();
-                var images2 = _context.ProductImages.ToList();
-
-                
-                return Ok(result);
+                if (!dict.ContainsKey((int)productId))
+                    dict.Add(productId, 1);
+                else
+                    dict[productId]++;
             }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
+            var requestedIds = dict.OrderByDescending(pair => pair.Value).Select(pair => pair.Key).Take(3).ToList();
+            var result = new List<Product>();
+            foreach (var reqId in requestedIds)
+                result.Add(_context.Products.Find(reqId));
+            var images = _context.Images.ToList();
+            var images2 = _context.ProductImages.ToList();
+            return JsonConvert.SerializeObject(result);
         }
-        
+
 
         // GET: api/Products/5
         [HttpGet("category/{id}")]
