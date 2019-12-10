@@ -4,6 +4,7 @@ using System.Linq;
 using DataClassLibrary;
 using Microsoft.AspNetCore.Mvc;
 using DataClassLibrary.DbContext;
+using WebMarket.Logic.Email;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -65,8 +66,8 @@ namespace WebMarket.Controllers
             }
         }
 
-        [HttpGet("getFromEmail/{userEmail}")]
-        public ActionResult<string> GetUserOrderFromEmail(string userEmail)
+        [HttpPost("getFromEmail")]
+        public ActionResult<string> GetUserOrderFromEmail([FromBody]string userEmail)
         {
             try
             {
@@ -75,10 +76,10 @@ namespace WebMarket.Controllers
 
                 var ordersList = _context.Orders.Where(o => o.Email == userEmail).ToList();
 
-                var orderId = ordersList.FirstOrDefault().Id;
+                var orderId = ordersList.ToList().FirstOrDefault().Id;
 
                 var orderProducts = _context.OrderProducts
-                    .Where(op => op.Orderid == orderId)
+                    //.Where(op => op.Orderid == orderId)
                     .ToList();
 
                 var statusCodes = _context.Statuses.ToList();
@@ -87,6 +88,7 @@ namespace WebMarket.Controllers
                 foreach (var orderProduct in orderProducts)
                     if (!productIds.Contains(orderProduct.Productid))
                         productIds.Add(orderProduct.Id);
+
 
                 var proudcts = _context.Products
                     .Where(p => orderProducts.Select(op => op.Productid).Contains(p.Id))
@@ -136,6 +138,8 @@ namespace WebMarket.Controllers
                     }
 
                     transaction.Commit();
+
+                    EmailSender.SendEmail(order.Email, "Уважаемый покупатель \n","Заказ оформлен");
                     return Ok(orderId);
                 }
                 catch (Exception ex)

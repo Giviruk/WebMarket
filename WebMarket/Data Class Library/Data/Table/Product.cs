@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace DataClassLibrary
 {
@@ -25,6 +26,7 @@ namespace DataClassLibrary
         public virtual Category CategoryNavigation { get; set; }
         public virtual Image MainpictureurlNavigation { get; set; }
         public virtual ICollection<ProductImage> ProductImages { get; set; }
+        [JsonIgnore]
         public virtual ICollection<OrderProduct> OrderProducts { get; set; }
         public virtual ICollection<Review> Review { get; set; }
     }

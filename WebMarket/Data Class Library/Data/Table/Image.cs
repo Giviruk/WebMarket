@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace DataClassLibrary
 {
@@ -14,7 +15,10 @@ namespace DataClassLibrary
         public string Imagepath { get; set; }
         public string Imagename { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Product> Product { get; set; }
+
+        [JsonIgnore]
         public virtual ICollection<ProductImage> Productimages { get; set; }
     }
 }
