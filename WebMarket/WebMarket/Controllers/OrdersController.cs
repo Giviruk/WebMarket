@@ -115,24 +115,24 @@ namespace WebMarket.Controllers
             {
                 try
                 {
+                    var userOdrderList = new List<UserOrder>();
+                    var orderProductsList = new List<OrderProduct>();
+
                     _context.Orders.Add(order);
                     _context.SaveChanges();
                     int? userId =  order.Owner;
                     int orderId = _context.Orders.ToList().LastOrDefault().Id;
 
-                    if (userId != null)
+                    foreach (var p in products)
                     {
-                        var userOdrderList = new List<UserOrder>();
-                        var orderProductsList = new List<OrderProduct>();
+                        orderProductsList.Add(new OrderProduct() { Orderid = orderId, Productid = p });
+                    }
 
-                        foreach (var p in products)
-                        {
-                            orderProductsList.Add(new OrderProduct() { Orderid = orderId, Productid = p });
-                        }
+                    _context.OrderProducts.AddRange(orderProductsList);
+                    _context.SaveChanges();
 
-                        _context.OrderProducts.AddRange(orderProductsList);
-                        _context.SaveChanges();
-
+                    if (userId != null)
+                    { 
                         _context.UserOrders.Add(new UserOrder() { Userid = userId, Orderid = orderId });
                         _context.SaveChanges();
                     }
