@@ -51,6 +51,17 @@ namespace WebMarket.Controllers
             try
             {
                 var orders = await _context.Orders.ToListAsync();
+                var orderProducts = await _context.OrderProducts.ToListAsync();
+                foreach (var order in orders)
+                {
+                    foreach (var orderProduct in orderProducts)
+                    {
+                        if (orderProduct.Orderid == order.Id)
+                        {
+                            order.Productinorder.Add(orderProduct);
+                        }
+                    }
+                }
                 var productsInOrders = new Dictionary<int, int>();
                 foreach (var order in orders)
                 {
@@ -59,7 +70,12 @@ namespace WebMarket.Controllers
                     {
                         foreach (var p in _products)
                         {
-                            productsInOrders[p] += 1;
+                            if(productsInOrders.Keys.Contains(p))
+                                productsInOrders[p] += 1;
+                            else
+                            {
+                                productsInOrders.Add(p,1);
+                            }
                         }
                     }
                 }
