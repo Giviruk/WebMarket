@@ -26,8 +26,15 @@ namespace WebMarket.Controllers
         [HttpGet("all")]
         public async Task<ActionResult<string>> GetProduct()
         {
-            var productsList = await _context.Products.ToListAsync();
-            return JsonConvert.SerializeObject(productsList);
+            try
+            {
+                var productsList = await _context.Products.ToListAsync();
+                return Ok(productsList);
+            }
+            catch (Exception exx)
+            {
+                return BadRequest(exx);
+            }
         }
 
         [HttpGet("product/{id}")]
