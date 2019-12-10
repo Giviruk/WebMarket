@@ -5,6 +5,7 @@ using DataClassLibrary;
 using Microsoft.AspNetCore.Mvc;
 using DataClassLibrary.DbContext;
 using WebMarket.Logic.Email;
+using System.Text;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -139,7 +140,20 @@ namespace WebMarket.Controllers
 
                     transaction.Commit();
 
-                    EmailSender.SendEmail(order.Email, "Уважаемый покупатель \n","Заказ оформлен");
+                    var result = _context.Products.Where(p => products.Contains(p.Id)).Select(p => p.Name).Distinct();
+
+                    var messageBody = new StringBuilder();
+
+                    messageBody.Append($"Ваш заказ по номеру - {orderId} оформлен.\n\n\n");
+
+                    foreach(var p in result)
+                    {
+                        messageBody.Append($"{p} \n");
+                    }
+
+                    messageBody.Append("Спасибо за покупку!");
+
+                    EmailSender.SendEmail(order.Email, "Уважаемый покупатель \n",messageBody.ToString());
                     return Ok(orderId);
                 }
                 catch (Exception ex)
