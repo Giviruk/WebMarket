@@ -106,16 +106,16 @@ namespace WebMarket.Controllers
 
         // DELETE: api/Products/5
         [HttpDelete("delete/{id}")]
-        public async Task<ActionResult<Product>> DeleteProduct(int id)
+        public  ActionResult<Product> DeleteProduct(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product =  _context.Products.Find(id);
             if (product == null)
             {
                 return NotFound();
             }
 
             _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
+             _context.SaveChanges();
 
             return product;
         }
