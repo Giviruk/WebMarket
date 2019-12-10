@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using FunctionLibraryFS;
 using WebMarket.Logic.AbstractContext;
 using System;
+using System.Collections.Generic;
 
 namespace WebMarket.Controllers
 {
@@ -36,6 +37,58 @@ namespace WebMarket.Controllers
             return JsonConvert.SerializeObject(product);
         }
 
+        [HttpGet("product/{id}/products")]
+        public async Task<ActionResult<string>> GetPoductsWith(int productId)
+        {
+            try
+            {
+                var orders = await _context.Orders.ToListAsync();
+                var productsInOrders = new Dictionary<int, int>();
+                foreach (var order in orders)
+                {
+                    var _products = order.Productinorder.Select(x => x.Id);
+                    if (_products.Contains(productId))
+                    {
+                        foreach (var p in _products)
+                        {
+                            productsInOrders[p] += 1;
+                        }
+                    }
+                }
+                var sortedDictionary = productsInOrders.OrderByDescending(x => x.Value).ToList();
+                if (sortedDictionary.Count > 3)
+                {
+                    sortedDictionary = sortedDictionary.Take(3).ToList();
+                }
+
+                if (sortedDictionary.Count == 2)
+                {
+                    sortedDictionary = sortedDictionary.Take(2).ToList();
+                }
+
+                if (sortedDictionary.Count == 1)
+                {
+                    sortedDictionary.Add(sortedDictionary[0]);
+                }
+
+                if (sortedDictionary.Count == 0)
+                {
+                    return Ok();
+                }
+                var products = new List<Product>();
+                for (var i = 0; i < sortedDictionary.Count; i++)
+                {
+                    products.Add(_context.Products.Find(sortedDictionary[i].Key));
+                }
+
+                return Ok(products);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+        
 
         // GET: api/Products/5
         [HttpGet("category/{id}")]
