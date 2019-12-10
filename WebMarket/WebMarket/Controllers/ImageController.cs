@@ -49,7 +49,9 @@ namespace WebMarket.Controllers
         {
             try
             {
-                _context.Images.Add(image);
+                var _image = new Image();
+                _image.Imagepath = image.Imagepath;
+                _context.Images.Add(_image);
                 _context.SaveChanges();
                 return Ok(_context.Images.Last());
             }

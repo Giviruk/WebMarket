@@ -5,7 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using DataClassLibrary;
 using DataClassLibrary.DbContext;
+using FunctionLibraryFS;
 using System;
+using Microsoft.FSharp.Core;
 
 namespace WebMarket.Controllers
 {
@@ -47,42 +49,52 @@ namespace WebMarket.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("update/{id}")]
-        public async Task<IActionResult> UpdateCategory(int id, [FromBody]Category modifyedCategory)
+        public  IActionResult UpdateCategory(int id, [FromBody]Category modifyedCategory)
         {
-            try
-            {
-                if (id != modifyedCategory.Id)
-                    return BadRequest();
+            var result = FunctionLibraryFS.CategoryControllerFs.UpdateProduct(_context, id, modifyedCategory);
 
+            if (FSharpOption<int>.get_IsSome(result))
+                return Ok(result.Value);
+            else
+                return BadRequest();
+            
+            //try
+            //{
+            //    var category = _context.Categories.Find(id);
 
-                _context.Entry(modifyedCategory).State = EntityState.Modified;
+            //    if (id != modifyedCategory.Id)
+            //        return BadRequest();
 
-                _context.Categories.Update(modifyedCategory);
-                await _context.SaveChangesAsync();
+            //    category.Name = modifyedCategory.Name;
+            //    category.Characteristics = modifyedCategory.Characteristics;
+            //    category.Product = modifyedCategory.Product; ;
+            //    _context.SaveChanges();
+            //    _context.Entry(category).State = EntityState.Modified;
 
-                return Ok(modifyedCategory.Id);
-            }
-            catch (Exception ex)
-            {
-                if (!CategoriesExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    return BadRequest();
-                }
-            }
+            //    return Ok(modifyedCategory.Id);
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    if (!CategoriesExists(id))
+            //    {
+            //        return NotFound();
+            //    }
+            //    else
+            //    {
+            //        return BadRequest();
+            //    }
+            //}
         }
 
         // POST: api/Categories
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Category>> PostCategories(Category categories)
+        public  ActionResult<Category> PostCategories(Category categories)
         {
             _context.Categories.Add(categories);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
 
             return CreatedAtAction("GetCategories", new { id = categories.Id }, categories);
         }
