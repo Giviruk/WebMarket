@@ -56,14 +56,27 @@ namespace WebMarket.Controllers
         {
             try
             {
-                var product = _context.Categories.Find(id);
+                var product = _context.Products.Find(id);
 
                 if (modifiedProduct.Id != id || modifiedProduct.Category == null)
                     throw new ArgumentException();
 
-                _context.Entry(modifiedProduct).State = EntityState.Modified;
+                product.Category = modifiedProduct.Category;
+                product.CategoryNavigation = modifiedProduct.CategoryNavigation;
+                product.Characteristics = modifiedProduct.Characteristics;
+                product.Description = modifiedProduct.Description;
+                product.Mainpictureurl = modifiedProduct.Mainpictureurl;
+                product.MainpictureurlNavigation = modifiedProduct.MainpictureurlNavigation;
+                product.Name = modifiedProduct.Name;
+                product.OrderProducts = modifiedProduct.OrderProducts;
+                product.Price = modifiedProduct.Price;
+                product.Producer = modifiedProduct.Producer;
+                product.ProductImages = modifiedProduct.ProductImages;
+                product.ProductRating = modifiedProduct.ProductRating;
+                product.Review = modifiedProduct.Review;              
 
                 _context.SaveChanges();
+                _context.Entry(modifiedProduct).State = EntityState.Modified;
 
                 return Ok(modifiedProduct.Id);
 

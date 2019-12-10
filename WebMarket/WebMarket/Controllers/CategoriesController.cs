@@ -58,20 +58,11 @@ namespace WebMarket.Controllers
                 if (id != modifyedCategory.Id)
                     return BadRequest();
 
-                category = modifyedCategory;
-                _context.Categories.Update(category);
+                category.Name = modifyedCategory.Name;
+                category.Characteristics = modifyedCategory.Characteristics;
+                category.Product = modifyedCategory.Product; ;
                 _context.SaveChanges();
-
-                //category.Name = modifyedCategory.Name;
-                //category.Characteristics = modifyedCategory.Characteristics;
-                //category.Product = modifyedCategory.Product;;
-                //_context.SaveChanges();
-                //_context.Entry(category).State = EntityState.Modified;
-
-                //_context.Entry(modifyedCategory).State = EntityState.Modified;
-
-                //_context.Categories.Update(modifyedCategory);
-                //_context.SaveChanges();
+                _context.Entry(category).State = EntityState.Modified;
 
                 return Ok(modifyedCategory.Id);
 
