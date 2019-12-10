@@ -1,4 +1,5 @@
-﻿
+﻿using Newtonsoft.Json;
+
 namespace DataClassLibrary
 {
     public partial class ProductImage
@@ -8,6 +9,8 @@ namespace DataClassLibrary
         public int? Imageid { get; set; }
 
         public virtual Image Image { get; set; }
+
+        [JsonIgnore]
         public virtual Product Product { get; set; }
     }
 }
