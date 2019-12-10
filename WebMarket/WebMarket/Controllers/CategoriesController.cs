@@ -5,7 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using DataClassLibrary;
 using DataClassLibrary.DbContext;
+using FunctionLibraryFS;
 using System;
+using Microsoft.FSharp.Core;
 
 namespace WebMarket.Controllers
 {
@@ -49,35 +51,40 @@ namespace WebMarket.Controllers
         [HttpPut("update/{id}")]
         public  IActionResult UpdateCategory(int id, [FromBody]Category modifyedCategory)
         {
-            var category = _context.Categories.Find(id);
+            var result = FunctionLibraryFS.CategoryControllerFs.UpdateProduct(_context, id, modifyedCategory);
 
-            var jsoned = JsonConvert.SerializeObject(category);
+            if (FSharpOption<int>.get_IsSome(result))
+                return Ok(result.Value);
+            else
+                return BadRequest();
+            
+            //try
+            //{
+            //    var category = _context.Categories.Find(id);
 
-            try
-            {
-                if (id != modifyedCategory.Id)
-                    return BadRequest();
+            //    if (id != modifyedCategory.Id)
+            //        return BadRequest();
 
-                category.Name = modifyedCategory.Name;
-                category.Characteristics = modifyedCategory.Characteristics;
-                category.Product = modifyedCategory.Product; ;
-                _context.SaveChanges();
-                _context.Entry(category).State = EntityState.Modified;
+            //    category.Name = modifyedCategory.Name;
+            //    category.Characteristics = modifyedCategory.Characteristics;
+            //    category.Product = modifyedCategory.Product; ;
+            //    _context.SaveChanges();
+            //    _context.Entry(category).State = EntityState.Modified;
 
-                return Ok(modifyedCategory.Id);
+            //    return Ok(modifyedCategory.Id);
 
-            }
-            catch (Exception ex)
-            {
-                if (!CategoriesExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    return BadRequest();
-                }
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    if (!CategoriesExists(id))
+            //    {
+            //        return NotFound();
+            //    }
+            //    else
+            //    {
+            //        return BadRequest();
+            //    }
+            //}
         }
 
         // POST: api/Categories

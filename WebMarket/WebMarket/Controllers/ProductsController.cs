@@ -46,12 +46,12 @@ namespace WebMarket.Controllers
         }
 
         [HttpGet("product/{id}/products")]
-        public async Task<ActionResult<string>> GetPoductsWith(int id)
+        public  ActionResult<string> GetPoductsWith(int id)
         {
             try
             {
-                var orders = await _context.Orders.ToListAsync();
-                var orderProducts = await _context.OrderProducts.ToListAsync();
+                var orders =  _context.Orders.ToList();
+                var orderProducts =  _context.OrderProducts.ToList();
                 foreach (var order in orders)
                 {
                     foreach (var orderProduct in orderProducts)
