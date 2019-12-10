@@ -42,7 +42,7 @@ namespace WebMarket.Controllers
 
             product.MainpictureurlNavigation = _context.Images.Find(product.Mainpictureurl);
             product.ProductImages = images;
-            return JsonConvert.SerializeObject(product);
+            return Ok(product);
         }
 
         [HttpGet("product/{id}/products")]
