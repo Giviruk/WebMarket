@@ -70,11 +70,14 @@ namespace WebMarket.Controllers
                     {
                         foreach (var p in _products)
                         {
-                            if(productsInOrders.Keys.Contains(p))
-                                productsInOrders[p] += 1;
-                            else
+                            if (p != id)
                             {
-                                productsInOrders.Add(p,1);
+                                if (productsInOrders.Keys.Contains(p))
+                                    productsInOrders[p] += 1;
+                                else
+                                {
+                                    productsInOrders.Add(p, 1);
+                                }
                             }
                         }
                     }
