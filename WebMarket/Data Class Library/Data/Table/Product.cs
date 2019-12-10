@@ -6,9 +6,9 @@ namespace DataClassLibrary
     {
         public Product()
         {
-            ProductImages = new HashSet<ProductImage>();
+            ProductImages = new List<ProductImage>();
             Review = new HashSet<Review>();
-            OrderProducts = new HashSet<OrderProduct>();
+            OrderProducts = new List<OrderProduct>();
         }
 
         public int Id { get; set; }

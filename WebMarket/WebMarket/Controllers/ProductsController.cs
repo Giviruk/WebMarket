@@ -34,6 +34,14 @@ namespace WebMarket.Controllers
         public async Task<ActionResult<string>> GetProduct(int id)
         {
             var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+            var images = _context.ProductImages.Where(x=>x.Productid==product.Id).ToList();
+            foreach (var image in images)
+            {
+                image.Image = _context.Images.FirstOrDefault(x => x.Id == image.Id);
+            }
+
+            product.MainpictureurlNavigation = _context.Images.Find(product.Mainpictureurl);
+            product.ProductImages = images;
             return JsonConvert.SerializeObject(product);
         }
 
@@ -73,14 +81,25 @@ namespace WebMarket.Controllers
 
                 if (sortedDictionary.Count == 0)
                 {
-                    return Ok("Нет товаров");
+                    return Ok(new List<Product>());
                 }
                 var products = new List<Product>();
                 for (var i = 0; i < sortedDictionary.Count; i++)
                 {
-                    products.Add(_context.Products.Find(sortedDictionary[i].Key));
+                    var product = _context.Products.Find(sortedDictionary[i].Key);
+                    
+                    var images = _context.ProductImages.Where(x=>x.Productid==product.Id).ToList();
+                    foreach (var image in images)
+                    {
+                        image.Image = _context.Images.FirstOrDefault(x => x.Id == image.Id);
+                    }
+
+                    product.MainpictureurlNavigation = _context.Images.Find(product.Mainpictureurl);
+                    product.ProductImages = images;
+                    products.Add(product);
                 }
 
+                
                 return Ok(products);
             }
             catch (Exception ex)
