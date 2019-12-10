@@ -5,7 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using DataClassLibrary;
 using DataClassLibrary.DbContext;
+using FunctionLibraryFS;
 using System;
+using Microsoft.FSharp.Core;
 
 namespace WebMarket.Controllers
 {
@@ -49,12 +51,18 @@ namespace WebMarket.Controllers
         [HttpPut("update/{id}")]
         public  IActionResult UpdateCategory(int id, [FromBody]Category modifyedCategory)
         {
-            var category = _context.Categories.Find(id);
+            var result = FunctionLibraryFS.CategoryControllerFs.UpdateProduct(_context, id, modifyedCategory);
 
-            var jsoned = JsonConvert.SerializeObject(category);
+            if (FSharpOption<int>.get_IsSome(result))
+                return Ok(result.Value);
+            else
+                return BadRequest();
 
+            
             try
             {
+                var category = _context.Categories.Find(id);
+
                 if (id != modifyedCategory.Id)
                     return BadRequest();
 

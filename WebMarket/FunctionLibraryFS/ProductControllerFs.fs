@@ -21,21 +21,31 @@ module ProductControllerFs =
             if modifiedProduct.Id <> productId || modifiedProduct.Category.HasValue then
                 invalidArg "" ""
 
-            context.Entry(modifiedProduct).State <- EntityState.Modified;
+            let mutable product = context.Products.Find(productId);
 
-            let product = context.Products.Find(productId);
-
+            product.Category <- modifiedProduct.Category;
+            product.CategoryNavigation <- modifiedProduct.CategoryNavigation;
+            product.Characteristics <- modifiedProduct.Characteristics;
+            product.Description <- modifiedProduct.Description;
+            product.Mainpictureurl <- modifiedProduct.Mainpictureurl;
+            product.MainpictureurlNavigation <- modifiedProduct.MainpictureurlNavigation;
             product.Name <- modifiedProduct.Name;
+            product.OrderProducts <- modifiedProduct.OrderProducts;
+            product.Price <- modifiedProduct.Price;
+            product.Producer <- modifiedProduct.Producer;
+            product.ProductImages <- modifiedProduct.ProductImages;
+            product.ProductRating <- modifiedProduct.ProductRating;
+            product.Review <- modifiedProduct.Review;
 
-            let update = context.Products.Update(modifiedProduct);
-            update |> ignore;
             context.SaveChanges() |> ignore;
+            
+            context.Entry(product).State <- EntityState.Modified;
 
-            modifiedProduct.Id.ToString();
+            Some(modifiedProduct.Id);
 
         with
-            | :? DbUpdateException -> "DbUpdateExeption";
-            | _ -> "Not DbUpate exeption";
+            | :? DbUpdateException -> None;
+            | _ -> None;
             
 
         
