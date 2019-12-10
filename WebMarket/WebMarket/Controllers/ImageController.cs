@@ -51,7 +51,9 @@ namespace WebMarket.Controllers
             {
                 _context.Images.Add(image);
                 _context.SaveChanges();
-                return Ok(_context.Images.Last().Id);
+                var images = _context.Images.ToList();
+                var _image = images[images.Count - 1];
+                return Ok(_image.Id);
             }
             catch(Exception ex)
             {
