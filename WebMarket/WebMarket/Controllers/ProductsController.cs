@@ -26,8 +26,15 @@ namespace WebMarket.Controllers
         [HttpGet("all")]
         public async Task<ActionResult<string>> GetProduct()
         {
-            var productsList = await _context.Products.ToListAsync();
-            return JsonConvert.SerializeObject(productsList);
+            try
+            {
+                var productsList = await _context.Products.ToListAsync();
+                return Ok(productsList);
+            }
+            catch (Exception exx)
+            {
+                return BadRequest(exx);
+            }
         }
 
         [HttpGet("product/{id}")]
@@ -50,76 +57,28 @@ namespace WebMarket.Controllers
         {
             try
             {
-                var orders = await _context.Orders.ToListAsync();
-                var orderProducts = await _context.OrderProducts.ToListAsync();
-                foreach (var order in orders)
+                var allProductOrders = _context.OrderProducts.ToList();
+                var productInOrder = _context.OrderProducts.Where(op => op.Productid == id).ToList();
+                var ordersWithRequestedProduct = _context.Orders.Where(order => productInOrder.Select(op => op.Orderid).Contains(order.Id)).ToList();
+                var orderProductsWhichBoughtWithRequest = ordersWithRequestedProduct.Select(x => x.Productinorder).SelectMany(x => x).Where(x=>x.Productid!=id).ToList();
+                var productIds = orderProductsWhichBoughtWithRequest.Select(op => op.Productid).ToList();
+                var dict = new Dictionary<int, int>();
+                foreach(int productId in productIds)
                 {
-                    foreach (var orderProduct in orderProducts)
-                    {
-                        if (orderProduct.Orderid == order.Id)
-                        {
-                            order.Productinorder.Add(orderProduct);
-                        }
-                    }
+                    if (!dict.ContainsKey((int)productId))
+                        dict.Add(productId, 1);
+                    else
+                        dict[productId]++;
                 }
-                var productsInOrders = new Dictionary<int, int>();
-                foreach (var order in orders)
-                {
-                    var _products = order.Productinorder.Select(x => x.Id);
-                    if (_products.Contains(id))
-                    {
-                        foreach (var p in _products)
-                        {
-                            if (p != id)
-                            {
-                                if (productsInOrders.Keys.Contains(p))
-                                    productsInOrders[p] += 1;
-                                else
-                                {
-                                    productsInOrders.Add(p, 1);
-                                }
-                            }
-                        }
-                    }
-                }
-                var sortedDictionary = productsInOrders.OrderByDescending(x => x.Value).ToList();
-                if (sortedDictionary.Count > 3)
-                {
-                    sortedDictionary = sortedDictionary.Take(3).ToList();
-                }
-
-                if (sortedDictionary.Count == 2)
-                {
-                    sortedDictionary = sortedDictionary.Take(2).ToList();
-                }
-
-                if (sortedDictionary.Count == 1)
-                {
-                    sortedDictionary.Add(sortedDictionary[0]);
-                }
-
-                if (sortedDictionary.Count == 0)
-                {
-                    return Ok(new List<Product>());
-                }
-                var products = new List<Product>();
-                for (var i = 0; i < sortedDictionary.Count; i++)
-                {
-                    var product = _context.Products.Find(sortedDictionary[i].Key);
-                    
-                    var images = _context.ProductImages.Where(x=>x.Productid==product.Id).ToList();
-                    foreach (var image in images)
-                    {
-                        image.Image = _context.Images.FirstOrDefault(x => x.Id == image.Id);
-                    }
-
-                    product.MainpictureurlNavigation = _context.Images.Find(product.Mainpictureurl);
-                    product.ProductImages = images;
-                    products.Add(product);
-                }
+                var requestedIds = dict.OrderByDescending(pair => pair.Value).Select(pair=>pair.Key).Take(3).ToList();
+                var result = new List<Product>();
+                foreach(var reqId in requestedIds)
+                    result.Add(_context.Products.Find(reqId));
+                var images = _context.Images.ToList();
+                var images2 = _context.ProductImages.ToList();
 
                 
-                return Ok(products);
+                return Ok(result);
             }
             catch (Exception ex)
             {
