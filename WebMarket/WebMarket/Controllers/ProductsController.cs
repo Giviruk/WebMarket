@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using FunctionLibraryFS;
-using WebMarket.Logic.AbstractContext;
+using DataClassLibrary.DbContext;
 using System;
 
 namespace WebMarket.Controllers
@@ -118,11 +118,6 @@ namespace WebMarket.Controllers
              _context.SaveChanges();
 
             return product;
-        }
-
-        private bool ProductExists(int id)
-        {
-            return _context.Products.Any(e => e.Id == id);
         }
     }
 }

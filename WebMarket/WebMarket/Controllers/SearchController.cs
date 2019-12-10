@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Net;
 using AngleSharp.Html.Parser;
 using Newtonsoft.Json;
-using WebMarket.Logic.AbstractContext;
+using DataClassLibrary.DbContext;
 
 namespace WebMarket.Controllers
 {
