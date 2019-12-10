@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Linq;
-using WebMarket.Logic.AbstractContext;
+using DataClassLibrary.DbContext;
 using WebMarket.Logic.Email;
 namespace WebMarket.Controllers
 {

@@ -2,24 +2,23 @@
 using DataClassLibrary;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using WebMarket.Logic.AbstractContext;
+//using WebMarket.Logic.AbstractContext;
+using DataClassLibrary.DbContext;
 
 namespace WebMarket
 {
     public partial class d6h4jeg5tcb9d8Context : AbstractDbContext
     {
 
-        public d6h4jeg5tcb9d8Context(DbContextOptions<d6h4jeg5tcb9d8Context> options)
-            : base(options)
-        {
-        }
+        //public d6h4jeg5tcb9d8Context(DbContextOptions<d6h4jeg5tcb9d8Context> options)
+        //    : base(options)
+        //{
+        //}
 
         public override DbSet<Category> Categories { get; set; }
         public override DbSet<City> Cities { get; set; }
         public override DbSet<Delivery> Deliveries { get; set; }
         public override DbSet<Image> Images { get; set; }
-        //public override DbSet<Order> Orders { get; set; }
-        //public override DbSet<UserOrder> Ordersofusers { get; set; }
         public override DbSet<Product> Products { get; set; }
         public override DbSet<ProductImage> ProductImages { get; set; }
         public override DbSet<Review> Reviews { get; set; }

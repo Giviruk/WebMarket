@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DataClassLibrary;
 using Microsoft.AspNetCore.Mvc;
-using WebMarket.Logic.AbstractContext;
-using Data_Class_Library;
-using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
+using DataClassLibrary.DbContext;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

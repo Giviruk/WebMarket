@@ -1,9 +1,8 @@
-﻿using DataClassLibrary;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace NotExitst
+namespace DataClassLibrary.DbContext
 {
-    public abstract class NotExist : DbContext
+    public abstract class AbstractDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<City> Cities { get; set; }

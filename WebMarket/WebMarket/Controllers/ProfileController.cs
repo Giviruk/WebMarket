@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 using DataClassLibrary;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using WebMarket.Logic.Hashing;
-using WebMarket.Logic.AbstractContext;
+using DataClassLibrary.DbContext;
 
 namespace WebMarket.Controllers
 {

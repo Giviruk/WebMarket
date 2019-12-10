@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using FunctionLibraryFS;
-using WebMarket.Logic.AbstractContext;
+using DataClassLibrary.DbContext;
 using System;
 using System.Collections.Generic;
 
@@ -31,14 +31,14 @@ namespace WebMarket.Controllers
         }
 
         [HttpGet("product/{id}")]
-        public async Task<ActionResult<string>> GetProduct(int productId)
+        public async Task<ActionResult<string>> GetProduct(int id)
         {
-            var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == productId);
+            var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
             return JsonConvert.SerializeObject(product);
         }
 
         [HttpGet("product/{id}/products")]
-        public async Task<ActionResult<string>> GetPoductsWith(int productId)
+        public async Task<ActionResult<string>> GetPoductsWith(int id)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace WebMarket.Controllers
                 foreach (var order in orders)
                 {
                     var _products = order.Productinorder.Select(x => x.Id);
-                    if (_products.Contains(productId))
+                    if (_products.Contains(id))
                     {
                         foreach (var p in _products)
                         {
@@ -73,7 +73,7 @@ namespace WebMarket.Controllers
 
                 if (sortedDictionary.Count == 0)
                 {
-                    return Ok();
+                    return Ok("Нет товаров");
                 }
                 var products = new List<Product>();
                 for (var i = 0; i < sortedDictionary.Count; i++)
@@ -171,11 +171,6 @@ namespace WebMarket.Controllers
              _context.SaveChanges();
 
             return product;
-        }
-
-        private bool ProductExists(int id)
-        {
-            return _context.Products.Any(e => e.Id == id);
         }
     }
 }

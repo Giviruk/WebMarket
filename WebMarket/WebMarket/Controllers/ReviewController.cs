@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataClassLibrary;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebMarket.Logic.AbstractContext;
+using DataClassLibrary.DbContext;
 
 namespace WebMarket.Controllers
 {

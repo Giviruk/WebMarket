@@ -1,9 +1,6 @@
-﻿using DataClassLibrary;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace Data_Class_Library
+namespace DataClassLibrary
 {
     public partial class OrderWithProductList
     {
