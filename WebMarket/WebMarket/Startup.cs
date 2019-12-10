@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using WebMarket.Logic.AbstractContext;
-using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
+//using WebMarket.Logic.AbstractContext;
+using DataClassLibrary.DbContext;
 
 namespace WebMarket
 {
