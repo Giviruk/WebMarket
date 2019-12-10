@@ -1,43 +1,39 @@
-﻿using System;
+using System;
 using System.Linq;
 using DataClassLibrary;
 using Microsoft.AspNetCore.Mvc;
 using DataClassLibrary.DbContext;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace WebMarket.Controllers
 {
-    [Route("api/city")]
-    public class CityController : Controller
+    [Route("api/image")]
+    public class ImageController : Controller
     {
         private readonly AbstractDbContext _context;
-
-        public CityController(AbstractDbContext context)
+        public ImageController(AbstractDbContext context)
         {
             _context = context;
         }
-        // GET: api/values
+        
         [HttpGet]
         public ActionResult Get()
         {
             try
             {
-                return Ok(_context.Cities);
+                return Ok(_context.Images.ToList());
             }
             catch(Exception ex)
             {
                 return BadRequest(ex);
             }
         }
-
-        // GET api/values/5
+        
         [HttpGet("{id}")]
         public ActionResult Get(int id)
         {
             try
             {
-                var result = _context.Cities
+                var result = _context.Images
                     .FirstOrDefault(c => c.Id == id);
 
                 return Ok(result);
@@ -47,49 +43,28 @@ namespace WebMarket.Controllers
                 return BadRequest(ex);
             }
         }
-
-        // POST api/values
-        [HttpPost]
-        public IActionResult Post([FromBody]City value)
-        {
-            try
-            {
-                var city = _context.Cities.Find(value.Id);
-                city.Name = value.Name;
-
-                _context.Cities.Update(city);
-                _context.SaveChanges();
-                return Ok();
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex);
-            }
-        }
-
-        // PUT api/city
+        
         [HttpPut]
-        public IActionResult Put([FromBody]City city)
+        public IActionResult Put([FromBody]Image image)
         {
             try
             {
-                _context.Cities.Add(city);
+                _context.Images.Add(image);
                 _context.SaveChanges();
-                return Ok();
+                return Ok(_context.Images.Last());
             }
             catch(Exception ex)
             {
                 return BadRequest(ex);
             }
         }
-
-        // DELETE api/values/5
+        
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             try
             {
-                _context.Cities.Remove(_context.Cities.Find(id));
+                _context.Images.Remove(_context.Images.Find(id));
                 return Ok();
             }
             catch(Exception ex)
