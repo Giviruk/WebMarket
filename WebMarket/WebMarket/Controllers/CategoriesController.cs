@@ -47,20 +47,34 @@ namespace WebMarket.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("update/{id}")]
-        public async Task<IActionResult> UpdateCategory(int id, [FromBody]Category modifyedCategory)
+        public  IActionResult UpdateCategory(int id, [FromBody]Category modifyedCategory)
         {
+            var category = _context.Categories.Find(id);
+
+            var jsoned = JsonConvert.SerializeObject(category);
+
             try
             {
                 if (id != modifyedCategory.Id)
                     return BadRequest();
 
+                category = modifyedCategory;
+                _context.Categories.Update(category);
+                _context.SaveChanges();
 
-                _context.Entry(modifyedCategory).State = EntityState.Modified;
+                //category.Name = modifyedCategory.Name;
+                //category.Characteristics = modifyedCategory.Characteristics;
+                //category.Product = modifyedCategory.Product;;
+                //_context.SaveChanges();
+                //_context.Entry(category).State = EntityState.Modified;
 
-                _context.Categories.Update(modifyedCategory);
-                await _context.SaveChangesAsync();
+                //_context.Entry(modifyedCategory).State = EntityState.Modified;
+
+                //_context.Categories.Update(modifyedCategory);
+                //_context.SaveChanges();
 
                 return Ok(modifyedCategory.Id);
+
             }
             catch (Exception ex)
             {
@@ -79,10 +93,10 @@ namespace WebMarket.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Category>> PostCategories(Category categories)
+        public  ActionResult<Category> PostCategories(Category categories)
         {
             _context.Categories.Add(categories);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
 
             return CreatedAtAction("GetCategories", new { id = categories.Id }, categories);
         }
