@@ -49,23 +49,23 @@ namespace WebMarket.Controllers
         [HttpGet("product/{id}")]
         public ActionResult<string> GetProduct(int id)
         {
-            var product = ProductControllerFs.GetProductFromId(_context, id);
+            //var product = ProductControllerFs.GetProductFromId(_context, id);
 
-            if (FSharpOption<Product>.get_IsSome(product))
-                return Ok(product.Value);
-            else
-                return BadRequest();
+            //if (FSharpOption<Product>.get_IsSome(product))
+            //    return Ok(product.Value);
+            //else
+            //    return BadRequest();
 
-            //var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
-            //var images = _context.ProductImages.Where(x=>x.Productid==product.Id).ToList();
-            //foreach (var image in images)
-            //{
-            //    image.Image = _context.Images.FirstOrDefault(x => x.Id == image.Id);
-            //}
+            var product =  _context.Products.FirstOrDefault(p => p.Id == id);
+            var images = _context.ProductImages.Where(x => x.Productid == product.Id).ToList();
+            foreach (var image in images)
+            {
+                image.Image = _context.Images.FirstOrDefault(x => x.Id == image.Id);
+            }
 
-            //product.MainpictureurlNavigation = _context.Images.Find(product.Mainpictureurl);
-            //product.ProductImages = images;
-            //return Ok(product);
+            product.MainpictureurlNavigation = _context.Images.Find(product.Mainpictureurl);
+            product.ProductImages = images;
+            return Ok(product);
         }
 
         [HttpGet("product/{id}/products")]
@@ -99,7 +99,7 @@ namespace WebMarket.Controllers
         [HttpGet("category/{id}")]
         public ActionResult<string> GetProductsFromCategory(int categoryId)
         {
-            var getResult = ProductControllerFs.GetProductsFromCategoryFS(_context, categoryId);
+            var getResult = ProductControllerFs.GetProductsFromCategory(_context, categoryId);
 
             if (FSharpOption<List<Product>>.get_IsSome(getResult))
                 return Ok(getResult.Value);

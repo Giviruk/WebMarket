@@ -32,7 +32,7 @@ module ProductControllerFs =
         
         
 
-    let GetProductsFromCategoryFS(context : AbstractDbContext) (categoryId:int) =
+    let GetProductsFromCategory(context : AbstractDbContext) (categoryId:int) =
         try
             Some(context.Products.Where(fun p -> p.Id = categoryId).ToList());
         with
@@ -72,8 +72,6 @@ module ProductControllerFs =
     let AddProduct(context:AbstractDbContext) (newProduct:Product) =
         use trnsaction = context.Database.BeginTransaction() 
         try
-            if newProduct.Category = System.Nullable() then
-                invalidArg "" ""
                 
             context.Products.Add(newProduct) |> ignore;
             context.SaveChanges() |> ignore;
@@ -85,6 +83,21 @@ module ProductControllerFs =
             Some(newProductId);
         with
             | _ -> trnsaction.Rollback(); None;
+
+    let DeleteProduct(context : AbstractDbContext) (productId : int) =
+        try
+            let product = context.Products.Find(productId);
+
+            if isNull(product) then
+                invalidArg "" ""
+
+            context.Products.Remove(product) |>ignore;
+            context.SaveChanges() |> ignore;
+
+            Some(productId);
+        with
+            | _ -> None;
+
 
 
             

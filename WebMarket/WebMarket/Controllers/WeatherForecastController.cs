@@ -14,24 +14,24 @@ namespace WebMarket.Controllers
         private IScoped _scd;
 
         private readonly AbstractDbContext _context;
-        public WeatherForecastController(AbstractDbContext context)
-        {
-            this._context = context;
-        }
+        //public WeatherForecastController(AbstractDbContext context)
+        //{
+        //    this._context = context;
+        //}
 
         [HttpGet]
         public string Get()
         {
             //EmailSender.SendEmail("rehsatart@gmail.com", "Работяга");
-            var res = JsonConvert.SerializeObject(_context.Categories.FirstOrDefault());
-            return /*_td.GetString() + _sd.GetString() + _scd.GetString() +"\n"*/  res;
+            //var res = JsonConvert.SerializeObject(_context.Categories.FirstOrDefault());
+            return _td.GetString() + _sd.GetString() + _scd.GetString() + "\n" ;
         }
 
-        //public WeatherForecastController(ISingleton sd, ITransient td, IScoped scd)
-        //{
-        //    this._td = td;
-        //    this._sd = sd;
-        //    this._scd = scd;
-        //}     
+        public WeatherForecastController(ISingleton sd, ITransient td, IScoped scd)
+        {
+            this._td = td;
+            this._sd = sd;
+            this._scd = scd;
+        }
     }
 }
