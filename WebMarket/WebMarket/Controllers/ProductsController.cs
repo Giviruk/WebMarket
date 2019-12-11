@@ -40,16 +40,26 @@ namespace WebMarket.Controllers
         [HttpGet("product/{id}")]
         public async Task<ActionResult<string>> GetProduct(int id)
         {
-            var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
-            var images = _context.ProductImages.Where(x=>x.Productid==product.Id).ToList();
-            foreach (var image in images)
+            try
             {
-                image.Image = _context.Images.FirstOrDefault(x => x.Id == image.Id);
-            }
+                var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
+                var images = _context.ProductImages.Where(x => x.Productid == product.Id).ToList();
+                foreach (var image in images)
+                {
+                    image.Image = _context.Images.FirstOrDefault(x => x.Id == image.Id);
+                }
 
-            product.MainpictureurlNavigation = _context.Images.Find(product.Mainpictureurl);
-            product.ProductImages = images;
-            return Ok(product);
+                product.MainpictureurlNavigation = _context.Images.Find(product.Mainpictureurl);
+                product.ProductImages = images;
+
+                var _images = _context.Images.ToList();
+                var _images2 = _context.ProductImages.ToList();
+                return Ok(product);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         [HttpGet("product/{id}/products")]
@@ -132,7 +142,7 @@ namespace WebMarket.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost("addProduct")]
-        public  ActionResult<string> AddProduct([FromBody]Product newProduct)
+        public ActionResult<string> AddProduct([FromBody]Product newProduct)
         {
             using (var transaction = _context.Database.BeginTransaction())
             {
