@@ -106,21 +106,21 @@ namespace WebMarket.Controllers
 
 
         // GET: api/Products/5
-        [HttpGet("category/{id}")]
+        [HttpGet("category/{categoryId}")]
         public ActionResult<string> GetProductsFromCategory(int categoryId)
         {
-            var getResult = ProductControllerFs.GetProductsFromCategory(_context, categoryId);
+            //var getResult = ProductControllerFs.GetProductsFromCategory(_context, categoryId);
 
-            if (FSharpOption<List<Product>>.get_IsSome(getResult))
-                return Ok(getResult.Value);
-            else
-                return BadRequest();
+            //if (FSharpOption<List<Product>>.get_IsSome(getResult))
+            //    return Ok(getResult.Value);
+            //else
+            //    return BadRequest();
 
-            //var selectedProducts = await _context.Products
-            //    .Where(p => p.Category == categoryId)
-            //    .ToListAsync();
+            var selectedProducts =  _context.Products
+                .Where(p => p.Category == categoryId)
+                .ToList();
 
-            //return JsonConvert.SerializeObject(selectedProducts);
+            return JsonConvert.SerializeObject(selectedProducts);
         }
 
         // PUT: api/Products/5
