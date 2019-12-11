@@ -151,7 +151,7 @@ namespace WebMarket.Controllers
                         messageBody.Append($"{p} \n");
                     }
 
-                    messageBody.Append("Спасибо за покупку!");
+                    messageBody.Append("\nСпасибо за покупку!");
 
                     EmailSender.SendEmail(order.Email, "Уважаемый покупатель \n",messageBody.ToString());
                     return Ok(orderId);
