@@ -27,7 +27,7 @@ namespace WebMarket.Controllers
         public async Task<ActionResult<string>> GetProduct([FromBody]string request)
         {
             var toSearch = await NormilizeRequest(request);
-            var toSearchArr = toSearch.Split(' ');
+            var toSearchArr = toSearch.Split(' ').Select(w => w.Remove(w.Length-2,2));
             var allProducts = _context.Products.ToList();
             var dict = new Dictionary<int, int>();
             foreach(var product in allProducts)
