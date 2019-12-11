@@ -49,11 +49,11 @@ namespace WebMarket.Controllers
         {
             try
             {
-                var _image = new Image();
-                _image.Imagepath = image.Imagepath;
-                _context.Images.Add(_image);
+                _context.Images.Add(image);
                 _context.SaveChanges();
-                return Ok(_context.Images.Last());
+                var images = _context.Images.ToList();
+                var _image = images[images.Count - 1];
+                return Ok(_image.Id);
             }
             catch(Exception ex)
             {
