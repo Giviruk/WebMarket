@@ -40,8 +40,6 @@ namespace WebMarket.Controllers
                 result = JsonConvert.DeserializeObject<List<Review>>(response);
             }
 
-
-
             try
             {
                 Assert.Equal(expectedReviewsList.FirstOrDefault().ReviewId, result.FirstOrDefault().ReviewId);
