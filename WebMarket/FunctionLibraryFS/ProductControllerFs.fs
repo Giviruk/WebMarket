@@ -1,10 +1,10 @@
 ﻿namespace FunctionLibraryFS
 
 open DataClassLibrary
-open DataClassLibrary.DbContext;
+open DataClassLibrary.DbContext
 open System.Linq
 open Microsoft.EntityFrameworkCore
-open System;
+open System.Collections
 
 module ProductControllerFs =
     
@@ -31,10 +31,20 @@ module ProductControllerFs =
             | _ -> None;
         
         
-
+    //work
     let GetProductsFromCategory(context : AbstractDbContext) (categoryId:int) =
         try
-            Some(context.Products.Where(fun p -> p.Id = categoryId).ToList());
+            let IsProductInCategory (p : Product) = 
+                p.Category.Value = categoryId
+
+            let getProductsInCategory (productSet : DbSet<Product>) =
+                let productList =
+                    productSet 
+                    |> Seq.toList
+                    |> List.filter IsProductInCategory
+                productList
+                    
+            Some(getProductsInCategory(context.Products));
         with
             | _ -> None;
 
