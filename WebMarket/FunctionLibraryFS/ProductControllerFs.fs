@@ -5,9 +5,12 @@ open DataClassLibrary.DbContext
 open System.Linq
 open Microsoft.EntityFrameworkCore
 open System.Collections
+open System.Linq;
+open Source
 
 module ProductControllerFs =
     
+    //work
     let GetaAllProductsList(context : AbstractDbContext) = 
         try
             Some(context.Products.ToList());
@@ -17,18 +20,57 @@ module ProductControllerFs =
 
     let GetProductFromId(context: AbstractDbContext) (productId:int) =      
         try
-            let mutable product = context.Products.FirstOrDefault(fun p -> p.Id = productId);
-            let images = context.ProductImages.Where(fun pi -> pi.Productid.Value = product.Id).ToList();
+            let maybe = new MaybeBuilder()
+            let mutable product = context.Products.ToList().FirstOrDefault(fun p -> p.Id = productId)
 
-            let defineImages = images.Select(fun i -> i.Image <- context.Images.FirstOrDefault(fun im -> im.Id = i.Id));
-            defineImages |> ignore;
+            let IsSuitableImages (productImage : ProductImage) =
+                productImage.Productid.Value = product.Id
 
-            product.MainpictureurlNavigation <- context.Images.Find(product.Mainpictureurl);
-            product.ProductImages <- images;
+            let  GetProductImages =
+                let productImagesSet = context.ProductImages
+                let producImagesList =
+                    productImagesSet
+                    |> Seq.toList
+                    |> List.filter IsSuitableImages
+                let defineImages (images : DbSet<Image>)   =
+                    let suitableImageIds = producImagesList.Select(fun pi -> pi.Imageid.Value)    
+                    let IsInProducImage (image : Image) =
+                        suitableImageIds.Contains(image.Id)
+                    images
+                    |> Seq.toList
+                    |> List.filter IsInProducImage
+                defineImages(context.Images) |> ignore
+                Some(producImagesList)
 
-            Some(product);
+            let GetProductReviews =
+                let IsSuitableReview (reviw : Review) =
+                    reviw.ProductId = product.Id
+                let reviews = 
+                    context.Reviews
+                    |> Seq.toList
+                    |> List.filter IsSuitableReview
+                reviews
+
+
+    
+            let castListToICollection (list :  'T list) =
+                    let cast = ResizeArray<'T> list
+                    cast
+
+            let result = maybe {
+                let! res = GetProductImages
+                return res
+            }
+                            
+            
+            product.MainpictureurlNavigation <- context.Images.Find(product.Mainpictureurl)
+            product.ProductImages <-  castListToICollection(result.Value)
+            product.Review <- castListToICollection(GetProductReviews)
+
+            Some(product)
         with
-            | _ -> None;
+            | :? System.Exception as ex -> printfn "%s" (ex.Message); None
+            | _ -> None
         
         
     //work
@@ -47,10 +89,11 @@ module ProductControllerFs =
             Some(getProductsInCategory(context.Products));
         with
             | _ -> None;
-
+    
+    //work
     let UpdateProduct(context: AbstractDbContext) (productId:int) (modifiedProduct:Product) = 
         try
-            if modifiedProduct.Id <> productId || modifiedProduct.Category.HasValue then
+            if modifiedProduct.Id <> productId || not modifiedProduct.Category.HasValue then
                 invalidArg "" ""
 
             let mutable product = context.Products.Find(productId);
@@ -78,7 +121,8 @@ module ProductControllerFs =
         with
             | :? DbUpdateException -> None;
             | _ -> None;
-
+    
+    //work
     let AddProduct(context:AbstractDbContext) (newProduct:Product) =
         use trnsaction = context.Database.BeginTransaction() 
         try
@@ -93,7 +137,7 @@ module ProductControllerFs =
             Some(newProductId);
         with
             | _ -> trnsaction.Rollback(); None;
-
+    //work
     let DeleteProduct(context : AbstractDbContext) (productId : int) =
         try
             let product = context.Products.Find(productId);
