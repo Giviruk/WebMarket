@@ -27,21 +27,24 @@ namespace WebMarket.Controllers
         public async Task<ActionResult<string>> GetProduct([FromBody]string request)
         {
             var toSearch = await NormilizeRequest(request);
-            var toSearchArr = toSearch.Split(' ').Select(w => w.Remove(w.Length-2,2));
+            var toSearchList = toSearch.Split(' ').ToList();
+            toSearchList.AddRange(request.Trim().Split(' '));
+            toSearchList = toSearchList.Select(w => w.Length > 4 ? w.Remove(w.Length - 2, 2) : w)
+                .Distinct()
+                .ToList();
             var allProducts = _context.Products.ToList();
             var dict = new Dictionary<int, int>();
-            foreach(var product in allProducts)
+            foreach (var product in allProducts)
             {
                 int count = 0;
-                var name = product.Name;
-                foreach(var word in toSearchArr)
+                var name = product.Name.ToLower();
+                foreach (var word in toSearchList)
                 {
                     if (name.Contains(word))
                         count++;
                 }
                 dict.Add(product.Id, count);
             }
-            //var keys = dict.OrderBy(pair => pair.Value).ToDictionary(pair=>pair.Key).Keys.ToList();
             var keys = dict.Where(pair => pair.Value > 0).OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key).Keys.ToList();
             var result = new List<Product>();
             foreach (var product in allProducts)
