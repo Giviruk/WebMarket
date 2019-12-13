@@ -23,7 +23,7 @@ namespace WebMarket.Controllers
             _context = context;
         }
 
-        // GET: api/Products/all
+        //FSharp work
         [HttpGet("all")]
         public ActionResult<string> GetProduct()
         {
@@ -47,35 +47,36 @@ namespace WebMarket.Controllers
         }
 
         [HttpGet("product/{id}")]
+        //FsWork
         public ActionResult<string> GetProduct(int id)
         {
-            //var product = ProductControllerFs.GetProductFromId(_context, id);
+            var product = ProductControllerFs.GetProductFromId(_context, id);
 
-            //if (FSharpOption<Product>.get_IsSome(product))
-            //    return Ok(product.Value);
-            //else
-            //    return BadRequest();
+            if (FSharpOption<Product>.get_IsSome(product))
+                return Ok(product.Value);
+            else
+                return BadRequest();
 
-            try
-            {
-                var product =  _context.Products.FirstOrDefault(p => p.Id == id);
-                var images = _context.ProductImages.Where(x => x.Productid == product.Id).ToList();
-                foreach (var image in images)
-                {
-                    image.Image = _context.Images.FirstOrDefault(x => x.Id == image.Id);
-                }
+            //try
+            //{
+            //    var product =  _context.Products.FirstOrDefault(p => p.Id == id);
+            //    var images = _context.ProductImages.Where(x => x.Productid == product.Id).ToList();
+            //    foreach (var image in images)
+            //    {
+            //        image.Image = _context.Images.FirstOrDefault(x => x.Id == image.Id);
+            //    }
 
-                product.MainpictureurlNavigation = _context.Images.Find(product.Mainpictureurl);
-                product.ProductImages = images;
+            //    product.MainpictureurlNavigation = _context.Images.Find(product.Mainpictureurl);
+            //    product.ProductImages = images;
 
-                var _images = _context.Images.ToList();
-                var _images2 = _context.ProductImages.ToList();
-                return Ok(product);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
+            //    var _images = _context.Images.ToList();
+            //    var _images2 = _context.ProductImages.ToList();
+            //    return Ok(product);
+            //}
+            //catch (Exception ex)
+            //{
+            //    return BadRequest(ex);
+            //}
         }
 
         [HttpGet("product/{id}/products")]
@@ -105,28 +106,29 @@ namespace WebMarket.Controllers
         }
 
 
-        // GET: api/Products/5
+        //FSharp work
         [HttpGet("category/{categoryId}")]
         public ActionResult<string> GetProductsFromCategory(int categoryId)
         {
-            //var getResult = ProductControllerFs.GetProductsFromCategory(_context, categoryId);
+            var getResult = ProductControllerFs.GetProductsFromCategory(_context, categoryId);
 
-            //if (FSharpOption<List<Product>>.get_IsSome(getResult))
-            //    return Ok(getResult.Value);
-            //else
-            //    return BadRequest();
+            if (FSharpOption<Microsoft.FSharp.Collections.FSharpList<Product>>.get_IsSome(getResult))
+                return Ok(getResult.Value);
+            else
+                return BadRequest();
 
-            var selectedProducts =  _context.Products
-                .Where(p => p.Category == categoryId)
-                .ToList();
+            //var selectedProducts =  _context.Products
+            //    .Where(p => p.Category == categoryId)
+            //    .ToList();
 
-            return JsonConvert.SerializeObject(selectedProducts);
+            //return JsonConvert.SerializeObject(selectedProducts);
         }
 
         // PUT: api/Products/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("update/{id}")]
+        //Fs work
         public IActionResult UpdateProduct(int id,[FromBody]Product modifiedProduct)
         {
             var updateResult = ProductControllerFs.UpdateProduct(_context, id, modifiedProduct);
@@ -173,6 +175,7 @@ namespace WebMarket.Controllers
         // POST: api/Products
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
+        //Fs work
         [HttpPost("addProduct")]
         public ActionResult<string> AddProduct([FromBody]Product newProduct)
         {
@@ -207,19 +210,29 @@ namespace WebMarket.Controllers
         }
 
         // DELETE: api/Products/5
+        //FS work
         [HttpDelete("delete/{id}")]
         public  ActionResult<Product> DeleteProduct(int id)
         {
-            var product =  _context.Products.Find(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
+            var result = ProductControllerFs.DeleteProduct(_context, id);
 
-            _context.Products.Remove(product);
-             _context.SaveChanges();
+            if (FSharpOption<int>.get_IsSome(result))
+                return Ok(result.Value);
+            else
+                return BadRequest();
 
-            return product;
+
+
+            //var product =  _context.Products.Find(id);
+            //if (product == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //_context.Products.Remove(product);
+            // _context.SaveChanges();
+
+            //return product;
         }
     }
 }
