@@ -47,6 +47,7 @@ namespace WebMarket.Controllers
         }
 
         [HttpGet("product/{id}")]
+        //FsWork
         public ActionResult<string> GetProduct(int id)
         {
             var product = ProductControllerFs.GetProductFromId(_context, id);

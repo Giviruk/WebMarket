@@ -17,7 +17,7 @@ module ProductControllerFs =
         with
             | _ -> None;
 
-
+    //work
     let GetProductFromId(context: AbstractDbContext) (productId:int) =      
         try
             let maybe = new MaybeBuilder()
