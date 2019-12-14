@@ -44,7 +44,7 @@ module ProfileControllerFs =
 
             Some(getSendPassKod)
         with
-            | :? System.Exception as ex -> printf "%s" (ex.Message); None
+            //| :? System.Exception as ex -> printf "%s" (ex.Message); None
             | _ -> None
 
     let ChangePassword(context : AbstractDbContext,userEmail: string,userPassword:string) =

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using DataClassLibrary.DbContext;
 using DataClassLibrary.Logic.Email;
 using System.Text;
+using Microsoft.FSharp.Core;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -166,19 +167,19 @@ namespace WebMarket.Controllers
 
         // PUT api/values/5
         [HttpPut]
-        public IActionResult Put([FromBody]Order value)
-        {
-            try
-            {
-                _context.Orders.Add(value);
-                _context.SaveChanges();
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e);
-            }
-        }
+        //public IActionResult Put([FromBody]Order value)
+        //{
+        //    try
+        //    {
+        //        _context.Orders.Add(value);
+        //        _context.SaveChanges();
+        //        return Ok();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return BadRequest(e);
+        //    }
+        //}
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
@@ -194,6 +195,32 @@ namespace WebMarket.Controllers
             {
                 return BadRequest(e);
             }
+        }
+
+        //[HttpGet("allOrders")]
+        //public 
+        [HttpGet("getOrderFromOrderId/{orderId}")]
+        public IActionResult GetOrderFromOrderId(int orderId)
+        {
+            var result = FunctionLibraryFS.OrdersControllerFs.GetOrderFromOrderId(_context, orderId);
+
+            if (FSharpOption<Order>.get_IsSome(result.Value))
+                return Ok(result.Value);
+            else
+                return BadRequest();
+        }
+
+        [HttpGet("getAll")]
+        public IActionResult GetAllOrders()
+        {
+            var result = FunctionLibraryFS.OrdersControllerFs.GetAllOrders(_context);
+
+            if (FSharpOption<List<Order>>.get_IsSome(result.Value))
+                return Ok(result.Value);
+            else
+                return BadRequest();
+
+
         }
     }
 }
