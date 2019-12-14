@@ -1,11 +1,11 @@
 ﻿using System.Net;
 using System.Net.Mail;
 
-namespace WebMarket.Logic.Email
+namespace DataClassLibrary.Logic.Email
 {
     public static class EmailSender
     {
-        public static void SendEmail(string toAddress,string UserName,string message)
+        public static void SendEmail(string toAddress,string UserName,string message,string messageSubject)
         { 
             MailAddress _fromMailAddress = new MailAddress("web.market.api.project@gmail.com");
             string password = "59246a01b58aadced8f913a1350af1ca65465b378b26b9f6ed388845695b3bdf";
@@ -14,7 +14,7 @@ namespace WebMarket.Logic.Email
             using(MailMessage mailMessage = new MailMessage(_fromMailAddress, _toAddress))
             using(SmtpClient smtpClient = new SmtpClient())
             {
-                mailMessage.Subject = "Заказ из интернет магазина";
+                mailMessage.Subject = messageSubject; //"Заказ из интернет магазина";
                 mailMessage.Body = message;
 
                 smtpClient.Host = "smtp.gmail.com";

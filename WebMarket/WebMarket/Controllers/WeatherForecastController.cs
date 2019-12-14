@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System.Linq;
 using DataClassLibrary.DbContext;
-using WebMarket.Logic.Email;
+using DataClassLibrary.Logic.Email;
 namespace WebMarket.Controllers
 {
     [ApiController]
@@ -13,7 +13,7 @@ namespace WebMarket.Controllers
         private ISingleton _sd;
         private IScoped _scd;
 
-        private readonly AbstractDbContext _context;
+        //private readonly AbstractDbContext _context;
         //public WeatherForecastController(AbstractDbContext context)
         //{
         //    this._context = context;

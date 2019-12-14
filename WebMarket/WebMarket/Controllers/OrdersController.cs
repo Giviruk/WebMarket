@@ -4,7 +4,7 @@ using System.Linq;
 using DataClassLibrary;
 using Microsoft.AspNetCore.Mvc;
 using DataClassLibrary.DbContext;
-using WebMarket.Logic.Email;
+using DataClassLibrary.Logic.Email;
 using System.Text;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -153,7 +153,7 @@ namespace WebMarket.Controllers
 
                     messageBody.Append("\nСпасибо за покупку!");
 
-                    EmailSender.SendEmail(order.Email, "Уважаемый покупатель \n",messageBody.ToString());
+                    EmailSender.SendEmail(order.Email, "Уважаемый покупатель \n",messageBody.ToString(), "Заказ из интернет магазина");
                     return Ok(orderId);
                 }
                 catch (Exception ex)

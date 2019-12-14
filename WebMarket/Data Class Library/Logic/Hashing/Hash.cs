@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 
-namespace WebMarket.Logic.Hashing
+namespace DataClassLibrary.Logic.Hashing
 {
     public static class Hash
     {
