@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace WebMarket.Logic
+namespace DataClassLibrary.Logic
 {
     public class WebRequestSender
     {

@@ -4,8 +4,6 @@ open DataClassLibrary
 open DataClassLibrary.DbContext
 open System.Linq
 open Microsoft.EntityFrameworkCore
-open System.Collections
-open System.Linq;
 open Source
 
 module ProductControllerFs =

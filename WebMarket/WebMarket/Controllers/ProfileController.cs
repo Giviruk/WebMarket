@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using DataClassLibrary;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebMarket.Logic.Hashing;
+using DataClassLibrary.Logic.Hashing;
 using DataClassLibrary.DbContext;
+using Microsoft.FSharp.Core;
 
 namespace WebMarket.Controllers
 {
@@ -113,7 +114,7 @@ namespace WebMarket.Controllers
 
         // PUT api/values
         [HttpPut]
-        public  IActionResult PutAsync([FromBody]User value)
+        public  IActionResult RegiserUser([FromBody]User value)
         {
             try
             {
@@ -157,6 +158,32 @@ namespace WebMarket.Controllers
             {
                 return BadRequest(ex);
             }
+        }
+
+
+        [HttpPost("generateKod")]
+        public IActionResult GeneratePKod([FromBody]string userEmail)
+        {
+            var result = FunctionLibraryFS.ProfileControllerFs.GeneratePasswordChangeKod(userEmail);
+
+            if (FSharpOption<string>.get_IsSome(result))
+                return Ok(result.Value);
+            else
+                return BadRequest();
+        }
+
+        [HttpPost("changePassword")]
+        public IActionResult ChangePassword([FromBody]string[] userData)
+        {
+            var userEmail = userData[0];
+            var userPassword = userData[1];
+
+            var result = FunctionLibraryFS.ProfileControllerFs.ChangePassword(_context, userEmail, userPassword);
+
+            if (FSharpOption<int>.get_IsSome(result))
+                return Ok(result.Value);
+            else
+                return BadRequest();
         }
     }
 }

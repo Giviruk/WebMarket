@@ -1,7 +1,5 @@
 ﻿namespace FunctionLibraryFS
 
-open System
-
 module Source = 
     
     type MaybeBuilder() = 
