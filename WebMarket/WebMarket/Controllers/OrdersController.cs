@@ -28,7 +28,21 @@ namespace WebMarket.Controllers
         {
             try
             {
-                return Ok();
+                return Ok(_context.Orders.ToList());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+        
+        
+        [HttpGet("{Id}")]
+        public ActionResult<Order> Get(int id)
+        {
+            try
+            {
+                return Ok(_context.Orders.Find(id));
             }
             catch (Exception ex)
             {
@@ -173,6 +187,21 @@ namespace WebMarket.Controllers
                 _context.Orders.Add(value);
                 _context.SaveChanges();
                 return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+        
+        [HttpPut("update")]
+        public IActionResult UpdateOrder([FromBody]Order value)
+        {
+            try
+            {
+                _context.Orders.Update(value);
+                _context.SaveChanges();
+                return Ok(_context.Orders.Find(value.Id));
             }
             catch (Exception e)
             {

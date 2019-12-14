@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DataClassLibrary;
@@ -21,12 +22,22 @@ namespace WebMarket.Controllers
         }
 
         // GET: api/Productimages
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductImage>>> GetProductimages()
-        {
-            return await _context.ProductImages.ToListAsync();
-        }
 
+        [HttpGet]
+        public async Task<ActionResult<string>> GetProductimages()
+        {
+            try
+            {
+                var productImages = _context.ProductImages.ToList();
+                var images = _context.Images.ToList();
+                return Ok(productImages);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+        
         // GET: api/Productimages/GetProductimages?productId=значение
         [HttpGet("{id}")]
         public async Task<ActionResult<string>> GetProductimages(int productId)
@@ -41,6 +52,23 @@ namespace WebMarket.Controllers
                 .ToListAsync();
 
             return JsonConvert.SerializeObject(imagesReference);
+        }
+        
+        [HttpGet("{imageId},{productId}")]
+        public async Task<ActionResult<string>> GetProductimages(int productId,int imageId)
+        {
+            try
+            {
+                var productImage = _context.ProductImages
+                    .FirstOrDefault(pI => pI.Productid == productId && pI.Imageid == imageId);
+                var images = _context.Images.ToList();
+
+                return Ok(productImage);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
         // PUT: api/Productimages/5
