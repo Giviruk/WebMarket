@@ -40,7 +40,16 @@ namespace WebMarket.Controllers
                 "https://webmarket911.herokuapp.com/api/Categories/update/{id} - put метод, принимает id категории и [FromBody]Category саму категорию \n" +
                 "https://webmarket911.herokuapp.com/api/Products/update/{id} -put метод,принимает id категори и [FromBody]Product сам продукт \n" +
                 "https://webmarket911.herokuapp.com/api/Products/delete/{id} -delete метод,который принимает на вход id товара и удаляет из бд \n" +
-                "https://webmarket911.herokuapp.com/api/Products/addProduct -post метод,который добавляет новый продукт в бд и возвращает его id \n";
+                "https://webmarket911.herokuapp.com/api/Products/addProduct -post метод,который добавляет новый продукт в бд и возвращает его id \n" +
+                "https://webmarket911.herokuapp.com/api/profile/generateKod -post метод, который принимает email пользователя. Отправляет пользователю на почту код для смены пароля. Возвращает этот же код \n" +
+                "https://webmarket911.herokuapp.com/api/profile/changePassword -post метод, который принимает на вход email пользователя и хэш нового пароля. Возвращает id пользователя \n" +
+                "https://webmarket911.herokuapp.com/api/orders/getOrderFromOrderId/{orderId} - get метод,который возвращает объект типа Order по OrderId \n" +
+                "https://webmarket911.herokuapp.com/api/orders/getAll - get метод,который возвращает все заказы \n" +
+                "https://webmarket911.herokuapp.com/api/orders/update/{orderId} - put метод,который принимает на вход orderId и объект типа order. Отправляет оповещение по email";
+
+
+            //var controllers2 =
+
 
             return controllers;
         }

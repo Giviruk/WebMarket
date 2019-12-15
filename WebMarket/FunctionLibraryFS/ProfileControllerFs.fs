@@ -31,7 +31,7 @@ module ProfileControllerFs =
             let generedRandomSymbols = (GetRandomSymbols 8)
 
             let sendToUserEmail generedKod =
-                EmailSender.SendEmail(userEmail,"Уважаемый пользователь","Код для смены пароля -> " + generedKod,"Смена пороля")
+                EmailSender.SendEmail(userEmail,"Уважаемый пользователь","Код для смены пароля -> " + generedKod,"Смена пароля")
                 generedKod
 
             let getSendPassKod =
@@ -44,7 +44,7 @@ module ProfileControllerFs =
 
             Some(getSendPassKod)
         with
-            | :? System.Exception as ex -> printf "%s" (ex.Message); None
+            //| :? System.Exception as ex -> printf "%s" (ex.Message); None
             | _ -> None
 
     let ChangePassword(context : AbstractDbContext,userEmail: string,userPassword:string) =
