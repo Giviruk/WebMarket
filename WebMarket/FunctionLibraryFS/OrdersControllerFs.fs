@@ -74,7 +74,21 @@ module OrdersControllerFs =
         try
             let mutable order = context.Orders.ToList().FirstOrDefault(fun o -> o.Id = orderId)
 
-            let orderOwner = context.Users.ToList().FirstOrDefault(fun u -> u.Id = order.Owner.Value)
+            let orderOwner =           
+                if order.Owner.HasValue then
+                    let ow = context.Users.ToList().FirstOrDefault(fun u -> u.Id = order.Owner.Value)
+                    let owner = 
+                        let mutable o = new User()
+                        o.Id <- ow.Id
+                        o.Address <- ow.Address
+                        o.Firstname <- ow.Firstname
+                        o.Lastname <- ow.Lastname
+                        o.Login <- ow.Login
+                        o
+                    owner
+                else
+                    null      
+
             let orderStatus = context.Statuses.ToList().FirstOrDefault(fun s -> s.Id = order.Status.Value)
             let orderProducts = context.OrderProducts.ToList().Where(fun op -> op.Orderid.Value = order.Id).ToList()
 
