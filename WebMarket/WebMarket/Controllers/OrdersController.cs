@@ -22,20 +22,7 @@ namespace WebMarket.Controllers
         {
             _context = context;
         }
-
-        // GET: api/values
-        [HttpGet]
-        public ActionResult<Order> Get()
-        {
-            try
-            {
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-        }
+        
 
         // GET api/values/5
         [HttpGet("getFromId/{userId}")]
@@ -165,21 +152,6 @@ namespace WebMarket.Controllers
             }
         }
 
-        // PUT api/values/5
-        [HttpPut]
-        //public IActionResult Put([FromBody]Order value)
-        //{
-        //    try
-        //    {
-        //        _context.Orders.Add(value);
-        //        _context.SaveChanges();
-        //        return Ok();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return BadRequest(e);
-        //    }
-        //}
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
