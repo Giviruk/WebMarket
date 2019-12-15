@@ -222,5 +222,17 @@ namespace WebMarket.Controllers
 
 
         }
+
+        [HttpPut("update/{orderId}")]
+        public IActionResult UpdateOrder(int orderId,[FromBody]Order modifiedOrder)
+        {
+            var result = FunctionLibraryFS.OrdersControllerFs.UpdateOrder(_context, orderId, modifiedOrder);
+
+            if (FSharpOption<int>.get_IsSome(result))
+                return Ok();
+            else
+                return BadRequest();
+        }
+
     }
 }

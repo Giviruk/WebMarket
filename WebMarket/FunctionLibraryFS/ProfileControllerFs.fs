@@ -31,7 +31,7 @@ module ProfileControllerFs =
             let generedRandomSymbols = (GetRandomSymbols 8)
 
             let sendToUserEmail generedKod =
-                EmailSender.SendEmail(userEmail,"Уважаемый пользователь","Код для смены пароля -> " + generedKod,"Смена пороля")
+                EmailSender.SendEmail(userEmail,"Уважаемый пользователь","Код для смены пароля -> " + generedKod,"Смена пароля")
                 generedKod
 
             let getSendPassKod =
