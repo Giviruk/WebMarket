@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using DataClassLibrary;
 using DataClassLibrary.DbContext;
 using FunctionLibraryFS;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
 
 namespace WebMarket.Controllers
 {
@@ -67,14 +68,38 @@ namespace WebMarket.Controllers
         }
 
         [HttpGet("Bestsellers")]
-        public string GetBestsellers()
+        public ActionResult<Product> GetBestsellers()
         {
-            var result = _context.Products
-                .Where(p => p.Producer == "Apple")
-                .ToList();
-            result.Add(_context.Products.FirstOrDefault(p => p.Producer != "Apple"));
+            try
+            {
 
-            return JsonConvert.SerializeObject(result);
+                var orderProducts = _context.OrderProducts.ToList();
+                var dicOrderProduct = new Dictionary<int?, int?>();
+                foreach (var product in orderProducts)
+                {
+                    if (!dicOrderProduct.Keys.Contains(product.Productid))
+                    {
+                        dicOrderProduct.Add(product.Productid, 1);
+                    }
+                    else
+                    {
+                        dicOrderProduct[product.Productid] += 1;
+                    }
+                }
+
+                var topProductsId = dicOrderProduct.OrderByDescending(x => x.Value).Select(x => x.Key).ToList().Take(3);
+                var topProduct = new List<Product>();
+                foreach (var productid in topProductsId)
+                {
+                    topProduct.Add(_context.Products.Find(productid));
+                }
+
+                return Ok(topProduct);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
 
 
