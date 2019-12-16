@@ -47,6 +47,7 @@ module ProfileControllerFs =
             //| :? System.Exception as ex -> printf "%s" (ex.Message); None
             | _ -> None
 
+    //work
     let ChangePassword(context : AbstractDbContext,userEmail: string,userPassword:string) =
         try
             let mutable user = context.Users.ToList().FirstOrDefault(fun u -> u.Login = userEmail)

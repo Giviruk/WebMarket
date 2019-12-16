@@ -122,7 +122,7 @@ module ProductControllerFs =
     
     //work
     let AddProduct(context:AbstractDbContext) (newProduct:Product) =
-        use trnsaction = context.Database.BeginTransaction() 
+        use transaction = context.Database.BeginTransaction() 
         try
                 
             context.Products.Add(newProduct) |> ignore;
@@ -130,11 +130,11 @@ module ProductControllerFs =
 
             let newProductId = context.Products.ToList().LastOrDefault().Id;
 
-            trnsaction.Commit() |> ignore;
+            transaction.Commit() |> ignore;
 
             Some(newProductId);
         with
-            | _ -> trnsaction.Rollback(); None;
+            | _ -> transaction.Rollback(); None;
     //work
     let DeleteProduct(context : AbstractDbContext) (productId : int) =
         try

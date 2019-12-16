@@ -3,6 +3,8 @@ using System.Linq;
 using DataClassLibrary;
 using Microsoft.AspNetCore.Mvc;
 using DataClassLibrary.DbContext;
+using System.Collections.Generic;
+using Microsoft.FSharp.Core;
 
 namespace WebMarket.Controllers
 {
@@ -74,5 +76,29 @@ namespace WebMarket.Controllers
                 return BadRequest(ex);
             }
         }
+
+        [HttpPut("addProductImages/{productId}")]
+        public IActionResult AddProductImages(int productId,[FromBody]List<Image> images)
+        {
+            var result = FunctionLibraryFS.ImageControllerFs.AddProductImages(_context,images, productId);
+
+            if (FSharpOption<Unit>.get_IsSome(result))
+                return Ok(result.Value);
+            else
+                return BadRequest();
+        }
+
+        [HttpPut("updateProducImages/{productId}")]
+        public IActionResult UpdateProductImages(int productId, [FromBody]List<Image> images)
+        {
+            var result = FunctionLibraryFS.ImageControllerFs.UpdateProductImages(_context, images, productId);
+
+            if (FSharpOption<Unit>.get_IsSome(result))
+                return Ok(result.Value);
+            else
+                return BadRequest();
+        }
+
+
     }
 }
