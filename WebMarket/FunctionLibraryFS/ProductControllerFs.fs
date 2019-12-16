@@ -97,17 +97,29 @@ module ProductControllerFs =
             let mutable product = context.Products.Find(productId);
 
             product.Category <- modifiedProduct.Category;
+            context.SaveChanges() |> ignore;
             product.CategoryNavigation <- modifiedProduct.CategoryNavigation;
+            context.SaveChanges() |> ignore;
             product.Characteristics <- modifiedProduct.Characteristics;
+            context.SaveChanges() |> ignore;
             product.Description <- modifiedProduct.Description;
+            context.SaveChanges() |> ignore;
             product.Mainpictureurl <- modifiedProduct.Mainpictureurl;
+            context.SaveChanges() |> ignore;
             product.MainpictureurlNavigation <- modifiedProduct.MainpictureurlNavigation;
+            context.SaveChanges() |> ignore;
             product.Name <- modifiedProduct.Name;
+            context.SaveChanges() |> ignore;
             product.OrderProducts <- modifiedProduct.OrderProducts;
+            context.SaveChanges() |> ignore;
             product.Price <- modifiedProduct.Price;
+            context.SaveChanges() |> ignore;
             product.Producer <- modifiedProduct.Producer;
+            context.SaveChanges() |> ignore;
             product.ProductImages <- modifiedProduct.ProductImages;
+            context.SaveChanges() |> ignore;
             product.ProductRating <- modifiedProduct.ProductRating;
+            context.SaveChanges() |> ignore;
             product.Review <- modifiedProduct.Review;
 
             context.SaveChanges() |> ignore;
