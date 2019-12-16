@@ -10,12 +10,27 @@ open System
 
 module ImageControllerFs =
 
+    let DeleteImage(context : AbstractDbContext,imageId : int, productId : int) =
+        try
+            let deleteFromProductImages =
+                context.ProductImages.Remove(context.ProductImages.ToList().FirstOrDefault(fun pi -> pi.Productid.Value = productId && pi.Imageid.Value = imageId))
+
+            let deleteFromImages = 
+                context.Images.Remove(context.Images.ToList().FirstOrDefault(fun i -> i.Id = imageId))
+
+            deleteFromProductImages |> ignore
+            deleteFromImages |> ignore
+            Some()
+        with
+            | _ -> None;
+
+
     let AddProductImages(context : AbstractDbContext,images : System.Collections.Generic.List<Image>,productId : int) =
         use transaction = context.Database.BeginTransaction()
         try  
             
             let getImagesIdAndAddImages (imagesList : System.Collections.Generic.List<Image>) =
-                let lst = [for i in images -> (context.Images.Add(i)|>ignore;context.SaveChanges()|>ignore;context.Images.LastOrDefault().Id)]
+                let lst = [for i in images -> (context.Images.Add(i)|>ignore;context.SaveChanges()|>ignore;context.Images.ToList().LastOrDefault().Id)]
                 lst
              
             
@@ -35,7 +50,7 @@ module ImageControllerFs =
 
     let UpdateProductImages(context : AbstractDbContext,images : System.Collections.Generic.List<Image>,productId : int) =
         try
-            let dbImagesUrl = context.Images.Select(fun i -> i.Imagepath).ToList();
+            let dbImagesUrl = context.Images.ToList().Select(fun i -> i.Imagepath).ToList();
             let IsSutableImage (image : Image) =
                  let b = dbImagesUrl.Contains(image.Imagepath)
                  not(b); 

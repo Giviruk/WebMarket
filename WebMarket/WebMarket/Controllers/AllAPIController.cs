@@ -47,7 +47,8 @@ namespace WebMarket.Controllers
                 "https://webmarket911.herokuapp.com/api/orders/getAll - get метод,который возвращает все заказы \n" +
                 "https://webmarket911.herokuapp.com/api/orders/update/{orderId} - put метод,который принимает на вход orderId и объект типа order. Отправляет оповещение по email \n" +
                 "https://webmarket911.herokuapp.com/api/image/addProductImages/{productId} - put метод, который принимает на вход id продукта и List<Image> \n" + 
-                "https://webmarket911.herokuapp.com/api/image/updateProducImages/{producId} - put метод, который принимает на вход id продукта и List<Image> сущуствующие в бд картинки не добавляет \n";
+                "https://webmarket911.herokuapp.com/api/image/updateProducImages/{producId} - put метод, который принимает на вход id продукта и List<Image> сущуствующие в бд картинки не добавляет \n" +
+                "https://webmarket911.herokuapp.com/api/image/deleteImage/{imageId} - put метод, который принимает на вход int imageId и int productId и удаляет картинку \n";
 
 
             //var controllers2 =

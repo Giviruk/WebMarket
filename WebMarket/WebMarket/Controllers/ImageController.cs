@@ -16,7 +16,7 @@ namespace WebMarket.Controllers
         {
             _context = context;
         }
-        
+
         [HttpGet]
         public ActionResult Get()
         {
@@ -24,12 +24,12 @@ namespace WebMarket.Controllers
             {
                 return Ok(_context.Images.ToList());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex);
             }
         }
-        
+
         [HttpGet("{id}")]
         public ActionResult Get(int id)
         {
@@ -45,7 +45,7 @@ namespace WebMarket.Controllers
                 return BadRequest(ex);
             }
         }
-        
+
         [HttpPut]
         public IActionResult Put([FromBody]Image image)
         {
@@ -57,24 +57,21 @@ namespace WebMarket.Controllers
                 var _image = images[images.Count - 1];
                 return Ok(_image.Id);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex);
             }
         }
-        
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+
+        [HttpPut("deleteImage/{imageId}")]
+        public IActionResult Delete(int imageId, [FromBody]int productId)
         {
-            try
-            {
-                _context.Images.Remove(_context.Images.Find(id));
+            var result = FunctionLibraryFS.ImageControllerFs.DeleteImage(_context, imageId, productId);
+
+            if (FSharpOption<Unit>.get_IsSome(result))
                 return Ok();
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex);
-            }
+            else
+                return BadRequest();
         }
 
         [HttpPut("addProductImages/{productId}")]
