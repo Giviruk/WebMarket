@@ -61,7 +61,7 @@ namespace WebMarket.Controllers
             try
             {
                 if (_context.Users.Where(u => u.Login == userEmail).Count() != 0)
-                    return BadRequest(null);
+                    return Ok(new List<Order>());
 
                 var ordersList = _context.Orders.Where(o => o.Email == userEmail).ToList();
 
