@@ -135,5 +135,22 @@ namespace WebMarket.Controllers
         {
             return _context.ProductImages.Any(e => e.Id == id);
         }
+
+        [HttpPut("addProductImage/{imageId}")]
+        public IActionResult AddProductImage(int imageId,[FromBody]int productId)
+        {
+            try
+            {
+                _context.ProductImages.Add(new ProductImage() { Productid = productId, Imageid = imageId });
+                _context.SaveChanges();
+                var images = _context.ProductImages.ToList();
+                var _image = images[images.Count - 1];
+                return Ok(_image.Id);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
     }
 }
