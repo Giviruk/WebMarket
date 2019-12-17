@@ -46,7 +46,7 @@ namespace WebMarket.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPut("add")]
         public IActionResult Put([FromBody]Image image)
         {
             try
@@ -130,7 +130,5 @@ namespace WebMarket.Controllers
             else
                 return BadRequest();
         }
-
-
     }
 }
