@@ -205,6 +205,5 @@ namespace WebMarket.Controllers
             else
                 return BadRequest();
         }
-
     }
 }

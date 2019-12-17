@@ -106,13 +106,43 @@ namespace WebMarket.Controllers
             try
             {
                 var category =  _context.Categories.Find(id);
-                if (category == null)
+
+                var categroyProducts = _context.Products.ToList().Where(p => p.Category.Value == category.Id).ToList();
+
+                var productsIds = categroyProducts.Select(cp => cp.Id).ToList();
+
+                var productImages = _context.ProductImages.ToList().Where(pi => productsIds.Contains(pi.Productid.Value)).ToList();
+
+                foreach(var i in productImages)
                 {
-                    return NotFound();
+                    _context.ProductImages.Remove(i);
+                    _context.SaveChanges();
                 }
 
+                var productOrder = _context.OrderProducts.ToList().Where(op => productsIds.Contains(op.Productid.Value)).ToList();
+
+                foreach(var po in productOrder)
+                {
+                    _context.OrderProducts.Remove(po);
+                    _context.SaveChanges();
+                }
+
+                var productReviews = _context.Reviews.ToList().Where(r => productsIds.Contains(r.ProductId)).ToList();
+
+                foreach(var r in productReviews)
+                {
+                    _context.Reviews.Remove(r);
+                    _context.SaveChanges();
+                }
+
+                foreach(var cp in categroyProducts)
+                {
+                    _context.Products.Remove(cp);
+                    _context.SaveChanges();
+                }
+
+
                 _context.Categories.Remove(category);
-                _context.SaveChanges();
 
                 return Ok(id);
             }

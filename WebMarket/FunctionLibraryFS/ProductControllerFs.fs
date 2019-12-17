@@ -161,6 +161,49 @@ module ProductControllerFs =
 
             if isNull(product) then
                 invalidArg "" ""
+    
+            let deleteProductImages = 
+                let IsSuitablePI(productImage : ProductImage) =
+                    productImage.Productid.Value = productId
+                let piList = 
+                    context.ProductImages
+                    |> Seq.toList
+                    |> List.filter IsSuitablePI
+                let deletePi =
+                    for pi in piList do
+                        context.ProductImages.Remove(pi) |> ignore
+                        context.SaveChanges() |> ignore
+                deletePi
+
+            let deleteOrderProducts = 
+                let IsSuitableOrderProducrt(orderProduct : OrderProduct) =
+                    orderProduct.Productid.Value = productId
+                let opList = 
+                    context.OrderProducts
+                    |> Seq.toList
+                    |> List.filter IsSuitableOrderProducrt
+                let deleteOp =
+                    for op in opList do
+                        context.OrderProducts.Remove(op) |> ignore
+                        context.SaveChanges() |> ignore
+                deleteOp 
+
+            let deleteProductReviews =
+                let IsSuitableReview(review : Review) =
+                    review.ProductId =  productId
+                let rList =
+                    context.Reviews
+                    |> Seq.toList
+                    |> List.filter IsSuitableReview
+                let deleteReviews =
+                    for r in rList do
+                        context.Reviews.Remove(r) |> ignore
+                        context.SaveChanges() |> ignore
+                deleteReviews
+
+            deleteProductImages |> ignore
+            deleteProductReviews |> ignore
+            deleteOrderProducts |> ignore    
 
             context.Products.Remove(product) |>ignore;
             context.SaveChanges() |> ignore;
