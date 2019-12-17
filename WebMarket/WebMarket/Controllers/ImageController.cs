@@ -77,12 +77,47 @@ namespace WebMarket.Controllers
         [HttpPut("addProductImages/{productId}")]
         public IActionResult AddProductImages(int productId,[FromBody]List<Image> images)
         {
-            var result = FunctionLibraryFS.ImageControllerFs.AddProductImages(_context,images, productId);
+
+            var result = FunctionLibraryFS.ImageControllerFs.AddProductImages(_context, images, productId);
 
             if (FSharpOption<Unit>.get_IsSome(result))
-                return Ok(result.Value);
+                return Ok();
             else
                 return BadRequest();
+
+            //using (var transaction = _context.Database.BeginTransaction())
+            //{
+            //    try
+            //    {
+            //        var imagesIds = new List<int>();
+
+            //        foreach(var i in images)
+            //        {
+            //            _context.Images.Add(i);
+            //            _context.SaveChanges();
+            //            var lastId = _context.Images.ToList().LastOrDefault().Id;
+
+            //            imagesIds.Add(lastId);
+
+            //        }
+
+
+            //        foreach(var id in imagesIds)
+            //        {
+            //            _context.ProductImages.Add(new ProductImage() { Productid = productId, Imageid = id });
+            //            _context.SaveChanges();
+            //        }
+
+            //        transaction.Commit();
+
+            //        return Ok();
+            //    }
+            //    catch(Exception ex)
+            //    {
+            //        transaction.Rollback();
+            //        return BadRequest(ex);
+            //    }
+            //}
         }
 
         [HttpPut("updateProducImages/{productId}")]

@@ -116,8 +116,8 @@ module ProductControllerFs =
             context.SaveChanges() |> ignore;
             product.Producer <- modifiedProduct.Producer;
             context.SaveChanges() |> ignore;
-            product.ProductImages <- modifiedProduct.ProductImages;
-            context.SaveChanges() |> ignore;
+            //product.ProductImages <- modifiedProduct.ProductImages;
+            //context.SaveChanges() |> ignore;
             product.ProductRating <- modifiedProduct.ProductRating;
             context.SaveChanges() |> ignore;
             product.Review <- modifiedProduct.Review;
