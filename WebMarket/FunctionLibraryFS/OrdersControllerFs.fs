@@ -56,7 +56,7 @@ module OrdersControllerFs =
                 send 
             Some(NotifyUser)
         with
-        | :? System.Exception as ex -> printf "%s" (ex.Message); None
+        //| :? System.Exception as ex -> printf "%s" (ex.Message); None
         | _ -> None
 
 
@@ -105,7 +105,7 @@ module OrdersControllerFs =
 
             Some(order)
         with
-            | :? System.Exception as ex -> printf "%s" (ex.Message); None
+            //| :? System.Exception as ex -> printf "%s" (ex.Message); None
             | _ -> None
 
 

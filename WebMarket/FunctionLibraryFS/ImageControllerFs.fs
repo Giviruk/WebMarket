@@ -34,11 +34,15 @@ module ImageControllerFs =
             let addImage(image:Image) = 
                 context.Images.Add(image) |> ignore
                 context.SaveChanges() |> ignore
-                let getlastId =
+
+                let getImageId(i : Image) =
+                    i.Id
+
+                let imageList =
                     context.Images  
                     |> Seq.toList
-                    |> List.last
-                getlastId.Id
+                let lst = [for i in imageList do yield(getImageId(i))]
+                lst.Max()
                     
                 
 
@@ -47,17 +51,7 @@ module ImageControllerFs =
                 lst
 
             let imagesIds = getImagesIdAndAddImages(images)
-
-            let getLastPiId = 
-               let lastPi = 
-                    context.ProductImages.ToList().Select(fun pi -> pi.Id).ToList() 
-                    |> Seq.toList
-                    |> List.sort
-                    |> List.last
-               let i = lastPi + 1
-               i
                 
-
             let addProductImage(iId : int) =
                 let productImage = new ProductImage()
                 productImage.Imageid <- new System.Nullable<int>(iId)
@@ -72,7 +66,7 @@ module ImageControllerFs =
             transaction.Commit() |> ignore
             Some(addProductImagesInDb)
         with
-            | :? System.Exception as ex -> printfn "%s" (ex.Message);transaction.Rollback(); None
+           // | :? System.Exception as ex -> printfn "%s" (ex.Message);transaction.Rollback(); None
             | _ -> transaction.Rollback();None
 
 
@@ -97,6 +91,5 @@ module ImageControllerFs =
 
             Some(AddProductImages(context,castListToICollection(suitableImages(images)),productId).Value)
         with
-            | :? System.Exception as ex -> printfn "%s" (ex.Message); None
+            //| :? System.Exception as ex -> printfn "%s" (ex.Message); None
             | _ -> None
-
