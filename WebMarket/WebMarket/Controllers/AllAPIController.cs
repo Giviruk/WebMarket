@@ -52,10 +52,6 @@ namespace WebMarket.Controllers
                 "https://webmarket911.herokuapp.com/api/image/add - put метод который прнимает на вход один объект ImageId и добавляет его в бд \n" +
                 "https://webmarket911.herokuapp.com/api/Productimages/addProductImage/{imageId} - put метод который прнимает на вход один объект imageId и productId и добавляет его в бд \n";
 
-
-            //var controllers2 =
-
-
             return controllers;
         }
     }    
