@@ -6,7 +6,6 @@ using Newtonsoft.Json;
 using DataClassLibrary;
 using System.Collections.Generic;
 using System.Net;
-using System.IO;
 using System;
 
 namespace WebMarket.Controllers
@@ -50,12 +49,5 @@ namespace WebMarket.Controllers
                 return BadRequest(ex);
             }
         }
-
-        [Fact]
-        public void TestPostProductReview()
-        {
-
-        }
-
     }
 }
