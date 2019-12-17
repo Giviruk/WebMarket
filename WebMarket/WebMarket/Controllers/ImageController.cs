@@ -54,8 +54,8 @@ namespace WebMarket.Controllers
                 _context.Images.Add(image);
                 _context.SaveChanges();
                 var images = _context.Images.ToList();
-                var _image = images[images.Count - 1];
-                return Ok(_image.Id);
+                var _imageId = images.Select(i => i.Id).ToList().Max();
+                return Ok(_imageId);
             }
             catch (Exception ex)
             {
