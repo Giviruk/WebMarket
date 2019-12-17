@@ -47,23 +47,9 @@ namespace WebMarket.Controllers
         [HttpGet("Novelties")]
         public string GetNovelties()
         {
-            var random = new Random();
-            var selectedProductsList = new List<Product>();
+            var lastProducts = _context.Products.OrderByDescending(p => p.Id).Take(3).ToList();
 
-            var idList = _context.Products
-                .Select(p => p.Id)
-                .ToList();
-            
-
-            for(int i = 0; i<3;i++)
-            {
-                var val = random.Next();
-                int index = idList[val % (idList.Count)];
-                idList.Remove(index);
-                selectedProductsList.Add(_context.Products.FirstOrDefault(p => p.Id == index));
-            }
-
-            return JsonConvert.SerializeObject(selectedProductsList);
+            return JsonConvert.SerializeObject(lastProducts);
 
         }
 
