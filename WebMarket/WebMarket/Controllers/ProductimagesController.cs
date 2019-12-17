@@ -143,9 +143,7 @@ namespace WebMarket.Controllers
             {
                 _context.ProductImages.Add(new ProductImage() { Productid = productId, Imageid = imageId });
                 _context.SaveChanges();
-                var images = _context.ProductImages.ToList();
-                var _image = images[images.Count - 1];
-                return Ok(_image.Id);
+                return Ok();
             }
             catch (Exception ex)
             {

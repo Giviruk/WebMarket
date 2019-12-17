@@ -140,7 +140,13 @@ module ProductControllerFs =
             context.Products.Add(newProduct) |> ignore;
             context.SaveChanges() |> ignore;
 
-            let newProductId = context.Products.ToList().LastOrDefault().Id;
+            let getProductId(product:Product) =
+                product.Id
+
+            let productList = context.Products.ToList()
+            let lst = [for p in productList do yield(getProductId(p))]
+
+            let newProductId = List.max lst;
 
             transaction.Commit() |> ignore;
 
