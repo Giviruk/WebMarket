@@ -17,11 +17,5 @@ namespace DataClassLibrary.DbContext
         public virtual DbSet<UserOrder> UserOrders { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<OrderProduct> OrderProducts { get; set; }
-
-        //public  AbstractDbContext(DbContextOptions<d6h4jeg5tcb9d8Context> options)
-        //    :base(options)
-        //{
-
-        //}
     }
 }

@@ -34,16 +34,6 @@ namespace WebMarket.Controllers
                 return Ok(resultProducts.Value);
             else
                 return BadRequest();
-
-            //try
-            //{
-            //    var productsList = await _context.Products.ToListAsync();
-            //    return Ok(productsList);
-            //}
-            //catch (Exception exx)
-            //{
-            //    return BadRequest(exx);
-            //}
         }
 
         [HttpGet("product/{id}")]
@@ -56,27 +46,6 @@ namespace WebMarket.Controllers
                 return Ok(product.Value);
             else
                 return BadRequest();
-
-            //try
-            //{
-            //    var product =  _context.Products.FirstOrDefault(p => p.Id == id);
-            //    var images = _context.ProductImages.Where(x => x.Productid == product.Id).ToList();
-            //    foreach (var image in images)
-            //    {
-            //        image.Image = _context.Images.FirstOrDefault(x => x.Id == image.Id);
-            //    }
-
-            //    product.MainpictureurlNavigation = _context.Images.Find(product.Mainpictureurl);
-            //    product.ProductImages = images;
-
-            //    var _images = _context.Images.ToList();
-            //    var _images2 = _context.ProductImages.ToList();
-            //    return Ok(product);
-            //}
-            //catch (Exception ex)
-            //{
-            //    return BadRequest(ex);
-            //}
         }
 
         [HttpGet("product/{id}/products")]
@@ -116,12 +85,6 @@ namespace WebMarket.Controllers
                 return Ok(getResult.Value);
             else
                 return BadRequest();
-
-            //var selectedProducts =  _context.Products
-            //    .Where(p => p.Category == categoryId)
-            //    .ToList();
-
-            //return JsonConvert.SerializeObject(selectedProducts);
         }
 
         // PUT: api/Products/5
@@ -137,39 +100,6 @@ namespace WebMarket.Controllers
                 return Ok(updateResult.Value);
             else
                 return BadRequest();
-
-
-            //try
-            //{
-            //    var product = _context.Products.Find(id);
-
-            //    if (modifiedProduct.Id != id || modifiedProduct.Category == null)
-            //        throw new ArgumentException();
-
-            //    product.Category = modifiedProduct.Category;
-            //    product.CategoryNavigation = modifiedProduct.CategoryNavigation;
-            //    product.Characteristics = modifiedProduct.Characteristics;
-            //    product.Description = modifiedProduct.Description;
-            //    product.Mainpictureurl = modifiedProduct.Mainpictureurl;
-            //    product.MainpictureurlNavigation = modifiedProduct.MainpictureurlNavigation;
-            //    product.Name = modifiedProduct.Name;
-            //    product.OrderProducts = modifiedProduct.OrderProducts;
-            //    product.Price = modifiedProduct.Price;
-            //    product.Producer = modifiedProduct.Producer;
-            //    product.ProductImages = modifiedProduct.ProductImages;
-            //    product.ProductRating = modifiedProduct.ProductRating;
-            //    product.Review = modifiedProduct.Review;              
-
-            //    _context.SaveChanges();
-            //    _context.Entry(modifiedProduct).State = EntityState.Modified;
-
-            //    return Ok(modifiedProduct.Id);
-
-            //}
-            //catch(Exception ex)
-            //{
-            //    return BadRequest(ex);
-            //}
         }
 
         // POST: api/Products
@@ -185,28 +115,6 @@ namespace WebMarket.Controllers
                 return Ok(option.Value);
             else
                 return BadRequest();
-
-            //using (var transaction = _context.Database.BeginTransaction())
-            //{
-            //    try
-            //    {
-            //        if (newProduct.Category == null)
-            //            throw new ArgumentException();
-
-            //        _context.Products.Add(newProduct);
-            //        _context.SaveChanges();
-
-            //        var newProductId = _context.Products.ToList().LastOrDefault();
-
-            //        transaction.Commit();
-            //        return Ok(newProductId);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        transaction.Rollback();
-            //        return BadRequest(ex);
-            //    }
-            //}
         }
 
         // DELETE: api/Products/5
@@ -220,19 +128,6 @@ namespace WebMarket.Controllers
                 return Ok(result.Value);
             else
                 return BadRequest();
-
-
-
-            //var product =  _context.Products.Find(id);
-            //if (product == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //_context.Products.Remove(product);
-            // _context.SaveChanges();
-
-            //return product;
         }
     }
 }

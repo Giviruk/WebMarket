@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using DataClassLibrary;
 using Microsoft.AspNetCore.Mvc;
 using DataClassLibrary.DbContext;
+using Microsoft.FSharp.Core;
+using System.Collections.Generic;
 
 namespace WebMarket.Controllers
 {
@@ -20,25 +22,34 @@ namespace WebMarket.Controllers
         [HttpGet("{productId}")]
         public ActionResult<string> GetProductReviews(int productId)
         {
-            var result = _context.Reviews.Where(r => r.ProductId == productId).ToList();
+            var result = FunctionLibraryFS.ReviewControollerFs.GetProductReviews(_context, productId);
 
-            return Ok(result);
+            if (FSharpOption<List<Review>>.get_IsSome(result))
+                return Ok(result.Value);
+            else
+                return BadRequest();
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]Review review)
         {
-            try
-            {       
-               await  _context.Reviews.AddAsync(review);
-               await  _context.SaveChangesAsync();
+            var result = FunctionLibraryFS.ReviewControollerFs.AddProduct(_context, review);
 
-                return Ok();
-            }
-            catch (Exception exception)
-            {
-                return BadRequest(exception);
-            }
+            if (FSharpOption<Unit>.get_IsSome(result))
+                return Ok(result.Value);
+            else
+                return BadRequest();
+            //try
+            //{       
+            //   await  _context.Reviews.AddAsync(review);
+            //   await  _context.SaveChangesAsync();
+
+            //    return Ok();
+            //}
+            //catch (Exception exception)
+            //{
+            //    return BadRequest(exception);
+            //}
         }
     }
 }

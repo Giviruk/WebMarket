@@ -7,9 +7,8 @@ open DataClassLibrary.Logic.Email
 open Microsoft.EntityFrameworkCore
 open System.Text
 
-module ReviewControollerFs=
-        
-        let GetProductReviews(context:AbstractDbContext,productId : int) =
+module ReviewControollerFs =
+        let GetProductReviews(context:AbstractDbContext,productId : int) =     
             try
                 let IsSuitableReview(review:Review) =
                     review.ProductId = productId
@@ -23,8 +22,19 @@ module ReviewControollerFs=
                     let cast = ResizeArray<'T> list
                     cast
                    
-                Some(castListToICollection(productReview))    
-                
+                Some(castListToICollection(productReview))                  
             with
-                | _ -> None;
+                | _ -> None
+
+        let AddProduct(context:AbstractDbContext,review :Review) =
+            try
+                context.Reviews.Add(review) |> ignore
+                context.SaveChanges() |> ignore
+
+                Some()
+            with
+                | _ -> None
+
+        
+
 

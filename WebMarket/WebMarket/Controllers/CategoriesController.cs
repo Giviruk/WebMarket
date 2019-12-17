@@ -57,34 +57,6 @@ namespace WebMarket.Controllers
                 return Ok(result.Value);
             else
                 return BadRequest();
-            
-            //try
-            //{
-            //    var category = _context.Categories.Find(id);
-
-            //    if (id != modifyedCategory.Id)
-            //        return BadRequest();
-
-            //    category.Name = modifyedCategory.Name;
-            //    category.Characteristics = modifyedCategory.Characteristics;
-            //    category.Product = modifyedCategory.Product; ;
-            //    _context.SaveChanges();
-            //    _context.Entry(category).State = EntityState.Modified;
-
-            //    return Ok(modifyedCategory.Id);
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    if (!CategoriesExists(id))
-            //    {
-            //        return NotFound();
-            //    }
-            //    else
-            //    {
-            //        return BadRequest();
-            //    }
-            //}
         }
 
         // POST: api/Categories
