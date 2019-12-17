@@ -19,7 +19,9 @@ module ImageControllerFs =
                 context.Images.Remove(context.Images.ToList().FirstOrDefault(fun i -> i.Id = imageId))
 
             deleteFromProductImages |> ignore
+            context.SaveChanges() |> ignore
             deleteFromImages |> ignore
+            context.SaveChanges() |>ignore
             Some()
         with
             | _ -> None;
@@ -29,22 +31,48 @@ module ImageControllerFs =
         use transaction = context.Database.BeginTransaction()
         try  
             
+            let addImage(image:Image) = 
+                context.Images.Add(image) |> ignore
+                context.SaveChanges() |> ignore
+                let getlastId =
+                    context.Images  
+                    |> Seq.toList
+                    |> List.last
+                getlastId.Id
+                    
+                
+
             let getImagesIdAndAddImages (imagesList : System.Collections.Generic.List<Image>) =
-                let lst = [for i in images -> (context.Images.Add(i)|>ignore;context.SaveChanges()|>ignore;context.Images.ToList().LastOrDefault().Id)]
+                let lst = [for i in images do yield (addImage(i))]
                 lst
-             
-            
+
+            let imagesIds = getImagesIdAndAddImages(images)
+
+            let getLastPiId = 
+               let lastPi = 
+                    context.ProductImages.ToList().Select(fun pi -> pi.Id).ToList() 
+                    |> Seq.toList
+                    |> List.sort
+                    |> List.last
+               let i = lastPi + 1
+               i
+                
+
+            let addProductImage(iId : int) =
+                let productImage = new ProductImage()
+                productImage.Imageid <- new System.Nullable<int>(iId)
+                productImage.Productid <- new System.Nullable<int>(productId)
+                context.ProductImages.Add(productImage) |> ignore
+                context.SaveChanges() |> ignore
+
             let addProductImagesInDb =
-                for imageId in getImagesIdAndAddImages(images) do
-                    let mutable productImage = new ProductImage()
-                    productImage.Imageid <- new System.Nullable<int>(imageId)
-                    productImage.Productid <- new System.Nullable<int>(productId)
-                    context.ProductImages.Add(productImage) |> ignore
-                    context.SaveChanges() |> ignore
+                for imageId in imagesIds do
+                    addProductImage(imageId)
                
             transaction.Commit() |> ignore
             Some(addProductImagesInDb)
         with
+            | :? System.Exception as ex -> printfn "%s" (ex.Message);transaction.Rollback(); None
             | _ -> transaction.Rollback();None
 
 
