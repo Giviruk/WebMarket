@@ -143,6 +143,7 @@ namespace WebMarket.Controllers
 
 
                 _context.Categories.Remove(category);
+                _context.SaveChanges();
 
                 return Ok(id);
             }
