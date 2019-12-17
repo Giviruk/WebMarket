@@ -67,7 +67,7 @@ module ProductControllerFs =
 
             Some(product)
         with
-            | :? System.Exception as ex -> printfn "%s" (ex.Message); None
+           // | :? System.Exception as ex -> printfn "%s" (ex.Message); None
             | _ -> None
         
         
@@ -152,7 +152,7 @@ module ProductControllerFs =
 
             Some(newProductId);
         with
-            | :? System.Exception as ex -> printfn "%s" (ex.Message);transaction.Rollback(); None
+            //| :? System.Exception as ex -> printfn "%s" (ex.Message);transaction.Rollback(); None
             | _ -> transaction.Rollback(); None;
     //work
     let DeleteProduct(context : AbstractDbContext) (productId : int) =
@@ -167,12 +167,5 @@ module ProductControllerFs =
 
             Some(productId);
         with
-            | :? System.Exception as ex -> printfn "%s" (ex.Message); None
-            | _ -> None;
-
-
-
-            
-            
-
-        
+            //| :? System.Exception as ex -> printfn "%s" (ex.Message); None
+            | _ -> None;                     

@@ -42,8 +42,8 @@ namespace WebMarket.Controllers
 
             try
             {
-                Assert.Equal(expectedReviewsList.FirstOrDefault().ReviewId, result.FirstOrDefault().ReviewId);
-                return Ok("true");
+                Assert.Equal(expectedReviewsList.Count(), result.Count());
+                return Ok("TestGetProductReiew -> Success");
             }
             catch(Exception ex)
             {

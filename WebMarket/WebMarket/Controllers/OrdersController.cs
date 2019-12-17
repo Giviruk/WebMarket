@@ -110,7 +110,7 @@ namespace WebMarket.Controllers
                     _context.Orders.Add(order);
                     _context.SaveChanges();
                     int? userId =  order.Owner;
-                    int orderId = _context.Orders.ToList().LastOrDefault().Id;
+                    int orderId = _context.Orders.ToList().Select(o => o.Id).Max();
 
                     foreach (var p in products)
                     {

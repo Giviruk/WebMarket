@@ -56,7 +56,7 @@ module ProfileControllerFs =
             context.Entry(user).State <- EntityState.Modified
             Some(user.Id)
         with
-            |  :? System.Exception as ex -> printf "%s" (ex.Message); None
+            //|  :? System.Exception as ex -> printf "%s" (ex.Message); None
             | _ -> None
         
 
