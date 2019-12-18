@@ -50,7 +50,6 @@ namespace WebMarket.Controllers
             var lastProducts = _context.Products.OrderByDescending(p => p.Id).Take(3).ToList();
 
             return JsonConvert.SerializeObject(lastProducts);
-
         }
 
         [HttpGet("Bestsellers")]
@@ -58,7 +57,6 @@ namespace WebMarket.Controllers
         {
             try
             {
-
                 var orderProducts = _context.OrderProducts.ToList();
                 var dicOrderProduct = new Dictionary<int?, int?>();
                 foreach (var product in orderProducts)

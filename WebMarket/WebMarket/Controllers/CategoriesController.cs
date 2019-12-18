@@ -31,7 +31,6 @@ namespace WebMarket.Controllers
             return JsonConvert.SerializeObject(selectedData);
         }
 
-
         [HttpGet("{id}")]
         public async Task<ActionResult<string>> GetCategory(int categoryId)
         {
@@ -122,14 +121,7 @@ namespace WebMarket.Controllers
             catch(Exception ex)
             {
                 return BadRequest(ex);
-            }
-            
-
-        }
-
-        private bool CategoriesExists(int id)
-        {
-            return _context.Categories.Any(e => e.Id == id);
+            }            
         }
 
         [HttpPost("addCategory")]

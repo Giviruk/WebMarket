@@ -39,17 +39,6 @@ namespace WebMarket.Controllers
                 return Ok(result.Value);
             else
                 return BadRequest();
-            //try
-            //{       
-            //   await  _context.Reviews.AddAsync(review);
-            //   await  _context.SaveChangesAsync();
-
-            //    return Ok();
-            //}
-            //catch (Exception exception)
-            //{
-            //    return BadRequest(exception);
-            //}
         }
     }
 }
