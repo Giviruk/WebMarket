@@ -82,12 +82,14 @@ namespace WebMarket.Controllers
         [HttpGet("category/{categoryId}")]
         public ActionResult<string> GetProductsFromCategory(int categoryId)
         {
-            var getResult = ProductControllerFs.GetProductsFromCategory(_context, categoryId);
+            //var getResult = ProductControllerFs.GetProductsFromCategory(_context, categoryId);
 
-            if (FSharpOption<Microsoft.FSharp.Collections.FSharpList<Product>>.get_IsSome(getResult))
-                return Ok(getResult.Value.Where(x=>x.Status != "delete").ToList());
-            else
-                return BadRequest();
+            //if (FSharpOption<Microsoft.FSharp.Collections.FSharpList<Product>>.get_IsSome(getResult))
+            //    return Ok(getResult.Value);
+            //else
+            //    return BadRequest();
+            var category = _context.Categories.Include(x => x.Products).FirstOrDefault(x => x.Id == categoryId);
+            return Ok(category.Products);
         }
 
         // PUT: api/Products/5

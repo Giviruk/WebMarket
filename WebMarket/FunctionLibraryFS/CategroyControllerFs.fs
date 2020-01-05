@@ -30,4 +30,3 @@ module CategoryControllerFs =
         with
             | :? DbUpdateException -> None;
             | _ -> None;
-
