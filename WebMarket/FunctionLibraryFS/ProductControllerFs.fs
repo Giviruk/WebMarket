@@ -62,7 +62,7 @@ module ProductControllerFs =
                             
             
             product.MainpictureurlNavigation <- context.Images.Find(product.Mainpictureurl)
-            product.ProductImages <-  castListToICollection(result.Value)
+            product.Productimages <-  castListToICollection(result.Value)
             product.Review <- castListToICollection(GetProductReviews)
 
             Some(product)
@@ -110,7 +110,7 @@ module ProductControllerFs =
             context.SaveChanges() |> ignore;
             product.Name <- modifiedProduct.Name;
             context.SaveChanges() |> ignore;
-            product.OrderProducts <- modifiedProduct.OrderProducts;
+            product.Productinorder <- modifiedProduct.Productinorder;
             context.SaveChanges() |> ignore;
             product.Price <- modifiedProduct.Price;
             context.SaveChanges() |> ignore;

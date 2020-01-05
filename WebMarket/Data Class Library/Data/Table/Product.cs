@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace DataClassLibrary
 {
@@ -7,9 +6,9 @@ namespace DataClassLibrary
     {
         public Product()
         {
-            ProductImages = new List<ProductImage>();
+            Productimages = new HashSet<ProductImage>();
+            Productinorder = new HashSet<OrderProduct>();
             Review = new HashSet<Review>();
-            OrderProducts = new List<OrderProduct>();
         }
 
         public int Id { get; set; }
@@ -20,14 +19,13 @@ namespace DataClassLibrary
         public string Producer { get; set; }
         public int? Mainpictureurl { get; set; }
         public string Characteristics { get; set; }
-
         public float? ProductRating { get; set; }
+        public string Status { get; set; }
 
         public virtual Category CategoryNavigation { get; set; }
         public virtual Image MainpictureurlNavigation { get; set; }
-        public virtual ICollection<ProductImage> ProductImages { get; set; }
-        [JsonIgnore]
-        public virtual ICollection<OrderProduct> OrderProducts { get; set; }
+        public virtual ICollection<ProductImage> Productimages { get; set; }
+        public virtual ICollection<OrderProduct> Productinorder { get; set; }
         public virtual ICollection<Review> Review { get; set; }
     }
 }

@@ -5,6 +5,13 @@ namespace DataClassLibrary.DbContext
     public abstract class AbstractDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
         public virtual DbSet<Category> Categories { get; set; }
+
+        //public d6h4jeg5tcb9d8Context(DbContextOptions<d6h4jeg5tcb9d8Context> options)
+        //    : base(options)
+        //{
+        //}
+
+        public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<City> Cities { get; set; }
         public virtual DbSet<Delivery> Deliveries { get; set; }
         public virtual DbSet<Image> Images { get; set; }

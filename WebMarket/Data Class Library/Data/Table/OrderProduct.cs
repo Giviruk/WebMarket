@@ -1,4 +1,5 @@
 ﻿
+
 namespace DataClassLibrary
 {
     public partial class OrderProduct

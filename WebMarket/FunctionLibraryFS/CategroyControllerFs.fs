@@ -18,7 +18,7 @@ module CategoryControllerFs =
 
             category.Name <- modifiedCategory.Name;
             category.Characteristics <- modifiedCategory.Characteristics;
-            category.Product <- modifiedCategory.Product;
+            category.Products <- modifiedCategory.Products;
 
             context.SaveChanges() |> ignore;
 

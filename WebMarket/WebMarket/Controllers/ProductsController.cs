@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Threading.Tasks;
 using DataClassLibrary;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -27,11 +26,10 @@ namespace WebMarket.Controllers
         [HttpGet("all")]
         public ActionResult<string> GetProduct()
         {
-
             var resultProducts = ProductControllerFs.GetaAllProductsList(_context);
 
             if (FSharpOption<List<Product>>.get_IsSome(resultProducts))
-                return Ok(resultProducts.Value);
+                return Ok(resultProducts.Value.Where(x=>x.Status != "delete").ToList());
             else
                 return BadRequest();
         }
@@ -42,10 +40,15 @@ namespace WebMarket.Controllers
         {
             var product = ProductControllerFs.GetProductFromId(_context, id);
 
-            if (FSharpOption<Product>.get_IsSome(product))
-                return Ok(product.Value);
+            if (product.Value.Status != "delete")
+            {
+                if (FSharpOption<Product>.get_IsSome(product))
+                    return Ok(product.Value);
+                else
+                    return BadRequest();
+            }
             else
-                return BadRequest();
+                return BadRequest("Product was deleted");
         }
 
         [HttpGet("product/{id}/products")]
@@ -71,7 +74,7 @@ namespace WebMarket.Controllers
                 result.Add(_context.Products.Find(reqId));
             var images = _context.Images.ToList();
             var images2 = _context.ProductImages.ToList();
-            return JsonConvert.SerializeObject(result);
+            return JsonConvert.SerializeObject(result.Where(x=>x.Status != "delete").ToList());
         }
 
 
@@ -82,7 +85,7 @@ namespace WebMarket.Controllers
             var getResult = ProductControllerFs.GetProductsFromCategory(_context, categoryId);
 
             if (FSharpOption<Microsoft.FSharp.Collections.FSharpList<Product>>.get_IsSome(getResult))
-                return Ok(getResult.Value);
+                return Ok(getResult.Value.Where(x=>x.Status != "delete").ToList());
             else
                 return BadRequest();
         }

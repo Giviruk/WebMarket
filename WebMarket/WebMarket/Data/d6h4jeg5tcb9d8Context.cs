@@ -1,36 +1,23 @@
-﻿using System;
-using DataClassLibrary;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-//using WebMarket.Logic.AbstractContext;
+﻿using DataClassLibrary;
 using DataClassLibrary.DbContext;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebMarket
 {
     public partial class d6h4jeg5tcb9d8Context : AbstractDbContext
     {
-
-        //public d6h4jeg5tcb9d8Context(DbContextOptions<d6h4jeg5tcb9d8Context> options)
-        //    : base(options)
-        //{
-        //}
-
         public override DbSet<Category> Categories { get; set; }
         public override DbSet<City> Cities { get; set; }
         public override DbSet<Delivery> Deliveries { get; set; }
         public override DbSet<Image> Images { get; set; }
+        public override DbSet<Order> Orders { get; set; }
+        public override DbSet<UserOrder> UserOrders { get; set; }
         public override DbSet<Product> Products { get; set; }
         public override DbSet<ProductImage> ProductImages { get; set; }
+        public override DbSet<OrderProduct> OrderProducts { get; set; }
         public override DbSet<Review> Reviews { get; set; }
         public override DbSet<Status> Statuses { get; set; }
         public override DbSet<User> Users { get; set; }
-
-
-
-        public override DbSet<UserOrder> UserOrders { get; set; }
-        public override DbSet<Order> Orders { get; set; }
-        public override DbSet<OrderProduct> OrderProducts { get; set; }
- 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -205,8 +192,13 @@ namespace WebMarket
 
                 entity.Property(e => e.ProductRating).HasColumnName("product_rating");
 
+                entity.Property(e => e.Status)
+                    .HasColumnName("status")
+                    .HasColumnType("character varying")
+                    .HasDefaultValueSql("'normal'::character varying");
+
                 entity.HasOne(d => d.CategoryNavigation)
-                    .WithMany(p => p.Product)
+                    .WithMany(p => p.Products)
                     .HasForeignKey(d => d.Category)
                     .HasConstraintName("product_category_fkey");
 
@@ -232,7 +224,7 @@ namespace WebMarket
                     .HasConstraintName("productimages_imageid_fkey");
 
                 entity.HasOne(d => d.Product)
-                    .WithMany(p => p.ProductImages)
+                    .WithMany(p => p.Productimages)
                     .HasForeignKey(d => d.Productid)
                     .HasConstraintName("productimages_productid_fkey");
             });
@@ -253,7 +245,7 @@ namespace WebMarket
                     .HasConstraintName("productinorder_orderid_fkey");
 
                 entity.HasOne(d => d.Product)
-                    .WithMany(p => p.OrderProducts)
+                    .WithMany(p => p.Productinorder)
                     .HasForeignKey(d => d.Productid)
                     .HasConstraintName("productinorder_productid_fkey");
             });
