@@ -33,9 +33,9 @@ namespace WebMarket.Controllers
 
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<string>> GetCategory(int categoryId)
+        public async Task<ActionResult<string>> GetCategory(int id)
         {
-            var categories = await _context.Categories.FindAsync(categoryId);
+            var categories = await _context.Categories.FindAsync(id);
 
             if (categories == null)
             {
