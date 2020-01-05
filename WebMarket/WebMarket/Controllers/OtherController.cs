@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Linq;
+﻿using DataClassLibrary;
+using DataClassLibrary.DbContext;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using DataClassLibrary;
-using DataClassLibrary.DbContext;
-using FunctionLibraryFS;
-using Microsoft.AspNetCore.Mvc.TagHelpers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace WebMarket.Controllers
 {
@@ -27,7 +25,7 @@ namespace WebMarket.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProduct()
         {   
-            return await _context.Products.ToListAsync();
+            return await _context.Products.Where(x=>x.Status!="delete").ToListAsync();
         }
 
         // GET: api/Products1/5
@@ -36,7 +34,7 @@ namespace WebMarket.Controllers
         {
             var product = await _context.Products.FindAsync(id);
 
-            if (product == null)
+            if (product == null || product.Status == "delete")
             {
                 return NotFound();
             }
@@ -47,7 +45,7 @@ namespace WebMarket.Controllers
         [HttpGet("Novelties")]
         public string GetNovelties()
         {
-            var lastProducts = _context.Products.OrderByDescending(p => p.Id).Take(3).ToList();
+            var lastProducts = _context.Products.OrderByDescending(p => p.Id).Where(x=>x.Status != "delete").Take(3).ToList();
 
             return JsonConvert.SerializeObject(lastProducts);
 
@@ -59,7 +57,7 @@ namespace WebMarket.Controllers
             try
             {
 
-                var orderProducts = _context.OrderProducts.ToList();
+                var orderProducts = _context.OrderProducts.Include(x=>x.Product).Where(x=>x.Product.Status != "delete").ToList();
                 var dicOrderProduct = new Dictionary<int?, int?>();
                 foreach (var product in orderProducts)
                 {
