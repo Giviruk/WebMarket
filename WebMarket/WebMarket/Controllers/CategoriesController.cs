@@ -32,7 +32,7 @@ namespace WebMarket.Controllers
         }
 
 
-        [HttpGet("GetCategory/{categoryId}")]
+        [HttpGet("GetCategory?categoryid={categoryId}")]
         public async Task<ActionResult<string>> GetCategory(int categoryId)
         {
             var categories = await _context.Categories.FindAsync(categoryId);
