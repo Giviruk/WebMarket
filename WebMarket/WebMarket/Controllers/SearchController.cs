@@ -52,7 +52,7 @@ namespace WebMarket.Controllers
                 if (keys.Contains(product.Id))
                     result.Add(product);
             }
-            return JsonConvert.SerializeObject(result);
+            return JsonConvert.SerializeObject(result.Where(x=>x.Status != "delete").ToList());
         }
 
         public static async Task<string> NormilizeRequest(string request)
